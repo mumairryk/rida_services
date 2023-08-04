@@ -44,7 +44,7 @@
                                            data-parsley-required-message="Logo is required" @endif >
                                     <p class="text-muted">Allowed Dim 200x200(px)</p>
                                 </div>
-                                <img id="logo-preview" class="img-thumbnail w-50" style="margin-left: 5px; height:50px; width:50px !important;" src="{{empty($vendor->logo) ? asset('uploads/company/17395e3aa87745c8b488cf2d722d824c.jpg'): $vendor->logo}}">
+                                <img id="logo-preview" class="img-thumbnail w-50" style="margin-left: 5px; height:50px; width:50px !important;" src="{{empty($vendor->logo) ? asset('uploads/place_holder.jpg'): $vendor->logo}}">
                             </div>
                         </div>
                         <div class="col-sm-4 col-xs-12">
@@ -55,7 +55,7 @@
                                            data-parsley-required-message="Image is required" @endif>
                                     <p class="text-muted">Max dim 600x400 (pix). Min dim 500x330 (pix).</p>
                                 </div>
-                                <img id="image-preview" class="img-thumbnail w-50" style="margin-left: 5px; height:50px; width:50px !important;" src="{{empty($datamain->user_image) ? asset('uploads/company/17395e3aa87745c8b488cf2d722d824c.jpg'): $datamain->user_image}}">
+                                <img id="image-preview" class="img-thumbnail w-50" style="margin-left: 5px; height:50px; width:50px !important;" src="{{empty($datamain->user_image) ? asset('uploads/place_holder.jpg'): $datamain->user_image}}">
                             </div>
                         </div>
                     </div>

@@ -15,7 +15,7 @@
 </style>
 <div class="card mb-5">
     @if(check_permission('vendor','Create'))
-    {{-- <div class="card-header"><a href="{{url('admin/vendors/create')}}" class="btn-custom btn mr-2 mt-2 mb-2"><i class="fa-solid fa-plus"></i> Create Vendors</a></div> --}}
+     <div class="card-header"><a href="{{url('admin/vendors/create')}}" class="btn-custom btn mr-2 mt-2 mb-2"><i class="fa-solid fa-plus"></i> Create Vendors</a></div>
     @endif
     <div class="card-body">
         <div class="table-responsive">
