@@ -272,7 +272,7 @@
                             data-parsley-required-message="Enter Name">
                                         </div>
                                     </div>
-                                     <div class="col-sm-4 col-xs-12">
+                                     <div class="col-sm-4 col-xs-12" style="display:none;">
                                         <div class="form-group">
                                             <label>Industry Type<span style="color:red;">*<span></span></span></label>
                                             
@@ -282,7 +282,7 @@
 
                                                     <option value="">Select</option>
                             @foreach ($industry as $cnt)
-                                <option  value="{{ $cnt->id }}" @if(!empty($vendor)) {{$vendor->industry_type==$cnt->id ? "selected" : null}} @endif>
+                                <option  value="{{ $cnt->id }}" selected @if(!empty($vendor)) {{$vendor->industry_type==$cnt->id ? "selected" : null}} @endif>
                                     {{ $cnt->name }}</option>
                             @endforeach;
                                                 </select>
