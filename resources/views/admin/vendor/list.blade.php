@@ -107,23 +107,15 @@
                                     @endif
 
 
-                                    @if(check_permission('doctors','View'))
-                                    <a class="dropdown-item" href="{{url('admin/doctors?vendor='.$datarow->id)}}"><i class="flaticon-view"></i> Doctors</a>    
-                                    @endif
+                                  
 
-                                    @if(check_permission('groomers','View'))
-                                    <a class="dropdown-item" href="{{url('admin/groomers?vendor='.$datarow->id)}}"><i class="flaticon-view"></i> Groomers</a>    
-                                    @endif
+                                  
 
                                     @if(check_permission('products','View'))
                                     <a class="dropdown-item" href="{{url('admin/products')}}"><i class="flaticon-view"></i> Products</a>    
                                     @endif
 
-                                    @if(check_permission('playtime_staffs','View'))
-                                    <button class="dropdown-item" onclick="loadDatesModal({{$datarow->id}}, '{{route('admin.vendor.doggy.dates',$datarow->id)}}')">
-                                        <i class="fa fa-calendar-alt"></i> Play Time Dates</button>
-                                    {{--<a class="dropdown-item" href="{{url('admin/playtime_staffs?vendor='.$datarow->id)}}"><i class="flaticon-view"></i> Playtime Staffs</a> --}}   
-                                    @endif
+                                   
 
 
                                 </div>
