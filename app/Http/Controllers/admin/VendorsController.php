@@ -153,91 +153,7 @@ class VendorsController extends Controller
 
 
 
-                    VendorServiceTimings::where('vendor',$request->id)->delete();
-                    $days = Config('global.days') ;
-                    
-                    $availability['vendor'] = $request->id;
-                    $availability['service_id'] = 1;
-                    foreach($days as $key =>$val){
-                        $vet_val = $val.'_veterinary';
-                        if(isset($request->{$vet_val})) {
-                            $availability[$val] = $request->{$vet_val} ;
-                            $availability[$key.'_from'] = $request->{$key.'_from_veterinary'} ;
-                            $availability[$key.'_to'] = $request->{$key.'_to_veterinary'} ;
-                        } else {
-                            $availability[$val] = 0;
-                            $availability[$key.'_from'] = '00:00';
-                            $availability[$key.'_to'] = '00:00';
-                        }
-                    }
-                    VendorServiceTimings::create($availability);
-
-                    $gr_availability['vendor'] = $request->id;
-                    $gr_availability['service_id'] = 2;
-                    foreach($days as $key =>$val){
-                        $vet_val = $val.'_grooming';
-                        if(isset($request->{$vet_val})) {
-                            $gr_availability[$val] = $request->{$vet_val} ;
-                            $gr_availability[$key.'_from'] = $request->{$key.'_from_grooming'} ;
-                            $gr_availability[$key.'_to'] = $request->{$key.'_to_grooming'} ;
-                        } else {
-                            $gr_availability[$val] = 0;
-                            $gr_availability[$key.'_from'] = '00:00';
-                            $gr_availability[$key.'_to'] = '00:00';
-                        }
-                    }
-                    VendorServiceTimings::create($gr_availability);
-
-
-                    $brdng_availability['vendor'] = $request->id;
-                    $brdng_availability['service_id'] = 3;
-                    foreach($days as $key =>$val){
-                        $vet_val = $val.'_boarding';
-                        if(isset($request->{$vet_val})) {
-                            $brdng_availability[$val] = $request->{$vet_val} ;
-                            $brdng_availability[$key.'_from'] = $request->{$key.'_from_boarding'} ;
-                            $brdng_availability[$key.'_to'] = $request->{$key.'_to_boarding'} ;
-                        } else {
-                            $brdng_availability[$val] = 0;
-                            $brdng_availability[$key.'_from'] = '00:00';
-                            $brdng_availability[$key.'_to'] = '00:00';
-                        }
-                    }
-                    VendorServiceTimings::create($brdng_availability);
-
-
-                    $dc_availability['vendor'] = $request->id;
-                    $dc_availability['service_id'] = 4;
-                    foreach($days as $key =>$val){
-                        $vet_val = $val.'_daycare';
-                        if(isset($request->{$vet_val})) {
-                            $dc_availability[$val] = $request->{$vet_val} ;
-                            $dc_availability[$key.'_from'] = $request->{$key.'_from_daycare'} ;
-                            $dc_availability[$key.'_to'] = $request->{$key.'_to_daycare'} ;
-                        } else {
-                            $dc_availability[$val] = 0;
-                            $dc_availability[$key.'_from'] = '00:00';
-                            $dc_availability[$key.'_to'] = '00:00';
-                        }
-                    }
-                    VendorServiceTimings::create($dc_availability);
-
-
-                    $dpt_availability['vendor'] = $request->id;
-                    $dpt_availability['service_id'] = 5;
-                    foreach($days as $key =>$val){
-                        $vet_val = $val.'_playtime';
-                        if(isset($request->{$vet_val})) {
-                            $dpt_availability[$val] = $request->{$vet_val} ;
-                            $dpt_availability[$key.'_from'] = $request->{$key.'_from_playtime'} ;
-                            $dpt_availability[$key.'_to'] = $request->{$key.'_to_playtime'} ;
-                        } else {
-                            $dpt_availability[$val] = 0;
-                            $dpt_availability[$key.'_from'] = '00:00';
-                            $dpt_availability[$key.'_to'] = '00:00';
-                        }
-                    }
-                    VendorServiceTimings::create($dpt_availability);
+                   
 
 
                     $vendordata = VendorDetailsModel::where('user_id',$request->id)->first();
@@ -305,15 +221,7 @@ class VendorsController extends Controller
 
                  // $vendordatils->holiday_dates           = $request->holiday_dates;
                     $holiday_dates = explode(',', $request->holiday_dates);
-                    VendorHolidayDates::where('vendor_id',$vendordatils->user_id)->delete();
-                    if(count($holiday_dates)){
-                        foreach ($holiday_dates as $row) {
-                            $date = new VendorHolidayDates();
-                            $date->date = $row;
-                            $date->vendor_id = $vendordatils->user_id;
-                            $date->save();
-                        }
-                    }
+                   
 
                  //logo
                  if($request->file("logo")){

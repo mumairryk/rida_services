@@ -19,7 +19,7 @@
                         </div>
                     </div>
                     
-                    <div class="col-md-6">
+                    <div class="col-md-6" style="display: none;">
                         <div class="form-group">
                             <label>Industry Type</label>
                             <select name="industry_type" class="form-control">
@@ -31,6 +31,15 @@
                             </select>
                         </div>
                     </div>
+                    <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Status</label>
+                                <select name="active" class="form-control">
+                                    <option <?= $active == 1 ? 'selected' : '' ?> value="1">Active</option>
+                                    <option <?= $active == 0 ? 'selected' : '' ?> value="0">Inactive</option>
+                                </select>
+                            </div>
+                        </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Image</label><br>
@@ -53,15 +62,7 @@
                                 <input type="file" name="banner_image" class="form-control" onclick="this.value=null;" data-role="file-image" data-preview="image-preview-b" data-parsley-trigger="change" data-parsley-fileextension="jpg,png,gif,jpeg" data-parsley-fileextension-message="Only files with type jpg,png,gif,jpeg are supported" data-parsley-max-file-size="5120" data-parsley-max-file-size-message="Max file size should be 5MB">
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Status</label>
-                                <select name="active" class="form-control">
-                                    <option <?= $active == 1 ? 'selected' : '' ?> value="1">Active</option>
-                                    <option <?= $active == 0 ? 'selected' : '' ?> value="0">Inactive</option>
-                                </select>
-                            </div>
-                        </div>
+                        
                         <div class="col-md-12 mt-2">
                             <div class="form-group">
                                 <button type="submit" class="btn btn-primary">Submit</button>

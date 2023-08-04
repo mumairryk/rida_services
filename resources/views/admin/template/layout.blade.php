@@ -87,7 +87,7 @@ $_current_user = \Request::get('_current_user');
                     </li>
                     <!-- <span class="divider"><hr /></span> -->
 
-                    @if(check_permission('adminusers','View') || check_permission('admin_user_desig','View'))
+                   <!--  @if(check_permission('adminusers','View') || check_permission('admin_user_desig','View'))
                     <li class="nav-item nav-item-has-children {{preg_match('/admin\/admin_users/', $CurrentUrl) || preg_match('/admin\/admin_user_designation/', $CurrentUrl) ? 'active' : null}}">
                         <a href="#0" class="{{preg_match('/admin\/admin_users/', $CurrentUrl) || preg_match('/admin\/admin_user_designation/', $CurrentUrl) ? '' : 'collapsed'}}" data-toggle="collapse" data-auto-close="outside" data-target="#ddmenu_1" aria-controls="ddmenu_1" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="icon">
@@ -108,7 +108,7 @@ $_current_user = \Request::get('_current_user');
                             @endif     
                         </ul>
                     </li>
-                    @endif
+                    @endif -->
 
                     @if(check_permission('customers','View') || check_permission('vendor','View') || check_permission('stores','View'))
                     <li class="nav-item nav-item-has-children {{preg_match('/admin\/customers/', $CurrentUrl) || preg_match('/admin\/vendors/', $CurrentUrl) ? 'active' : null}}">
@@ -119,11 +119,11 @@ $_current_user = \Request::get('_current_user');
                             <span class="text"> Users </span>
                         </a>
                         <ul id="ddmenu_2" class="collapse dropdown-nav {{preg_match('/admin\/customers/', $CurrentUrl) || preg_match('/admin\/vendors/', $CurrentUrl) ? 'show' : null}}">
-                            @if(check_permission('customer','View'))
+                            <!-- @if(check_permission('customer','View'))
                             <li>
                                 <a class="{{preg_match('/admin\/customers/', $CurrentUrl) ? 'active' : null}}" href="{{ url('admin/customers') }}"><span class="text">Customers</span></a>
                             </li>
-                            @endif
+                            @endif -->
 
                             @if(check_permission('vendor','View'))
                             <li>
@@ -174,53 +174,25 @@ $_current_user = \Request::get('_current_user');
                         </a>
                         <ul id="ddmenu_4" class="collapse dropdown-nav {{preg_match('/admin\/services/', $CurrentUrl) || preg_match('/admin\/foods/', $CurrentUrl)  || preg_match('/admin\/doctors/', $CurrentUrl)  || preg_match('/admin\/category/', $CurrentUrl)  || preg_match('/admin\/species/', $CurrentUrl)  || preg_match('/admin\/breed/', $CurrentUrl)  || preg_match('/admin\/product_attribute/', $CurrentUrl)  || preg_match('/admin\/industry_type/', $CurrentUrl) || preg_match('/admin\/brand/', $CurrentUrl) || preg_match('/admin\/appointment_types/', $CurrentUrl) || preg_match('/admin\/appointment_times/', $CurrentUrl) || preg_match('/admin\/room_types/', $CurrentUrl) || preg_match('/admin\/feeding_schedules/', $CurrentUrl) || preg_match('/admin\/grooming_types/', $CurrentUrl) || preg_match('/admin\/country/', $CurrentUrl) || preg_match('/admin\/states/', $CurrentUrl) || preg_match('/admin\/cities/', $CurrentUrl) ? 'show' : ''}}">
 
-                            @if(check_permission('services','View'))
-                            <li>
-                                <a class="{{preg_match('/admin\/services/', $CurrentUrl) ? 'active' : null}}" href="{{ url('admin/services') }}"><span class="text">Services</span> </a>
-                            </li>
-                            @endif
-
-                            @if(check_permission('foods','View'))
-                            <li>
-                                <a class="{{preg_match('/admin\/foods/', $CurrentUrl) ? 'active' : null}}" href="{{ url('admin/foods') }}"><span class="text">Foods</span> </a>
-                            </li>
-                            @endif
-
-                            @if(check_permission('doctors','View'))
-                            {{-- <li>
-                                <a href="{{ url('admin/doctors') }}"><span class="text">Doctors</span></a>
-                            </li> --}}
-                            @endif  
+                           
                             @if(check_permission('category','View'))
                             <li>
                                 <a class="{{preg_match('/admin\/category/', $CurrentUrl) ? 'active' : null}}" href="{{ url('admin/category') }}"><span class="text">Category</span></a>
                             </li>
                             @endif
-                            @if(check_permission('species','View'))
-                            <li>
-                                <a class="{{preg_match('/admin\/species/', $CurrentUrl) ? 'active' : null}}" href="{{ url('admin/species') }}"><span class="text">Species</span></a>
-                            </li>
-                            @endif    
-                            @if(check_permission('breed','View'))
-                            <li>
-                                <a class="{{preg_match('/admin\/breed/', $CurrentUrl) ? 'active' : null}}" href="{{ url('admin/breed') }}"><span class="text">Breeds</span></a>
-                            </li>
-                            @endif                      
+                          
+                                             
                             @if(check_permission('attribute','View'))
                             <li>
                                 <a class="{{preg_match('/admin\/product_attribute/', $CurrentUrl) ? 'active' : null}}" href="{{ url('admin/product_attribute') }}"><span class="text">Product Attribute</span></a>
                             </li>
                             @endif                         
-                            @if(check_permission('food_category','View'))
-                            {{-- <li>
-                                <a href="{{ url('admin/food_category') }}"><span class="text">Food Category</span></a>
-                            </li> --}}
-                            @endif
-                            @if(check_permission('industry_type','View'))
+                            
+                           <!--  @if(check_permission('industry_type','View'))
                             <li>
                                 <a class="{{preg_match('/admin\/industry_type/', $CurrentUrl) ? 'active' : null}}" href="{{ url('admin/industry_type') }}"><span class="text">Industry Types</span></a>
                             </li>
-                            @endif
+                            @endif -->
 
                             @if(check_permission('brand','View'))
                             <li>
@@ -228,35 +200,7 @@ $_current_user = \Request::get('_current_user');
                             </li>
                             @endif
 
-                            @if(check_permission('appointment_types','View'))
-                            <li>
-                                <a class="{{preg_match('/admin\/appointment_types/', $CurrentUrl) ? 'active' : null}}" href="{{ url('admin/appointment_types') }}"><span class="text">Appointment Types</span> </a>
-                            </li>
-                            @endif
-
-                            @if(check_permission('room_types','View'))
-                            <li>
-                                <a class="{{preg_match('/admin\/room_types/', $CurrentUrl) ? 'active' : null}}" href="{{ url('admin/room_types') }}"><span class="text">Cage Types</span> </a>
-                            </li>
-                            @endif
-
-                            @if(check_permission('appointment_times','View'))
-                            <li>
-                                <a class="{{preg_match('/admin\/appointment_times/', $CurrentUrl) ? 'active' : null}}" href="{{ url('admin/appointment_times') }}"><span class="text">Appointment Times</span> </a>
-                            </li>
-                            @endif
-
-                            @if(check_permission('feeding_schedules','View'))
-                            <li>
-                                <a class="{{preg_match('/admin\/feeding_schedules/', $CurrentUrl) ? 'active' : null}}" href="{{ url('admin/feeding_schedules') }}"><span class="text">Feeding Schedules</span> </a>
-                            </li>
-                            @endif
-
-                            @if(check_permission('grooming_types','View'))
-                            <li>
-                                <a class="{{preg_match('/admin\/grooming_types/', $CurrentUrl) ? 'active' : null}}" href="{{ url('admin/grooming_types') }}"><span class="text">Grooming Types</span> </a>
-                            </li>
-                            @endif
+                        
                             
                             
                             @if(check_permission('country','View'))
