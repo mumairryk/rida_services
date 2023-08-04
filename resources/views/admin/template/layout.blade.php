@@ -277,42 +277,6 @@ $_current_user = \Request::get('_current_user');
                         </ul>
                     </li>
                     @endif
-
-
-
-                 
-                    <li class="nav-item nav-item-has-children {{preg_match('/admin\/service_quotes/', $CurrentUrl) ? 'active' : null}}">
-                        <a href="#0" class="{{preg_match('/admin\/service_quotes/', $CurrentUrl) ? '' : 'collapsed'}}" data-toggle="collapse" data-auto-close="outside" data-target="#ddmenu_sr" aria-controls="ddmenu_sr" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="icon">
-                                <i class='bx bx-cart-alt'></i>
-                            </span>
-                            <span class="text"> Service Requests </span>
-                        </a>
-                        <ul id="ddmenu_sr" class="collapse dropdown-nav {{preg_match('/admin\/service_quotes/', $CurrentUrl) ? 'show' : null}}">
-                            <li>
-                                <a class="{{preg_match('/admin\/service_quotes\?service=1/', \Request::getRequestUri()) ? 'active' : null}}" href="{{ url('admin/service_quotes?service=1') }}"><span class="text">Veterinary Services</span> </a>
-                            </li>  
-                            
-                            <li>
-                                <a class="{{preg_match('/admin\/service_quotes\?service=2/', \Request::getRequestUri()) ? 'active' : null}}" href="{{ url('admin/service_quotes?service=2') }}"><span class="text">Grooming Services</span> </a>
-                            </li>  
-                    
-                            <li>
-                                <a class="{{preg_match('/admin\/service_quotes\?service=3/', \Request::getRequestUri()) ? 'active' : null}}" href="{{ url('admin/service_quotes?service=3') }}"><span class="text">Boarding Services</span> </a>
-                            </li>  
-                    
-                            <li>
-                                <a class="{{preg_match('/admin\/service_quotes\?service=4/', \Request::getRequestUri()) ? 'active' : null}}" href="{{ url('admin/service_quotes?service=4') }}"><span class="text">Day Care Reservations</span> </a>
-                            </li>  
-                    
-                            <li>
-                                <a class="{{preg_match('/admin\/service_quotes\?service=5/', \Request::getRequestUri()) ? 'active' : null}}" href="{{ url('admin/service_quotes?service=5') }}"><span class="text">Doggy Playtime</span> </a>
-                            </li>  
-                        </ul>
-                    </li>
-
-
-                   
                     {{-- <li class="nav-item">
                         <a href="{{ url('admin/service_quotes') }}">
                             <span class="icon">

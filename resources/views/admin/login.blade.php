@@ -26,9 +26,6 @@
             display: block;
         }
         .form-login{
-            backdrop-filter: blur(16px) saturate(180%);
-            -webkit-backdrop-filter: blur(16px) saturate(180%);
-            background-color: rgba(17, 25, 40, 0.75);
             border-radius: 12px;
             border: 1px solid rgba(255, 255, 255, 0.125);
         }
@@ -52,7 +49,7 @@
 
 </head>
 <!--<body class="login" style="background: url('{{ asset('') }}admin-assets/assets/img/bg-1920x1080.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat;">-->
-    <body class="login" style="background: url('{{ asset('') }}admin-assets/assets/img/bg-1920x1080.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+    <body class="login" style="background: url('{{ asset('') }}admin-assets/assets/img/login-bg.png'); background-size: cover; background-position: center; background-repeat: no-repeat;">
 
     <form method="POST" class="form-login" action="{{ route('admin.check_login') }}">
         @csrf

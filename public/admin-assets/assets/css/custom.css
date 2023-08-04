@@ -243,7 +243,12 @@ input[type="search"]::-webkit-search-results-decoration {
     padding: 0 !important;
    }
 
-
+.btn-custom:hover {
+    opacity: 0.8;
+}
+.header .header-left .menu-toggle-btn .main-btn:hover {
+    opacity: 0.8;
+}
    .btn-custom{
     padding: 0px 20px !important;
     height: 46px;
@@ -253,7 +258,6 @@ input[type="search"]::-webkit-search-results-decoration {
     align-items: center;
     justify-content: center;
     color: white !important;
-    background: linear-gradient(179.99deg, #2E3F97 -13.04%, #111941 99.99%) !important;
     background-color: var(--secondary-color) !important;
     color: var(--white-color);
     width: fit-content;
@@ -1233,7 +1237,7 @@ input:focus, textarea:focus, select:focus {
     height: 100%;
   }
 
-  .btn.btn-primary{
+  .btn.btn-primary, input[type="submit"]{
     padding: 0px 20px !important;
     height: 46px;
     line-height: 46px;
@@ -1242,8 +1246,7 @@ input:focus, textarea:focus, select:focus {
     align-items: center;
     justify-content: center;
     color: white !important;
-    background: linear-gradient(179.99deg, #A4CB39 -13.04%, #111941 99.99%) !important;
-    background-color: var(--secondary-color) !important;
+    background: linear-gradient(73.41deg, #00AEEF -258.24%, #00A3EF -221.73%, #0090EF -140.02%, #0085EF -55.83%, #0081EF 33.89%) !important;
     color: var(--white-color);
     width: fit-content;
     gap: 5px;
@@ -1251,39 +1254,10 @@ input:focus, textarea:focus, select:focus {
     position: relative;
     overflow: hidden;
   }
-
-  .btn.btn-primary::after {
-    content: "";
-    position: absolute;
-    width: 0%;
-    height: 0%;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.05) !important;
-    top: 50%;
-    left: 50%;
-    padding: 50%;
-    z-index: -1;
-    -webkit-transition: all 0.3s ease-out 0s !important;
-    -moz-transition: all 0.3s ease-out 0s !important;
-    -ms-transition: all 0.3s ease-out 0s !important;
-    -o-transition: all 0.3s ease-out 0s !important;
-    transition: all 0.3s ease-out 0s !important;
-    -webkit-transform: translate3d(-50%, -50%, 0) scale(0) !important;
-    -moz-transform: translate3d(-50%, -50%, 0) scale(0) !important;
-    -ms-transform: translate3d(-50%, -50%, 0) scale(0) !important;
-    -o-transform: translate3d(-50%, -50%, 0) scale(0) !important;
-    transform: translate3d(-50%, -50%, 0) scale(0) !important;
-  }
-  .btn.btn-primary:hover::after {
-    -webkit-transform: translate3d(-50%, -50%, 0) scale(1.3) !important;
-    -moz-transform: translate3d(-50%, -50%, 0) scale(1.3) !important;
-    -ms-transform: translate3d(-50%, -50%, 0) scale(1.3) !important;
-    -o-transform: translate3d(-50%, -50%, 0) scale(1.3) !important;
-    transform: translate3d(-50%, -50%, 0) scale(1.3) !important;
-  }
   
   .btn.btn-primary:hover {
     color: #fff;
+    opacity: 0.8;
   }
 
   .btn.btn-warning{
@@ -1295,7 +1269,6 @@ input:focus, textarea:focus, select:focus {
     align-items: center;
     justify-content: center;
     color: white !important;
-    background: linear-gradient(179.99deg, #A4CB39 -13.04%, #111941 99.99%) !important;
     background-color: var(--secondary-color) !important;
     color: var(--white-color);
     width: fit-content;
@@ -1369,9 +1342,9 @@ input:focus, textarea:focus, select:focus {
     align-items: center;
     justify-content: center;
     color: white !important;
-    background: #111941 !important;
-    background-color: #111941 !important;
-    background-color: #111941 !important;
+    background: #2081ef !important;
+    background-color: #2081ef !important;
+    background-color: #2081ef !important;
     color: #fff !important;
     width: fit-content;
     gap: 5px;
@@ -1380,5 +1353,5 @@ input:focus, textarea:focus, select:focus {
     overflow: hidden;
   }
   .modal .btn-secondary:hover{
-    background: #252525 !important;
+    opacity: 0.8;
   }

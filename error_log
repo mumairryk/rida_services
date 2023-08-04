@@ -1,0 +1,5 @@
+[04-Aug-2023 04:54:16 UTC] PHP Warning:  require(/home/a2itworld/public_html/home_builder/vendor/autoload.php): Failed to open stream: No such file or directory in /home/a2itworld/public_html/home_builder/artisan on line 18
+[04-Aug-2023 04:54:16 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/a2itworld/public_html/home_builder/vendor/autoload.php' (include_path='.:/opt/cpanel/ea-php81/root/usr/share/pear') in /home/a2itworld/public_html/home_builder/artisan:18
+Stack trace:
+#0 {main}
+  thrown in /home/a2itworld/public_html/home_builder/artisan on line 18
