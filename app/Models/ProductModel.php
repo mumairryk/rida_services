@@ -1109,7 +1109,7 @@ class ProductModel extends Model
     public static function products_list($where = [], $filter = [], $limit = '', $offset = 0)
     {
 
-        $products = DB::table('product')->where($where)->select('product.id', 'product.product_name', 'product.product_type', 'default_attribute_id','store_id','is_featured');
+        $products = DB::table('product')->where($where)->select('product.id', 'product.product_name', 'product.product_type', 'default_attribute_id','store_id','is_featured','users.name as store_name');
 
         if (isset($filter['search_text']) && $filter['search_text']) {
             $srch = $filter['search_text'];
@@ -1145,7 +1145,7 @@ class ProductModel extends Model
             $products->limit($limit)->skip($offset);
         }
         $products
-        ->join('product_selected_attribute_list', 'product_selected_attribute_list.product_id','product.id');
+        ->join('product_selected_attribute_list', 'product_selected_attribute_list.product_id','product.id')->leftjoin('users', 'users.id','product.store_id');
         // ->orderBy('product_selected_attribute_list.sale_price','asc');
         if (isset($filter['sort']) && $filter['sort'] == 2) {
             $products->orderBy('product_selected_attribute_list.sale_price','asc');
@@ -1154,7 +1154,7 @@ class ProductModel extends Model
             $products->orderBy('product_selected_attribute_list.sale_price','desc');
 
         }else{
-            $products->orderBy('created_at','desc');
+            $products->orderBy('product.created_at','desc');
         }
         return $products;
         
@@ -1195,7 +1195,7 @@ class ProductModel extends Model
         $where['product.id'] = $product_id;
        
 
-        $res = ProductModel::select('product.*', 'product_category.category_id AS category_id', 'category.name as category_name', 'product_selected_attribute_list.*','brand.name as brand_name')->leftjoin('product_category', 'product_category.product_id', 'product.id')->leftjoin('category', 'category.id', 'product_category.category_id')->leftjoin('brand', 'brand.id', 'product.brand')->where('product_category.category_id', '!=', null)->leftjoin('product_selected_attribute_list', 'product_selected_attribute_list.product_id', 'product.id');
+        $res = ProductModel::select('product.*', 'product_category.category_id AS category_id', 'category.name as category_name', 'product_selected_attribute_list.*','brand.name as brand_name','store_id','users.name as store_name')->leftjoin('product_category', 'product_category.product_id', 'product.id')->leftjoin('category', 'category.id', 'product_category.category_id')->leftjoin('brand', 'brand.id', 'product.brand')->where('product_category.category_id', '!=', null)->leftjoin('users','users.id','=','product.store_id')->leftjoin('product_selected_attribute_list', 'product_selected_attribute_list.product_id', 'product.id');
         if ($product_attribute_id) {
             $res->where('product_selected_attribute_list.product_attribute_id', $product_attribute_id);
         }

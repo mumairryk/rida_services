@@ -132,31 +132,30 @@
 
 
 
-                        <div class="col-md-6 form-group">
+                     {{-- <div class="col-md-6 form-group">
                             <label>Vendor<b class="text-danger">*</b></label>
-                            <select class="form-control jqv-input select2" name="seller_id" required
+                            <select class="form-control jqv-input select2" name="store_id" required
                                 data-parsley-required-message="Select a vendor" data-role="vendor-changes" data-input-store="store-id">
                                 <option value="">Select Vendor</option>
                                 @foreach ($sellers as $sel)
-                                    <option value="{{$sel->id }}" selected>{{ $sel->name }}
+                                    <option value="{{$sel->id }}" @if ($sel->id == $store_id) selected @endif >{{ $sel->name }}
                                     </option>
                                 @endforeach
                             </select>
-                        </div>
+                        </div> --}}
 
-                        {{-- <div class="col-md-6 form-group">
+                        <div class="col-md-6 form-group">
                             <label>Store<b class="text-danger">*</b></label>
                             <select class="form-control jqv-input select2" name="store_id" required
                                 data-parsley-required-message="Select a Store" id="store-id">
                                 <option value="">Select Store</option>
-                                @foreach ($stores as $sel)
-                                    <option value="{{$sel->id }}" @if ($sel->id == $store_id) selected @endif>{{ $sel->store_name }}
+                                @foreach ($sellers as $sel)
+                                    <option value="{{$sel->id }}" @if ($sel->id == $store_id) selected @endif>{{ $sel->name }}
                                     </option>
                                 @endforeach
                                 
                             </select>
-                        </div> --}}
-                        <input type="hidden" name="store_id" value="0">
+                        </div>
                         
                         <div class="col-md-6 form-group">
                             <label>Brand<b class="text-danger">*</b></label>

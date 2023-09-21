@@ -879,7 +879,10 @@ function decryptor( $string) {
     $product_row_data["sale_price"]         = number_format((float) $row->sale_price,2,".", "");
     $product_row_data["regular_price"]      = number_format((float) $row->regular_price,2,".", "");
     $product_row_data["stock_quantity"]      = $row->stock_quantity;
-    // $product_row_data["product_vendor_id"] = $row->product_vender_id;
+    $product_row_data["store_id"]          = $row->store_id;
+    $product_row_data["store_name"]          = $row->store_name;
+    $product_row_data["store_avg_rating"]          = 0;
+    $product_row_data["store_total_reviews"]          = 0;
 
     // if ($row->size_chart) {
     //     $product_row_data["size_chart"] = asset($row->size_chart);
