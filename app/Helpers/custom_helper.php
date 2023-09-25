@@ -1045,4 +1045,35 @@ function GetDrivingDistance($lat1, $lat2, $long1, $long2)
         $distance_data = file_get_contents('https://maps.googleapis.com/maps/api/distancematrix/json?origins='.$from_latlong.'&destinations='.$destinations.'&mode=driving&key=AIzaSyCtugJ9XvE2MvkXCBeynQDFKq-XN_5xsxM');
         return json_decode($distance_data, true);
     }
+    if (!function_exists('validateAccesToken')) {
+    function validateAccesToken($access_token)
+    {
+        $user = App\Models\User::where(['user_access_token' => $access_token])->get();
+
+        if ($user->count() == 0) {
+            http_response_code(401);
+            echo json_encode([
+                'status' => "0",
+                'message' => 'Invalid login',
+                'oData' => (object)[],
+                'errors' => (object) [],
+            ]);
+            exit;
+        } else {
+            $user = $user->first();
+            if ($user != null) { //$user->active == 1
+                return $user->id;
+            } else {
+                http_response_code(401);
+                echo json_encode([
+                    'status' => "0",
+                    'message' => 'Invalid login',
+                    'oData' => (object)[],
+                    'errors' => (object) [],
+                ]);
+                exit;
+            }
+        }
+    }
+}
 ?>
