@@ -837,6 +837,10 @@ function decryptor( $string) {
     }
     $product_row_data["product_name"]       = (string) $row->product_name;
     $product_row_data["product_desc"]       = (string) $row->product_full_descr;
+    $product_row_data["material"]       = (string) $row->material;
+    $product_row_data["product_details"]       = (string) $row->product_details;
+    $product_row_data["needtoknow"]       = (string) $row->needtoknow;
+
     $product_row_data["stock_quantity"]       =  $row->stock_quantity;
     $product_row_data["sku"]       = $row->pr_code;
     $product_row_data["weight"]       = $row->weight;

@@ -184,6 +184,9 @@ class ProductController extends Controller
         $stock_quantity = '';
         $input_index = 1;
         $product_desc = "";
+        $material = "";
+        $product_details = "";
+        $needtoknow = "";
         $t_variant_allow_backorder  = "";
         $default_category_id = "";
         $default_attribute_id = "";
@@ -247,6 +250,9 @@ class ProductController extends Controller
                 $stock_quantity = $product->stock_quantity;
                 $product_desc = $product->product_desc_short;
                 $product_desc_full = $product->product_full_descr;
+                $material  = $product->material;
+                $product_details = $product->product_details;
+                $needtoknow = $product->needtoknow;
                 $bar_code = $product->barcode;
                 $product_code = $product->pr_code;
                 $default_category_id = $product->default_category_id;
@@ -331,9 +337,8 @@ class ProductController extends Controller
             $activity_types = ActivityType::select('id','name as activity_name')->where(['deleted' => 0])->get();
 
         }
-        // return view('admin.product.create',compact('page_heading','mode','category_list','sub_category_list','category_ids','id','active','name','description','image_path','specs','sellers','seller_user_id','docs','sku','meta_title','meta_keyword','meta_description','product_type','combinations','product','action','attribute_list','size_chart','selected_attributes','product_variations','attribute_value_ids','attribute_values','regular_price','readonly','sale_price','stock_quantity','input_index','t_variant_allow_backorder','product_desc','product_desc_full','bar_code','product_code','default_category_id','default_attribute_id','brand','pr_code','store_id','stores','moda_main_category','moda_sub_category','moda_main_categories','moda_sub_categories','ret_applicable','ret_policy_days','ret_policy'));
-
-        return view('admin.product.create',compact('page_heading','mode','categories','category_ids','id','active','name','description','image_path','specs','sellers','seller_user_id','docs','sku','meta_title','meta_keyword','meta_description','product_type','combinations','product','action','attribute_list','size_chart','selected_attributes','product_variations','attribute_value_ids','attribute_values','regular_price','readonly','sale_price','stock_quantity','input_index','t_variant_allow_backorder','product_desc','product_desc_full','bar_code','product_code','default_category_id','default_attribute_id','brand','pr_code','store_id','stores','account_types','activity_types','account_id','activity_id','is_featured'));
+      
+        return view('admin.product.create',compact('page_heading','mode','categories','category_ids','id','active','name','description','image_path','specs','sellers','seller_user_id','docs','sku','meta_title','meta_keyword','meta_description','product_type','combinations','product','action','attribute_list','size_chart','selected_attributes','product_variations','attribute_value_ids','attribute_values','regular_price','readonly','sale_price','stock_quantity','input_index','t_variant_allow_backorder','product_desc','product_desc_full','bar_code','product_code','default_category_id','default_attribute_id','brand','pr_code','store_id','stores','account_types','activity_types','account_id','activity_id','is_featured','material','product_details','needtoknow'));
     }
 
     /**
@@ -549,6 +554,9 @@ class ProductController extends Controller
                     'width'    => $request->width??0,
                     'image'    => implode(",",$imagesList),
                     'size_chart'=> '',//$size_chart
+                    'material'    => $request->material,
+                    'product_details'    => $request->product_details,
+                    'needtoknow'    => $request->needtoknow,
                 ]; 
 
             } else  {
@@ -569,6 +577,9 @@ class ProductController extends Controller
                     $default_attribute =  $request->default_attribute_id;
                     $variant_size_chart=  $request->size_chart_attr;
                     $variant_size_chart_old=  $request->size_chart_attr_old;
+                    $material =  $request->material;
+                    $product_details =  $request->product_details;
+                    $needtoknow =  $request->needtoknow;
 
             
                 

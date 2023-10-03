@@ -78,10 +78,31 @@
             <textarea name="product_desc" class="form-control" data-role="product_desc" {{ $readonly }} />{{$product_desc}}</textarea>
         </div>
     </div>
-    <div class="col-lg-12">
+    <div class="col-lg-6">
+        <div class="form-group profile-form">
+            <label>Material </label>
+            <textarea rows="5" type="text" name="material"  class="form-control"  {{ $readonly }} />{{$material}}</textarea>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="form-group profile-form">
+            <label>Product Details </label>
+            <textarea rows="5" type="text" name="product_details"  class="form-control"  {{ $readonly }} />{{$product_details}}</textarea>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="form-group profile-form">
+            <label>What You Need to Know </label>
+            <textarea rows="5" type="text" name="needtoknow"  class="form-control"  {{ $readonly }} />{{$needtoknow}}</textarea>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
         <div class="form-group profile-form">
             <label>Description </label>
-            <textarea rows="5" type="text" name="product_full_descr"  class="form-control" data-role="product_full_descr"  {{ $readonly }} />{{$product_desc_full}}</textarea>
+            <textarea rows="5" type="text" name="product_full_descr"  class="form-control"  {{ $readonly }} />{{$product_desc_full}}</textarea>
         </div>
     </div>
 
