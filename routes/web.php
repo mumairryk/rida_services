@@ -193,6 +193,9 @@ Route::namespace('App\Http\Controllers\admin')->prefix('admin')->middleware('adm
     Route::resource("coupons", "CouponsController");
 
     Route::resource("country", "CountryController");
+
+    Route::resource("project_purpose", "ProjectPurposeController");
+
     Route::resource("bank", "BankController");
 
     Route::resource("admin_user_designation", "AdminUserDesignation");

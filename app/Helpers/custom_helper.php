@@ -840,6 +840,9 @@ function decryptor( $string) {
     $product_row_data["stock_quantity"]       =  $row->stock_quantity;
     $product_row_data["sku"]       = $row->pr_code;
     $product_row_data["weight"]       = $row->weight;
+    $product_row_data["length"]       = $row->length;
+    $product_row_data["height"]       = $row->height;
+    $product_row_data["width"]       = $row->width;
     if ( isset($row->product_vender_id) ) {
         $product_row_data["product_vender_id"]  = (string) $row->product_vender_id;
     }

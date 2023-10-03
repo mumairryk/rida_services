@@ -543,10 +543,10 @@ class ProductController extends Controller
                     'product_full_descr' => $request->product_full_descr,
                     'barcode' => $request->bar_code,
                     'pr_code'  => $request->product_code,
-                    'weight'   => $request->weight,
-                    'length'   => 0,//$request->length,
-                    'height'   => 0,//$request->height,
-                    'width'    => 0,//$request->width,
+                    'weight'   => $request->weight??0,
+                    'length'   => $request->length??0,
+                    'height'   => $request->height??0,
+                    'width'    => $request->width??0,
                     'image'    => implode(",",$imagesList),
                     'size_chart'=> '',//$size_chart
                 ]; 

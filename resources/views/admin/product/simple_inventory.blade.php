@@ -28,13 +28,13 @@
         </div>
     </div>
 
-    <div class="col-lg-2">
+    <div class="col-lg-3">
         <div class="form-group profile-form">
             <label>Weight (kg)</label>
             <input type="text" min="0" data-parsley-type="number" name="weight" value="{{empty($product->weight) ? '': $product->weight}}" oninput="validateNumber(this);" class="form-control" data-role="weight"/>
         </div>
     </div>
-    {{-- <div class="col-lg-3">
+    <div class="col-lg-3">
         <div class="form-group profile-form">
             <label>Length (cm)</label>
             <input type="text" name="length" value="{{empty($product->length) ? '': $product->length}}" oninput="validateNumber(this);" class="form-control" data-role="length"  />
@@ -51,7 +51,7 @@
             <label>Height (cm)</label>
             <input type="text" name="height" value="{{empty($product->height) ? '': $product->height}}" oninput="validateNumber(this);" class="form-control" data-role="height"/>
         </div>
-    </div> --}}
+    </div>
 
     <div class="col-lg-3 d-none">
         <div class="form-group profile-form">
