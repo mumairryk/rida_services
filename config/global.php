@@ -42,8 +42,8 @@ $config['service_quote_accepted']                               = 3;
 $config['service_quote_cancelled']                              = 4;
 
 
-$config['sale_order_prefix']                                 = 'HOP-';
-$config['quote_prefix']                                 = 'HOP-QT-';
+$config['sale_order_prefix']                                 = 'HOM-';
+$config['quote_prefix']                                 = 'HOM-QT-';
 $config['product_image_width']              			= '1024';
 $config['product_image_height']              			= '1024';
 

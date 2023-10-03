@@ -1075,5 +1075,25 @@ function GetDrivingDistance($lat1, $lat2, $long1, $long2)
             }
         }
     }
+    function adminNotification($related_id, $related_to, $title, $msg)
+    {
+         $dData =  [
+            'notifiable_id' => $related_id,
+            'related_to' => $related_to,
+            'title' => $title,
+            'message' => $msg,
+            'type'=>$related_to
+        ];
+        $data  = [
+            'related_id' => $related_id,
+            'related_to' => $related_to,
+            'title' => $title,
+            'message' => $msg,
+        ];
+        $dData['data'] = json_encode($data);
+        $obj = new \App\Models\DbNotification();
+        $obj->create($dData);
+
+   }
 }
 ?>
