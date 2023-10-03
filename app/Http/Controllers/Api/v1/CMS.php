@@ -11,6 +11,7 @@ use App\Models\HelpModel;
 use App\Models\States;
 use App\Models\Services;
 use App\Models\BannerModel;
+use App\Models\ProductModel;
 use DB;
 use Illuminate\Http\Request;
 
@@ -141,18 +142,113 @@ class CMS extends Controller
         ], 200);
     }
     public function home(){
+      $user = '';
       $banners = BannerModel::select('banner_image','product_id','category_id')->where('active',1)->orderBy('created_at','desc')->get();
-      $services = Services::where(['services.deleted' => 0])
-        // ->orderBy('services.created_at', 'asc')
-        ->orderBy('sort_order', 'asc')
-        ->get();
+
+
+      $categories = Categories::select('id','name','image','banner_image')->where(['parent_id'=>0,'active'=>1,'deleted'=>0])->limit(6)->get();
+
+
+      $where['product.deleted'] = 0;
+      $where['product_status'] = 1;
+
+      $filter['search_text'] = '';
+
+      $latestproductlist = ProductModel::products_list($where, $filter, 5, 0)->get();
+      $latestproductlist = $this->product_inv($latestproductlist, $user);
+
+
+      $newproductlist = ProductModel::products_list($where, $filter, 5, 0)->get();
+      $newproductlist = $this->product_inv($newproductlist, $user);
+
+     
+        $o_data['banners'] = $banners;
+        $o_data['category_list'] = $categories;
+        $o_data['banners_2'] = $banners;
+        $o_data['latest'] = $latestproductlist;
+        $o_data['new'] = $newproductlist;
+        $o_data['view'] = $newproductlist;
+
+      
 
       return response()->json([
         'status' => "1",
         'message' => trans('validation.data_fetched_successfully'),
         'errors' => [],
-        'banners' => $banners,
-        'services' => $services,
+        'o_data' => convert_all_elements_to_string($o_data),
     ], 200);
+    }
+    public function product_inv($products, $user,$from='')
+    {
+        $ids = [];
+        $modified_products = [];
+        $key = 0;
+        foreach ($products as $val) {
+            if(in_array($val->id, $ids)){
+                continue;
+            }
+            $ids[] = $val->id;
+            $modified_products[] = $val;
+            
+            $modified_products[$key]->is_liked = 0;
+            if ($user) {
+                $is_liked = ProductLikes::where(['product_id' => $val->id, 'user_id' => $user->id])->count();
+                if ($is_liked) {
+                    $modified_products[$key]->is_liked = 1;
+                }
+            }
+            $det = [];
+            if ($val->default_attribute_id) {
+                $det = DB::table('product_selected_attribute_list')->select('product_attribute_id', 'stock_quantity', 'sale_price', 'regular_price', 'image')->where('product_id', $val->id)->where('product_attribute_id', $val->default_attribute_id)->first();
+                if ($det) {
+                   
+                    $images = $det->image;
+                    if ($images) {
+                        $images = explode(',', $images);
+                        $images = array_values(array_filter($images));
+                        $i = 0;
+                        $prd_img = [];
+                        foreach ($images as $img) {
+                            if ($img) {
+                                $prd_img[$i] = url(config('global.upload_path') . '/' . config('global.product_image_upload_dir') . str_replace(' ', '%20', $img));
+                                $i++;
+                            }
+                        }
+                        $det->image = $prd_img;
+                    } else {
+                        $det->image = [];
+                    }
+                }
+
+            } else {
+                $det = DB::table('product_selected_attribute_list')->select('product_attribute_id', 'stock_quantity', 'sale_price', 'regular_price', 'image')->where('product_id', $val->id)->orderBy('product_attribute_id', 'DESC')->limit(1)->first();
+
+                if ($det) {
+                    
+                    $images = $det->image;
+                    if ($images) {
+                        $images = explode(',', $images);
+                        $images = array_values(array_filter($images));
+                        $i = 0;
+                        $prd_img = [];
+
+                        foreach ($images as $img) {
+                            if ($img) {
+                                $prd_img[$i] = url(config('global.upload_path') . '/' . config('global.product_image_upload_dir') . str_replace(' ', '%20', $img));
+                                $i++;
+                            }
+                        }
+                        $det->image = $prd_img;
+                    } else {
+                        $det->image = [];
+                    }
+                }
+            }
+            $modified_products[$key]->inventory = $det;
+            $key = $key+1;
+        }
+       
+        return $modified_products;
+        
     }
 }
