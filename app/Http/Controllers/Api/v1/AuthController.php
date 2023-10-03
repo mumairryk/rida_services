@@ -469,4 +469,284 @@ class AuthController extends Controller
                 'errors' => (object) []], 200);
         }
     }
+    public function resend_phone_code(Request $request)
+    {
+
+        $TempUser = TempUser::where('id', $request->user_id)->first();
+
+        $otp = (string)get_otp();
+        $TempUser->user_phone_otp = $otp;
+
+        $mobile = $TempUser->dial_code . $TempUser->phone;
+        $messagen = "OTP to confirm HOP registration is " . $otp;
+        $st = 1;//send_normal_SMS($messagen, $mobile);
+        if ($st != 1) {
+            return response()->json([
+                'status' => "0",
+                'error' => (object) array(),
+                'message' => $st,
+            ], 201);
+        }
+        $TempUser->save();
+
+        return response()->json([
+            'status' => "1",
+            'message' => trans('validation.verification_code_is_sent_again'),
+            'user' => $otp,
+        ], 200);
+    }
+    public function social_login(Request $request)
+    {
+
+        $rules = [
+            'email' => 'required|email',
+            'first_name' => 'required',
+            'device_type' => 'required',
+            'fcm_token' => 'required',
+        ];
+        $messages = [
+            'email.required' => trans('validation.email_required'),
+            'email.email' => trans('validation.valid_email'),
+            'first_name.required' => trans('validation.name_required'),
+            'fcm_token.required' => trans('validation.fcm_token_required'),
+            'device_type.required' => trans('validation.device_type_required'),
+        ];
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if ($validator->fails()) {
+            $message = trans('validation.validation_error_occured');
+            $errors = $validator->messages();
+            return response()->json([
+                'status' => "0",
+                'message' => $message,
+                'error' => (object) $errors,
+            ], 200);
+        }
+        if ($user = User::where('email', $request->email)->where("deleted", 0)->where(function ($query) {
+            $query->where('role', 2)
+            ->orWhereNull('role');
+        })->first()) {
+            User::where('id', '!=', $user->id)->where('email', $request->email)->where("deleted", 0)->where(function ($query) {
+                $query->where('role', 2)
+                    ->orWhereNull('role');
+            })->delete();
+            // $user = User::where('email', $request->email)->first();
+            $user->user_device_token = $request->fcm_token;
+            $user->email_verified = 1;
+            $user->role = 2;
+            $user->active = 1;
+            $user->is_social = 1;
+            $user->save();
+            if(isset($request->device_cart_id) && $request->device_cart_id){
+                \App\Models\Cart::where('device_cart_id',$request->device_cart_id)->update(['user_id'=>$user->id]);
+            }
+
+        } else {
+            $user = new User([
+                'first_name' => $request->first_name,
+                'last_name' => '',
+                'name' => $request->first_name,
+                'email' => $request->email,
+                'user_device_type' => $request->device_type,
+                'user_device_token' => $request->fcm_token,
+                'password' => Hash::make(uniqid()),
+                'email_verified_at' => Carbon::now(),
+                'email_verified' => 1,
+                'phone' => 0,
+                'role' => 2,
+                'active' => 1,
+                'is_social' => 1,
+            ]);
+            $user->save();
+            $uname = $request->first_name;
+            $umail = $request->email;
+
+            if(isset($request->device_cart_id) && $request->device_cart_id){
+                \App\Models\Cart::where('device_cart_id',$request->device_cart_id)->update(['user_id'=>$user->id]);
+            }
+
+            if (config('global.server_mode') == 'local') {
+                \Artisan::call("send:send_reg_email --uri=" . urlencode("Welcome to HOP") . " --uri2=" . urlencode($umail) . " --uri3=" . urlencode($uname));
+            } else {
+                exec("php " . base_path() . "/artisan send:send_reg_email --uri=" . urlencode("Welcome to HOP") . " --uri2=" . urlencode($umail) . " --uri3=" . urlencode($uname) . " > /dev/null 2>&1 & ");
+            }
+        }
+        $tokenResult = $user->createToken('Personal Access Token')->accessToken;
+        return $this->loginSuccess($tokenResult, $user);
+    }
+    public function forgot_password(REQUEST $request)
+    {
+        $status = "0";
+        $message = "";
+        $o_data = [];
+        $errors = [];
+
+        $rules['email'] = 'required';
+        $messages = [
+            'email.required' => trans('validation.email_required'),
+        ];
+        $validator = Validator::make($request->all(), $rules, $messages);
+        if ($validator->fails()) {
+            $status = "0";
+            $message = trans('validation.validation_error_occured');
+            $errors = $validator->messages();
+        } else {
+
+            $lemail = strtolower($request->email);
+            $user = User::whereRaw("LOWER(email) = '$lemail'")->where('deleted', 0)->where(['role' => 2])->first();
+            if ($user) {
+                // if ($user->is_social) {
+                //     $status = "0";
+                //     $o_data = (object) [];
+                //     $message = trans('validation.not_allowed_to_reset_password_for_social_login_account');
+                //     return response()->json(['status' => $status, 'error' => $errors, 'message' => $message, 'oData' => $o_data], 200);
+                // }
+
+                $token = $this->get_user_token('password_reset_code');
+                $password_reset_time = gmdate('Y-m-d H:i:s');
+                $otp = (string)get_otp();
+                User::where("id", $user->id)->update(['password_reset_code' => $token, 'password_reset_time' => $password_reset_time, 'password_reset_otp' => $otp]);
+                $name = $user->name ?? $user->first_name . ' ' . $user->last_name;
+                $res = false;
+                $mailbody = view("emai_templates.forgot_mail", compact('name', 'otp'));
+
+                if (config('global.server_mode') == 'local') {
+                    \Artisan::call("send:send_forgot_email --uri=" . urlencode($user->email) . " --uri2=" . $otp . " --uri3=" . urlencode($name));
+                } else {
+                    exec("php " . base_path() . "/artisan send:send_forgot_email --uri=" . urlencode($user->email) . " --uri2=" . $otp . " --uri3=" . urlencode($name) . " > /dev/null 2>&1 & ");
+                }
+
+
+                    $res = true;
+
+                if ($res) {
+                    $message = trans('validation.we_have_e_mailed_an_otp_to_reset_your_password_please_check_your_inbox');
+                    $status = "1";
+                    $o_data['password_reset_code'] = $token;
+                    if($request->is_web){
+                        $o_data['redirect_url'] = route('otp',['token'=>$token,'email'=>$lemail]);
+                    }
+
+                } else {
+                    $status = "0";
+                    $o_data = (object) [];
+                    $message = trans('validation.something_went_wrong');
+                }
+
+            } else {
+                $o_data = (object) [];
+                $message = trans('validation.user_not_exist');
+            }
+        }
+        return response()->json(['status' => $status, 'error' => $errors, 'message' => $message, 'oData' => $o_data], 200);
+    }
+    public function get_user_token($type = '')
+    {
+        $tok = bin2hex(random_bytes(32));
+        if (User::where($type, '=', $tok)->first()) {
+            $this->get_user_token($type);
+        }
+        return $tok;
+    }
+    public function resend_forgot_password_otp(REQUEST $request)
+    {
+        $status = "0";
+        $message = "";
+        $o_data = [];
+        $errors = [];
+
+        $rules = [
+            'password_reset_code' => 'required',
+        ];
+        $messages = [
+            'password_reset_code.required' => trans('validation.password_reset_code_required'),
+        ];
+        $validator = Validator::make($request->all(), $rules, $messages);
+        if ($validator->fails()) {
+            $status = "0";
+            $message = trans('validation.validation_error_occured');
+            $errors = $validator->messages();
+        } else {
+
+            $user = User::where('password_reset_code', $request->password_reset_code)->first();
+            if ($user) {
+
+                $otp = (string)get_otp();
+                User::where("id", $user->id)->update(['password_reset_otp' => $otp]);
+
+                $name = $user->name ?? $user->first_name . ' ' . $user->last_name;
+                $res = false;
+
+                if (config('global.server_mode') == 'local') {
+                    \Artisan::call("send:send_forgot_email --uri=" . urlencode($user->email) . " --uri2=" . $otp . " --uri3=" . urlencode($name));
+                } else {
+                    exec("php " . base_path() . "/artisan send:send_forgot_email --uri=" . urlencode($user->email) . " --uri2=" . $otp . " --uri3=" . urlencode($name) . " > /dev/null 2>&1 & ");
+                }
+                $res = true;
+
+                if ($res) {
+                    $message = trans('validation.we_have_e_mailed_an_otp_to_reset_your_password_please_check_your_inbox');
+                    $status = "1";
+                    $o_data['password_reset_code'] = $request->password_reset_code;
+
+                } else {
+                    $status = "0";
+                    $o_data = (object) [];
+                    $message = trans('validation.something_went_wrong');
+                }
+
+            } else {
+                $o_data = (object) [];
+                $message = trans('validation.user_not_exist');
+            }
+        }
+        return response()->json(['status' => $status, 'error' => $errors, 'message' => $message, 'oData' => $o_data], 200);
+    }
+    public function reset_password(REQUEST $request)
+    {
+        $status = "0";
+        $message = "";
+        $o_data = [];
+        $errors = [];
+        
+
+        $rules = [
+            'password_reset_code' => 'required',
+            'otp' => 'required',
+            'password' => 'required|confirmed',
+            'password_confirmation' => 'required',
+        ];
+        $messages = [
+            'password_reset_code.required' => trans('validation.password_reset_code_required'),
+            'otp.required' => trans('validation.otp_required'),
+            'password.required' => trans('validation.password_required'),
+            'password.confirmed' => trans('validation.password_confirmed'),
+            'password_confirmation.required' => trans('validation.password_confirmation_required'),
+        ];
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if ($validator->fails()) {
+            $status = "0";
+            $message = trans('validation.validation_error_occured');
+            $errors = $validator->messages();
+        } else {
+            $user = User::where('password_reset_code', $request->password_reset_code)->first();
+            if ($user) {
+                if ($request->otp == $user->password_reset_otp) {
+                    $user->password = bcrypt($request->password);
+                    $user->password_reset_code = '';
+                    $user->password_reset_otp = 0;
+                    $user->save();
+                    $status = "1";
+                    $message = trans('validation.password_updated_successfully');
+                } else {
+                    $message = trans('validation.invalid_otp');
+                }
+            } else {
+                $message = trans('validation.invalid_otp');
+                // $message = trans('validation.user_not_exist');
+            }
+        }
+        return response()->json(['status' => $status, 'message' => $message, 'errors' => $errors, 'oData' => $o_data]);
+    }
 }

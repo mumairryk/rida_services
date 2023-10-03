@@ -27,7 +27,11 @@ Route::namespace('App\Http\Controllers\Api\v1')->prefix("v1")->name("api.v1.")->
     Route::post('signup', 'AuthController@signup')->name('signup');
     Route::post('resend_phone_code', 'AuthController@resend_phone_code')->name('resend_phone_code');
     Route::post('confirm_phone_code', 'AuthController@confirm_phone_code')->name('confirm_phone_code');
+    Route::post('social_login', 'AuthController@social_login')->name('social_login');
     Route::post('login', 'AuthController@email_login')->name('api.login');
+    Route::post('forgot_password','AuthController@forgot_password')->name('api.forgot_password');
+    Route::post('reset_password','AuthController@reset_password')->name('api.reset_password');
+    Route::post('resend_forgot_password_otp','AuthController@resend_forgot_password_otp')->name('api.resend_forgot_password_otp');
 
     Route::post('stores', 'StoreController@list')->name('store_list');
     Route::post('product_like', 'ProductController@product_like_dislike')->name('product_like');
