@@ -33,6 +33,22 @@ Route::namespace('App\Http\Controllers\Api\v1')->prefix("v1")->name("api.v1.")->
     Route::post('reset_password','AuthController@reset_password')->name('api.reset_password');
     Route::post('resend_forgot_password_otp','AuthController@resend_forgot_password_otp')->name('api.resend_forgot_password_otp');
 
+    Route::post('/update_user_profile','UsersController@update_user_profile');
+    Route::post('/change_phone_number','UsersController@change_phone_number');
+    Route::post('/validate_otp_phone_email_update','UsersController@validate_otp_phone_email_update');
+    Route::post('/change_email','UsersController@change_email');
+    Route::post('/my_profile', 'UsersController@my_profile')->name('my_profile');
+    Route::post('/change_password','UsersController@change_password');
+    
+    Route::post('fav_products', 'ProductController@fav_list')->name('products_fav_list');
+
+    Route::post('/add_address', 'UsersController@add_address')->name('add_address');
+    Route::post('/edit_address', 'UsersController@edit_address')->name('edit_address');
+    Route::post('/delete_address', 'UsersController@delete_address')->name('delete_address');
+    Route::post('/set_default_address', 'UsersController@set_default_address')->name('set_default_address');
+    Route::post('/list_address', 'UsersController@list_address')->name('list_address');
+    Route::post('/set_default', 'UsersController@setdefault')->name('set_default');
+
     Route::post('stores', 'StoreController@list')->name('store_list');
     Route::post('product_like', 'ProductController@product_like_dislike')->name('product_like');
     Route::post('store_like', 'StoreController@like_dislike')->name('store_like');
@@ -56,6 +72,11 @@ Route::namespace('App\Http\Controllers\Api\v1')->prefix("v1")->name("api.v1.")->
    Route::get('/payment_cancel','CartController@payment_cancel');
    Route::post('/place_order','CartController@place_order');
    Route::post('/apply_coupon','CartController@apply_coupon');
+
+
+   Route::post('/my_orders','OrderController@my_orders');
+   Route::post('/my_received_orders','OrderController@my_received_orders');
+   Route::post('/my_order_details','OrderController@my_order_details');
 
 
     Route::post('logout', 'AuthController@logout')->name('logout');

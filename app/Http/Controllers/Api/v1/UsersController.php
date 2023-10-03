@@ -140,9 +140,9 @@ class UsersController extends Controller
             $address->longitude = isset($request->longitude) ? $request->longitude : '';
             $address->land_mark = $request->land_mark;
             $address->is_default = $request->is_default;
-            $address->country_id = $request->country_id;
-            $address->state_id = $request->state_id;
-            $address->city_id = $request->area_id;
+            $address->country_id = $request->country_id??0;
+            $address->state_id = $request->state_id??0;
+            $address->city_id = $request->area_id??0;
             $address->status = 1;
             $address->save();
             $status = "1";
