@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\ProjectPurpose;
+use App\Models\Room;
 use Illuminate\Http\Request;
 use Validator;
 
-class ProjectPurposeController extends Controller
+class RoomController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,12 +16,12 @@ class ProjectPurposeController extends Controller
      */
     public function index()
     {
-        if (!check_permission('project_purpose','View')) {
+        if (!check_permission('room','View')) {
             abort(404);
         }
-        $page_heading = "Project Purpose";
-        $datamain = ProjectPurpose::get();
-        return view('admin.project_purpose.list', compact('page_heading', 'datamain'));
+        $page_heading = "Room";
+        $datamain = Room::get();
+        return view('admin.room.list', compact('page_heading', 'datamain'));
     }
 
     /**
@@ -31,10 +31,10 @@ class ProjectPurposeController extends Controller
      */
     public function create()
     {
-        if (!check_permission('project_purpose','Create')) {
+        if (!check_permission('room','Create')) {
             abort(404);
         }
-        $page_heading = "Project Purpose";
+        $page_heading = "Room";
         $mode = "create";
         $id = "";
         $prefix = "";
@@ -42,7 +42,7 @@ class ProjectPurposeController extends Controller
         $dial_code = "";
         $image = "";
         $active = "1";
-        return view("admin.project_purpose.create", compact('page_heading', 'mode', 'id', 'name', 'dial_code', 'active','prefix'));
+        return view("admin.room.create", compact('page_heading', 'mode', 'id', 'name', 'dial_code', 'active','prefix'));
     }
 
     /**
@@ -68,7 +68,7 @@ class ProjectPurposeController extends Controller
             $errors = $validator->messages();
         } else {
             $input = $request->all();
-            $check_exist = ProjectPurpose::where(['name' => $request->name])->where('id', '!=', $request->id)->get()->toArray();
+            $check_exist = Room::where(['name' => $request->name])->where('id', '!=', $request->id)->get()->toArray();
             if (empty($check_exist)) {
                 $ins = [
                     'name' => $request->name,
@@ -77,15 +77,15 @@ class ProjectPurposeController extends Controller
 
                 if ($request->id != "") {
                     $ins['updated_at'] = gmdate('Y-m-d H:i:s');
-                    $country = ProjectPurpose::find($request->id);
+                    $country = Room::find($request->id);
                     $country->update($ins);
                     $status = "1";
-                    $message = "Project Purpose updated succesfully";
+                    $message = "Room updated succesfully";
                 } else {
                     $ins['created_at'] = gmdate('Y-m-d H:i:s');
-                    ProjectPurpose::create($ins);
+                    Room::create($ins);
                     $status = "1";
-                    $message = "Project Purpose added successfully";
+                    $message = "Room added successfully";
                 }
             } else {
                 $status = "0";
@@ -116,17 +116,17 @@ class ProjectPurposeController extends Controller
      */
     public function edit($id)
     {
-        if (!check_permission('project_purpose','Edit')) {
+        if (!check_permission('room','Edit')) {
             abort(404);
         }
-        $datamain = ProjectPurpose::find($id);
+        $datamain = Room::find($id);
         if ($datamain) {
-            $page_heading = "Project Purpose";
+            $page_heading = "Room";
             $mode = "edit";
             $id = $datamain->id;
             $name = $datamain->name;
             $active = $datamain->status;
-            return view("admin.project_purpose.create", compact('page_heading', 'mode', 'id', 'name', 'active'));
+            return view("admin.room.create", compact('page_heading', 'mode', 'id', 'name', 'active'));
         } else {
             abort(404);
         }
@@ -155,11 +155,11 @@ class ProjectPurposeController extends Controller
         $status = "0";
         $message = "";
         $o_data = [];
-        $datamain = ProjectPurpose::find($id);
+        $datamain = Room::find($id);
         if ($datamain) {
-           ProjectPurpose::where('id',$id)->delete();
+           Room::where('id',$id)->delete();
             $status = "1";
-            $message = "Project purpose removed successfully";
+            $message = "Room removed successfully";
         } else {
             $message = "Sorry!.. You cant do this?";
         }
