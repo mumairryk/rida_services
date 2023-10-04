@@ -22,7 +22,7 @@
                             <input type="text" name="to" class="form-control flatpickr-input" autocomplete="off" value="{{ $to??'' }}">
                         </div>
                         <div class="col-md-3 form-group">
-                            <label>Search Invoice ID</label>
+                            <label>Search Order ID</label>
                             <input type="text" name="order_id" class="form-control" autocomplete="off" value="{{ $order_id }}">
                         </div>
                         <div class="col-md-3 form-group">
@@ -51,7 +51,6 @@
                             <tr>
                                 <th>#</th>
                                 <th>Order No</th>
-                                <th>Invoice ID</th>
                                 <th>Customer </th>
                                 {{--<th>Discount</th>
                                 <th>VAT</th>--}}
@@ -76,7 +75,6 @@
                                 <tr>
                                     <td>{{ $i }}</td>
                                     <td> <?php echo config('global.sale_order_prefix').date(date('Ymd', strtotime($item->created_at))).$item->order_id; ?></td>
-                                    <td>{{ $item->invoice_id }}</td>
                                     <td>{{ $item->name??$item->customer_name }}</td>
                                    {{-- <td>{{ $item->discount }}</td>
                                     <td>{{ $item->vat }}</td>--}}
