@@ -198,6 +198,7 @@ Route::namespace('App\Http\Controllers\admin')->prefix('admin')->middleware('adm
     Route::resource("room", "RoomController");
     Route::resource("square_footage", "SquareFootageController");
     Route::resource("aspect_of_room", "AspectofRoomController");
+    Route::resource("type_of_property", "TypeofPropertyController");
 
     Route::resource("bank", "BankController");
 
