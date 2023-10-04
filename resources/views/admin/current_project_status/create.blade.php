@@ -4,7 +4,7 @@
     <div class="card mb-5">
         <div class="card-body">
             
-            <form method="post" id="admin-form" action="{{ url('admin/project_purpose') }}" enctype="multipart/form-data" data-parsley-validate="true">
+            <form method="post" id="admin-form" action="{{ url('admin/current_project_status') }}" enctype="multipart/form-data" data-parsley-validate="true">
                     <input type="hidden" name="id" value="{{ $id }}">
                     @csrf()
                     <div class="row">
@@ -102,7 +102,7 @@
                     } else {
                         App.alert(res['message']);
                         setTimeout(function() {
-                            window.location.href = App.siteUrl('/admin/project_purpose');
+                            window.location.href = App.siteUrl('/admin/current_project_status');
                         }, 1500);
                     }
 

@@ -37,7 +37,9 @@ class OrderController extends Controller
             $list = $list->whereRaw("concat(first_name, ' ', last_name) like '%" . $name . "%' ");
         }
         if ($order_id) {
-            $list = $list->where('orders.invoice_id', $order_id);
+            $orderid = substr($order_id, 12);
+            
+            $list = $list->where('orders.order_id', $orderid);
         }
         if ($customer) {
             $list = $list->where('orders.user_id', $customer);
