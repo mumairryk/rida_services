@@ -32,6 +32,15 @@
                     </div>
 
                     <div class="col-md-6 form-group">
+                        <label>Banner Type</label>
+                        <select name="type" class="form-control select2" id="prd-id">
+                            <option value="1">Main banner</option>
+                            <option value="2">Secondary banner</option>
+                            <option value="3">Tertiary Banner</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6 form-group">
                         <label>Status</label>
                         <select name="active" class="form-control">
                             <option value="1">Active</option>

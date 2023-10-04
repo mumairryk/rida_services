@@ -9,6 +9,9 @@ use App\Models\OrderServiceItemsModel;
 use DB;
 use Validator;
 use App\Models\ProjectPurpose;
+use App\Models\Room;
+use App\Models\SquareFootage;
+use App\Models\TypeofProperty;
 use App\Classes\FaceReg;
 
 class MasterController extends Controller
@@ -17,6 +20,28 @@ class MasterController extends Controller
         $datamain = ProjectPurpose::get();
         $status = 1;
         $message = "project purpose data fetched successfully!";
+        return response()->json(['status' => $status, 'message' => $message, 'Data' => $datamain], 200);
+   }
+
+   public function getRoomType(){
+        $datamain = Room::get();
+        $status = 1;
+        $message = "Room Type data fetched successfully!";
+        return response()->json(['status' => $status, 'message' => $message, 'Data' => $datamain], 200);
+
+   }
+
+   public function getSquareFootage(){
+        $datamain = SquareFootage::get();
+        $status = 1;
+        $message = "Square Footage data fetched successfully!";
+        return response()->json(['status' => $status, 'message' => $message, 'Data' => $datamain], 200);
+   }
+
+   public function getTypeOfProperty(){
+        $datamain = TypeofProperty::get();
+        $status = 1;
+        $message = "Type of Property data fetched successfully!";
         return response()->json(['status' => $status, 'message' => $message, 'Data' => $datamain], 200);
    }
     
