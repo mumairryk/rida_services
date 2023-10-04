@@ -4,7 +4,7 @@
     <div class="card mb-5">
         <div class="card-body">
             
-            <form method="post" id="admin-form" action="{{ url('admin/square_footage') }}" enctype="multipart/form-data" data-parsley-validate="true">
+            <form method="post" id="admin-form" action="{{ url('admin/project_purpose') }}" enctype="multipart/form-data" data-parsley-validate="true">
                     <input type="hidden" name="id" value="{{ $id }}">
                     @csrf()
                     <div class="row">
