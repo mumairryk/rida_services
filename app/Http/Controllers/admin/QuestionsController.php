@@ -30,12 +30,13 @@ class QuestionsController extends Controller
     }
     public function create(Request $request)
     {
+        $options = [];
         if (!check_permission('questions','Create')) {
             abort(404);
         }
         
             $page_heading = "Create Question";
-            return view('admin.questions.create', compact('page_heading'));
+            return view('admin.questions.create', compact('page_heading','options'));
        
 
     }

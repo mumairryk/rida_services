@@ -54,7 +54,7 @@
 
                     </div>
                    <div class="row" id="datarowsadd" style="display:none;">
-                    @if($options->count() > 0)
+                    @if(count($options) > 0)
                     @foreach($options as $key=>$value)
                     <div class="row col-md-12"><div class="col-md-6 form-group">
                         <label>Options<b class="text-danger">*</b></label>
