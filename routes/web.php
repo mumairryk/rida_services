@@ -341,9 +341,10 @@ Route::namespace('App\Http\Controllers\admin')->prefix('admin')->middleware('adm
     Route::post("contact_us_setting_store", "PagesController@contact_us_setting_store")->name('contact_us_setting_store');
     Route::get('settings', 'PagesController@settings');
     Route::post("setting_store", "PagesController@setting_store")->name('setting_store');
-
-    Route::resource("questions", "QuestionsController");
+    
     Route::match(array('GET', 'POST'), 'questions/sort', 'QuestionsController@sort');
+    Route::resource("questions", "QuestionsController");
+    
 
     //FAQ
     Route::get("faq", "FaqController@index");

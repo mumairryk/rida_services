@@ -126,44 +126,10 @@ class QuestionsController extends Controller
         }
     }
 
-    public function update(Request $request)
+    
+    public function destroy($id = '')
     {
-        $status = "0";
-        $message = "";
-        $errors = '';
-        $validator = Validator::make($request->all(),
-            [
-                'question' => 'required',
-                'answer' => 'required',
-            ]
-        );
-        if ($validator->fails()) {
-            $status = "0";
-            $message = "Validation error occured";
-            $errors = $validator->messages();
-        } else {
-            $ins['active'] = $request->active;
-            $ins['title'] = $request->question;
-            $ins['description'] = $request->answer;
-            $ins['updated_at'] = gmdate('Y-m-d H:i:s');
-            $ins['updated_by'] = session("user_id");
-            
-            if (FaqModel::where('id', $request->id)->update($ins)) {
-
-                $status = "1";
-                $message = "Question updated";
-                $errors = '';
-            } else {
-                $status = "0";
-                $message = "Something went wrong";
-                $errors = '';
-            }
-        }
-        echo json_encode(['status' => $status, 'message' => $message, 'errors' => $errors]);die();
-    }
-    public function delete($id = '')
-    {
-        FaqModel::where('id', $id)->delete();
+        Question::where('id', $id)->delete();
         $status = "1";
         $message = "Question removed successfully";
         echo json_encode(['status' => $status, 'message' => $message]);
@@ -171,13 +137,15 @@ class QuestionsController extends Controller
 
     public function sort(Request $request)
     {
+        $params['question_for'] = $_GET['question_for'] ?? '';
+        $question_for = $params['question_for'];
         if ($request->ajax()) {
             $status = 0;
             $message = '';
 
             $items = $request->items;
             $items = explode(",", $items);
-            $sorted = Categories::sort_item($items);
+            $sorted = Question::sort_item($items);
             if ($sorted) {
                 $status = 1;
             }
@@ -185,10 +153,14 @@ class QuestionsController extends Controller
             echo json_encode(['status' => $status, 'message' => $message]);
 
         } else {
-            $page_heading = "Sort Categories";
+            $page_heading = "Sort Question";
+            if(!empty($question_for))
+            {
+           $page_heading = "Questions - ".question_for($question_for);   
+           }
 
-            $list = Categories::where(['deleted' => 0])->orderBy('sort_order', 'asc')->get();
-            $back = url("admin/category");
+            $list = Question::select('id','question as name')->where(['question_for' => $question_for])->orderBy('sort_order', 'asc')->get();
+            $back = url("admin/questions?question_for=".$question_for);
             return view("admin.sort", compact('page_heading', 'list','back'));
         }
     }

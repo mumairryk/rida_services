@@ -14,7 +14,7 @@
     @php $param = "?question_for=".$question_for; @endphp
     @endif
     <div class="card-header"><a href="{{url('admin/questions/create'.$param)}}" class="btn-custom btn mr-2 mt-2 mb-2"><i class="fa-solid fa-plus"></i> Create Questions</a>
-    <!-- <a href="{{ url('admin/category/sort') }}" class="btn-custom btn mr-2 mt-2 mb-2"><i class="fa-solid fa-arrow-up-wide-short"></i> Sort</a></div> -->
+    <a href="{{ url('admin/questions/sort'.$param) }}" class="btn-custom btn mr-2 mt-2 mb-2"><i class="fa-solid fa-arrow-up-wide-short"></i> Sort</a></div>
     @endif
     <div class="card-body">
     <div class="dataTables_wrapper container-fluid dt-bootstrap4">
@@ -71,7 +71,7 @@
                                     <a class="dropdown-item" href="{{url('admin/questions/'.$item->id.'/edit')}}"><i class="flaticon-pencil-1"></i> Edit</a>
                                     @endif
                                     @if(check_permission('faq','Delete'))
-                                    <a class="dropdown-item" data-role="unlink" data-message="Do you want to remove this question?" href="{{url('admin/questions/delete/'.$item->id)}}"><i class="flaticon-delete-1"></i> Delete</a>
+                                    <a class="dropdown-item" data-role="unlink" data-message="Do you want to remove this question?" href="{{url('admin/questions/'.$item->id)}}"><i class="flaticon-delete-1"></i> Delete</a>
                                     @endif
                                 </div>
                             </div>

@@ -27,4 +27,25 @@ class Question extends Model
         }
         return $faq;
     } 
+    public static function sort_item($item=[]){
+        if( !empty($item) ){
+            DB::beginTransaction();
+            try {
+                    $i=0;
+                    foreach( $item as $key ){
+                        Question::where('id', $key)
+                            ->update(['sort_order' => $i]);
+                        $i++;
+                    }
+                    DB::commit();
+                return 1;
+            } catch (\Exception $e) {
+                DB::rollback();
+                return 0;
+            }
+        }else{
+            return 0;
+        }
+    }
+    
 }
