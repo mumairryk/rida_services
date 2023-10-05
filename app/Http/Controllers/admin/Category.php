@@ -22,11 +22,17 @@ class Category extends Controller
             abort(404);
         }
         $page_heading = "Category";
-        $categories = Categories::where(['deleted' => 0, 'parent_id' => 0])->orderBy('sort_order', 'asc')->get();
+        $categories = Categories::where(['deleted' => 0])->orderBy('sort_order', 'asc')->get();
         foreach ($categories as $key => $val) {
             $child = Categories::where(['deleted' => 0,'parent_id' => $val->id])->orderBy('created_at', 'desc')->get();
             $categories[$key]->child = $child;
         }
+        foreach ($categories as $key => $val) {
+            $parent = Categories::where(['deleted' => 0,'id' => $val->parent_id])->first();
+
+            $categories[$key]->parent = isset($parent['name'])?$parent['name']:'';
+        }
+        
         return view('admin.category.list', compact('page_heading', 'categories'));
     }
 

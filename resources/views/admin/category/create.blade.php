@@ -38,7 +38,7 @@
                                 </select>
                             </div>
                         </div>
-                        {{-- <div class="col-md-6">
+                        <div class="col-md-6">
 
                             <div class="form-group">
                                 <label>Parent Category</label>
@@ -51,8 +51,8 @@
                                 </select>
                             </div>
 
-                        </div> --}}
-                        <input type="hidden" name="parent_id" value="0">
+                        </div>
+                        <!-- <input type="hidden" name="parent_id" value="0"> -->
                         {{-- <div class="col-md-6">
                             <div class="form-group">
                                 <label>Image</label><br>
