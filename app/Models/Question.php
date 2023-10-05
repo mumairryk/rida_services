@@ -21,6 +21,9 @@ class Question extends Model
             if(isset($params['search_key']) && $params['search_key'] != ''){
                 $faq->Where('question','ilike','%'.$params['search_key'].'%');
             }
+            if(isset($params['question_for']) && $params['question_for'] != ''){
+                $faq->Where('question_for',$params['question_for']);
+            }
         }
         return $faq;
     } 

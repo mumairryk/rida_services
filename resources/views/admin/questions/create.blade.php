@@ -23,9 +23,9 @@
                         <label>Question For</label>
                         <select name="question_for" class="form-control" required>
                             <option value="">Select</option>
-                            <option value="1" @if(!empty($datamain)) {{$datamain->question_for==1 ? "selected" : null}} @endif>Interior Designing</option>
-                            <option value="2" @if(!empty($datamain)) {{$datamain->question_for==2 ? "selected" : null}} @endif>Contracting</option>
-                            <option value="3" @if(!empty($datamain)) {{$datamain->question_for==3 ? "selected" : null}} @endif>Investing</option>
+                            <option value="1" @if(!empty($datamain)) {{$datamain->question_for==1 ? "selected" : null}} @endif {{ $question_for == 1 ? 'selected' : '' }} >Interior Designing</option>
+                            <option value="2" @if(!empty($datamain)) {{$datamain->question_for==2 ? "selected" : null}} @endif {{ $question_for == 2 ? 'selected' : '' }}>Contracting</option>
+                            <option value="3" @if(!empty($datamain)) {{$datamain->question_for==3 ? "selected" : null}} @endif {{ $question_for == 3 ? 'selected' : '' }}>Investing</option>
                         </select>
                     </div>
 
@@ -58,7 +58,7 @@
                     @foreach($options as $key=>$value)
                     <div class="row col-md-12"><div class="col-md-6 form-group">
                         <label>Options<b class="text-danger">*</b></label>
-                         <input type="text" name="option[]" value="{{$value->options}}" class="form-control jqv-input" data-jqv-required="true" required
+                         <input type="text" name="option[]" value="{{$value->options}}" class="form-control jqv-input" required
                             data-parsley-required-message="Option required">
                     </div>
                     <div class="col-md-6 form-group">
@@ -70,7 +70,7 @@
                     @else
                     <div class="col-md-6 form-group">
                         <label>Options<b class="text-danger">*</b></label>
-                         <input type="text" name="option[]" class="form-control jqv-input" data-jqv-required="true" required
+                         <input type="text" name="option[]" class="form-control jqv-input" required
                             data-parsley-required-message="Option required">
                     </div>
                     <div class="col-md-6 form-group">

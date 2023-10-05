@@ -1102,5 +1102,21 @@ function GetDrivingDistance($lat1, $lat2, $long1, $long2)
         $obj->create($dData);
 
    }
+   function question_for($id)
+   {
+     if($id == 1)
+     {
+         $value = "Interior Designing";
+     }
+     if($id == 2)
+     {
+         $value = "Contracting";
+     }
+     if($id == 3)
+     {
+         $value = "Investing";
+     }
+     return $value;
+   }
 }
 ?>

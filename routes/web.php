@@ -63,14 +63,6 @@ Route::namespace('App\Http\Controllers\admin')->prefix('admin')->middleware('adm
     Route::post('Excel/export', 'ProductImportExport@export_product')->name('export_product_post');
     Route::get('Excel/export', 'ProductImportExport@export_product')->name('export_product');
 
-
-
-
-
-
-
-
-
     Route::get('report/customers', 'ReportController@users')->name('customer_report');
     Route::get('report/vendors', 'ReportController@vendors')->name('vendor_report');
     Route::get('report/stores', 'ReportController@stores')->name('store_report');

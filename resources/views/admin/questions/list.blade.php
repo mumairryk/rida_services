@@ -9,7 +9,11 @@
 @section("content")
 <div class="card mb-5">
     @if(check_permission('questions','Create'))
-    <div class="card-header"><a href="{{url('admin/questions/create')}}" class="btn-custom btn mr-2 mt-2 mb-2"><i class="fa-solid fa-plus"></i> Create Questions</a>
+    @php $param ="";@endphp
+    @if($question_for)
+    @php $param = "?question_for=".$question_for; @endphp
+    @endif
+    <div class="card-header"><a href="{{url('admin/questions/create'.$param)}}" class="btn-custom btn mr-2 mt-2 mb-2"><i class="fa-solid fa-plus"></i> Create Questions</a>
     <!-- <a href="{{ url('admin/category/sort') }}" class="btn-custom btn mr-2 mt-2 mb-2"><i class="fa-solid fa-arrow-up-wide-short"></i> Sort</a></div> -->
     @endif
     <div class="card-body">
@@ -87,7 +91,7 @@
         @else
         <br>
         <div class="alert alert-warning">
-            <p>No faq found</p>
+            <p>No Questions found</p>
         </div>
         @endif
     </div>

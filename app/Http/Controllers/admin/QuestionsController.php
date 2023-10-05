@@ -24,26 +24,32 @@ class QuestionsController extends Controller
         $filter = [];
         $params = [];
         $params['search_key'] = $_GET['search_key'] ?? '';
+        $params['question_for'] = $_GET['question_for'] ?? '';
         $search_key = $params['search_key'];
+        $question_for = $params['question_for'];
+        if(!empty($question_for))
+        {
+         $page_heading = "Questions - ".question_for($question_for);   
+        }
         $list = Question::get_list($filter, $params)->paginate(10);
-        return view("admin.questions.list", compact("page_heading", "list", "search_key"));
+        return view("admin.questions.list", compact("page_heading", "list", "search_key","question_for"));
     }
     public function create(Request $request)
     {
+        $params['question_for'] = $_GET['question_for'] ?? '';
         $options = [];
         if (!check_permission('questions','Create')) {
             abort(404);
         }
-        
+        $question_for = $params['question_for'];
             $page_heading = "Create Question";
-            return view('admin.questions.create', compact('page_heading','options'));
+            return view('admin.questions.create', compact('page_heading','options','question_for'));
        
 
     }
 
     public function store(Request $request)
     {
-       
         if ($request->isMethod('post')) {
             $status = "0";
             $message = "";
@@ -109,11 +115,12 @@ class QuestionsController extends Controller
         if (!check_permission('questions','Edit')) {
             abort(404);
         }
+        $question_for = '';
         $datamain = Question::find($id);
         $options = QuestionOptions::where('question',$id)->get();
         if ($datamain) {
             $page_heading = "Edit Question";
-            return view('admin.questions.create', compact('page_heading', 'datamain','options'));
+            return view('admin.questions.create', compact('page_heading', 'datamain','options','question_for'));
         } else {
             abort(404);
         }
