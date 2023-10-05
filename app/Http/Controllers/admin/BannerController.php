@@ -45,9 +45,11 @@ class BannerController extends Controller
             $validator = Validator::make($request->all(),
                 [
                     'banner' => 'required|image',
+                    'type' => 'required',
                 ],
                 [
                     'banner.required' => 'Banner required',
+                    'type.required' => 'Banner Type required',
                     'banner.image' => 'should be in image format (.jpg,.jpeg,.png)',
                 ]
             );
@@ -57,6 +59,7 @@ class BannerController extends Controller
                 $errors = $validator->messages();
             } else {
                 $ins['active'] = $request->active;
+                $ins['type'] = $request->type;
                 $ins['banner_title'] = '';
                 $ins['category_id'] = $request->category_id ?? 0;
                 $ins['product_id'] = $request->product_id ?? 0;

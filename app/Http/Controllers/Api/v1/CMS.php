@@ -143,7 +143,9 @@ class CMS extends Controller
     }
     public function home(){
       $user = '';
-      $banners = BannerModel::select('banner_image','product_id','category_id')->where('active',1)->orderBy('created_at','desc')->get();
+      $banners = BannerModel::select('banner_image','product_id','category_id')->where('active',1)->where('type',1)->orderBy('created_at','desc')->get();
+      $banners2 = BannerModel::select('banner_image','product_id','category_id')->where('active',1)->where('type',2)->orderBy('created_at','desc')->get();
+      $banners3 = BannerModel::select('banner_image','product_id','category_id')->where('active',1)->where('type',3)->orderBy('created_at','desc')->get();
 
 
       $categories = Categories::select('id','name','image','banner_image')->where(['parent_id'=>0,'active'=>1,'deleted'=>0])->limit(6)->get();
@@ -164,7 +166,8 @@ class CMS extends Controller
      
         $o_data['banners'] = $banners;
         $o_data['category_list'] = $categories;
-        $o_data['banners_2'] = $banners;
+        $o_data['banners_2'] = $banners2;
+        $o_data['banners_3'] = $banners3;
         $o_data['latest'] = $latestproductlist;
         $o_data['new'] = $newproductlist;
         $o_data['view'] = $newproductlist;
