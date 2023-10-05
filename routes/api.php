@@ -85,4 +85,10 @@ Route::namespace('App\Http\Controllers\Api\v1')->prefix("v1")->name("api.v1.")->
 
     Route::post('logout', 'AuthController@logout')->name('logout');
     Route::post('delete_account', 'AuthController@delete_account')->name('delete_account');
+
+    //Master Apis
+    Route::get('/project_purpose','MasterController@getProjectPurpose');
+    Route::get('/room_type','MasterController@getRoomType');
+    Route::get('/square_footage','MasterController@getSquareFootage');
+    Route::get('/type_of_property','MasterController@getTypeOfProperty');
 });
