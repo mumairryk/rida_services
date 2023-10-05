@@ -18,15 +18,8 @@
                             data-parsley-required-message="Question required">
                     </div>
 
-                    <div class="col-md-6 form-group">
-                        <label>Status</label>
-                        <select name="active" class="form-control">
-                            <option value="1" @if(!empty($datamain)) {{$datamain->active==1 ? "selected" : null}} @endif>Active</option>
-                            <option value="0" @if(!empty($datamain)) {{$datamain->active==0 ? "selected" : null}} @endif>Inactive</option>
-                        </select>
-                    </div>
 
-                     <div class="col-md-6 form-group">
+                    <div class="col-md-6 form-group">
                         <label>Question For</label>
                         <select name="question_for" class="form-control" required>
                             <option value="">Select</option>
@@ -35,6 +28,16 @@
                             <option value="3" @if(!empty($datamain)) {{$datamain->question_for==3 ? "selected" : null}} @endif>Investing</option>
                         </select>
                     </div>
+
+                    <div class="col-md-6 form-group">
+                        <label>Status</label>
+                        <select name="active" class="form-control">
+                            <option value="1" @if(!empty($datamain)) {{$datamain->active==1 ? "selected" : null}} @endif>Active</option>
+                            <option value="0" @if(!empty($datamain)) {{$datamain->active==0 ? "selected" : null}} @endif>Inactive</option>
+                        </select>
+                    </div>
+
+                     
 
                     <div class="col-md-6 form-group">
                         <label>Answer Type</label>
@@ -51,6 +54,20 @@
 
                     </div>
                    <div class="row" id="datarowsadd" style="display:none;">
+                    @if($options->count() > 0)
+                    @foreach($options as $key=>$value)
+                    <div class="row col-md-12"><div class="col-md-6 form-group">
+                        <label>Options<b class="text-danger">*</b></label>
+                         <input type="text" name="option[]" value="{{$value->options}}" class="form-control jqv-input" data-jqv-required="true" required
+                            data-parsley-required-message="Option required">
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <br>
+                       <button type="button" class="btn-custom @if($key == 0) addmore @else remove @endif"> @if($key == 0) Add More @else Remove @endif</button>
+                        
+                    </div></div>
+                    @endforeach
+                    @else
                     <div class="col-md-6 form-group">
                         <label>Options<b class="text-danger">*</b></label>
                          <input type="text" name="option[]" class="form-control jqv-input" data-jqv-required="true" required
@@ -61,11 +78,12 @@
                        <button type="button" class="btn-custom addmore"> Add More</button>
                         
                     </div>
+                    @endif
 
                     </div>
                     <div class="row">
                  
-                    <div class="col-md-12 text-center mt-3">
+                    <div class="col-md-12 mt-3">
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
                 </div>
@@ -73,6 +91,7 @@
         </div>
     </div>
 @stop
+
 
 @section('script')
     <script>
@@ -148,8 +167,8 @@
             });
         });
 
-$('body').off('click', '#answertype');
-$('body').on('click', '#answertype', function(e) {
+$('body').off('change', '#answertype');
+$('body').on('change', '#answertype', function(e) {
   $('#datarowsadd').hide();
   $('#datarowsadd').find('[required]').prop('required', false);
   var ans = $(this).val();
@@ -169,6 +188,8 @@ $('body').on('click', '.remove', function(e) {
   $(this).parent().parent().remove();
 
 });
-
+$(function(){
+$("#answertype").trigger("change");
+});
     </script>
 @stop

@@ -10,7 +10,7 @@
 <div class="card mb-5">
     @if(check_permission('questions','Create'))
     <div class="card-header"><a href="{{url('admin/questions/create')}}" class="btn-custom btn mr-2 mt-2 mb-2"><i class="fa-solid fa-plus"></i> Create Questions</a>
-    <a href="{{ url('admin/category/sort') }}" class="btn-custom btn mr-2 mt-2 mb-2"><i class="fa-solid fa-arrow-up-wide-short"></i> Sort</a></div>
+    <!-- <a href="{{ url('admin/category/sort') }}" class="btn-custom btn mr-2 mt-2 mb-2"><i class="fa-solid fa-arrow-up-wide-short"></i> Sort</a></div> -->
     @endif
     <div class="card-body">
     <div class="dataTables_wrapper container-fluid dt-bootstrap4">

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Question;
+use App\Models\QuestionOptions;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Validator;
@@ -64,16 +65,39 @@ class QuestionsController extends Controller
                 $ins['answer_type'] = $request->answer_type;
                 $ins['created_at'] = gmdate('Y-m-d H:i:s');
                 $ins['updated_at'] = gmdate('Y-m-d H:i:s');
-                if()
-                if (Question::insert($ins)) {
+                if(!$request->id)
+                {
+                    $insert = Question::create($ins)->id;
                     $status = "1";
                     $message = "Question created";
                     $errors = '';
-                } else {
-                    $status = "0";
-                    $message = "Something went wrong";
-                    $errors = '';
+                    $inid = $insert;
+                   
                 }
+                else
+                {
+                    $inid = $request->id;
+                    Question::where('id',$request->id)->update($ins);
+                    $status = "1";
+                    $message = "Question updated";
+                }
+
+                if(!empty($inid))
+                {  
+                     $options = $request->option;
+                     QuestionOptions::where('question',$inid)->delete();
+                     if($request->answer_type == 3 || $request->answer_type == 4)
+                     { 
+                         foreach ($options as $key => $value) {
+                             $inoptions = new QuestionOptions;
+                             $inoptions->question = $inid;
+                             $inoptions->options = $value;
+                             $inoptions->save();
+                         }
+                        
+                     }
+                }
+                
             }
             echo json_encode(['status' => $status, 'message' => $message, 'errors' => $errors]);die();
         } 
@@ -85,9 +109,10 @@ class QuestionsController extends Controller
             abort(404);
         }
         $datamain = Question::find($id);
+        $options = QuestionOptions::where('question',$id)->get();
         if ($datamain) {
             $page_heading = "Edit Question";
-            return view('admin.questions.create', compact('page_heading', 'datamain'));
+            return view('admin.questions.create', compact('page_heading', 'datamain','options'));
         } else {
             abort(404);
         }
