@@ -229,13 +229,13 @@ $_current_user = \Request::get('_current_user');
 
                      @if(check_permission('questions','View'))
                     <li class="nav-item nav-item-has-children {{preg_match('/admin\/questions/', $CurrentUrl) || preg_match('/admin\/questions/', $CurrentUrl) || preg_match('/admin\/questions/', $CurrentUrl) ? 'active' : null}}">
-                        <a href="#0" class="{{preg_match('/admin\/questions/', $CurrentUrl) || preg_match('/admin\/questions/', $CurrentUrl) || preg_match('/admin\/product/', $CurrentUrl) ? '' : 'collapsed'}}" data-toggle="collapse" data-auto-close="outside" data-target="#ddmenu_3" aria-controls="ddmenu_3" aria-expanded="false" aria-label="Toggle navigation">
+                        <a href="#0" class="{{preg_match('/admin\/questions/', $CurrentUrl) || preg_match('/admin\/questions/', $CurrentUrl) || preg_match('/admin\/product/', $CurrentUrl) ? '' : 'collapsed'}}" data-toggle="collapse" data-auto-close="outside" data-target="#ddmenu_32" aria-controls="ddmenu_3" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="icon">
                                 <i class='bx bx-box'></i>
                             </span>
                             <span class="text"> Questionnaire </span>
                         </a>
-                        <ul id="ddmenu_3" class="collapse dropdown-nav {{preg_match('/admin\/questions/', $CurrentUrl) || preg_match('/admin\/coupons/', $CurrentUrl) || preg_match('/admin\/questions/', $CurrentUrl) ? 'show' : null}}">
+                        <ul id="ddmenu_32" class="collapse dropdown-nav {{preg_match('/admin\/questions/', $CurrentUrl) || preg_match('/admin\/coupons/', $CurrentUrl) || preg_match('/admin\/questions/', $CurrentUrl) ? 'show' : null}}">
 
                             @if(check_permission('questions','View'))
                             <li>
