@@ -33,6 +33,10 @@ Route::namespace('App\Http\Controllers\Api\v1')->prefix("v1")->name("api.v1.")->
     Route::post('reset_password','AuthController@reset_password')->name('api.reset_password');
     Route::post('resend_forgot_password_otp','AuthController@resend_forgot_password_otp')->name('api.resend_forgot_password_otp');
 
+    Route::post('/get_page','CMS@get_page');
+    Route::post('/get_faq','CMS@get_faq');
+    Route::post('/get_help','CMS@gethelp');
+
     Route::post('/update_user_profile','UsersController@update_user_profile');
     Route::post('/change_phone_number','UsersController@change_phone_number');
     Route::post('/validate_otp_phone_email_update','UsersController@validate_otp_phone_email_update');

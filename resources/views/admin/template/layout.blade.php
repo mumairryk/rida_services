@@ -195,46 +195,6 @@ $_current_user = \Request::get('_current_user');
                             </li>
                             @endif                        
                             
-                             @if(check_permission('project_purpose','View'))
-                            <li>
-                                <a class="{{preg_match('/admin\/project_purpose/', $CurrentUrl) ? 'active' : null}}" href="{{ url('admin/project_purpose') }}"><span class="text">Project Purpose</span></a>
-                            </li>
-                            @endif  
-
-                             @if(check_permission('room','View'))
-                            <li>
-                                <a class="{{preg_match('/admin\/room/', $CurrentUrl) ? 'active' : null}}" href="{{ url('admin/room') }}"><span class="text">Room Type</span></a>
-                            </li>
-                            @endif
-
-                             @if(check_permission('square_footage','View'))
-                            <li>
-                                <a class="{{preg_match('/admin\/square_footage/', $CurrentUrl) ? 'active' : null}}" href="{{ url('admin/square_footage') }}"><span class="text">Square footage</span></a>
-                            </li>
-                            @endif 
-
-                             @if(check_permission('aspect_of_room','View'))
-                            <li>
-                                <a class="{{preg_match('/admin\/aspect_of_room/', $CurrentUrl) ? 'active' : null}}" href="{{ url('admin/aspect_of_room') }}"><span class="text">Aspect of room</span></a>
-                            </li>
-                            @endif  
-
-                            @if(check_permission('type_of_property','View'))
-                            <li>
-                                <a class="{{preg_match('/admin\/type_of_property/', $CurrentUrl) ? 'active' : null}}" href="{{ url('admin/type_of_property') }}"><span class="text">Type of property</span></a>
-                            </li>
-                            @endif  
-
-                             @if(check_permission('current_project_status','View'))
-                            <li>
-                                <a class="{{preg_match('/admin\/current_project_status/', $CurrentUrl) ? 'active' : null}}" href="{{ url('admin/current_project_status') }}"><span class="text">Current project status</span></a>
-                            </li>
-                            @endif 
-
-                           
-
-                        
-                            
                             
                             @if(check_permission('country','View'))
                             <li>
@@ -264,6 +224,18 @@ $_current_user = \Request::get('_current_user');
                     </li> --}}
 
 
+                    @if(check_permission('questions','View'))
+                    <li class="nav-item {{preg_match('/admin\/questions/', $CurrentUrl) ? 'active' : null}}">
+                        <a href="{{ url('admin/questions') }}">
+                            <span class="icon">
+                                <i class='bx bx-cube'></i>
+                            </span>
+                            <span class="text"> Questions </span>
+                        </a>
+                    </li>
+                    @endif
+
+
                     
                     @if(check_permission('cms','View') || check_permission('faq','View') || check_permission('help','View') || check_permission('contact_settings','Edit') || check_permission('settings','Edit'))
                     <li class="nav-item {{preg_match('/admin\/orders/', $CurrentUrl) ? 'active' : null}}">
@@ -275,6 +247,8 @@ $_current_user = \Request::get('_current_user');
                         </a>
                     </li>
                     @endif
+
+
 
 
 
@@ -298,6 +272,8 @@ $_current_user = \Request::get('_current_user');
                                 <a class="{{preg_match('/admin\/faq/', $CurrentUrl) ? 'active' : null}}" href="{{ url('admin/faq') }}"> <span class="text">FAQ</span></a>
                             </li>
                             @endif
+
+
 
                             @if(check_permission('help','View'))
                             <li>

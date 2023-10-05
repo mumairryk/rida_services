@@ -350,6 +350,9 @@ Route::namespace('App\Http\Controllers\admin')->prefix('admin')->middleware('adm
     Route::get('settings', 'PagesController@settings');
     Route::post("setting_store", "PagesController@setting_store")->name('setting_store');
 
+    Route::resource("questions", "QuestionsController");
+    Route::match(array('GET', 'POST'), 'questions/sort', 'QuestionsController@sort');
+
     //FAQ
     Route::get("faq", "FaqController@index");
     Route::match(array('GET', 'POST'), 'faq/create', 'FaqController@create');
