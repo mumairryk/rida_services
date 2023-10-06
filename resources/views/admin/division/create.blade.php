@@ -6,7 +6,7 @@
     <div class="card mb-5">
         <div class="card-body">
             <div class="">
-                <form method="post" id="admin-form" action="{{ url('admin/save_category') }}" enctype="multipart/form-data"
+                <form method="post" id="admin-form" action="{{ url('admin/save_division') }}" enctype="multipart/form-data"
                     data-parsley-validate="true">
                     <input type="hidden" name="id" id="cid" value="{{ $id }}">
                     @csrf()
@@ -17,9 +17,9 @@
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Category Name<b class="text-danger">*</b></label>
+                                <label>Division Name<b class="text-danger">*</b></label>
                                 <input type="text" name="name" class="form-control" required
-                                    data-parsley-required-message="Enter Category Name" value="{{ $name }}">
+                                    data-parsley-required-message="Enter Division Name" value="{{ $name }}">
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -38,21 +38,21 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        {{-- <div class="col-md-6">
 
                             <div class="form-group">
-                                <label>Parent Category</label>
+                                <label>Parent Division</label>
                                 <select name="parent_id" class="form-control parent_cat">
                                     <option value="">None</option>
-                                    @foreach ($categories as $cat)
+                                    @foreach ($divisions as $cat)
                                         <option {{ $cat->id == $parent_id ? 'selected' : '' }} value="{{ $cat->id }}">
                                             {{ $cat->name }}</option>
                                     @endforeach;
                                 </select>
                             </div>
 
-                        </div>
-                        <!-- <input type="hidden" name="parent_id" value="0"> -->
+                        </div> --}}
+                        <input type="hidden" name="parent_id" value="0">
                         {{-- <div class="col-md-6">
                             <div class="form-group">
                                 <label>Image</label><br>
@@ -186,13 +186,13 @@
                             });
                         } else {
                             var m = res['message'] ||
-                                'Unable to save category. Please try again later.';
+                                'Unable to save division. Please try again later.';
                             App.alert(m, 'Oops!');
                         }
                     } else {
                         App.alert(res['message'], 'Success!');
                         setTimeout(function() {
-                            window.location.href = App.siteUrl('/admin/category');
+                            window.location.href = App.siteUrl('/admin/division');
                         }, 1500);
 
                     }

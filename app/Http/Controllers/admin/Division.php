@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Categories;
+use App\Models\Divisions;
 use Illuminate\Support\Str;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use DB;
 use Validator;
 
-class Category extends Controller
+class Division extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,22 +18,16 @@ class Category extends Controller
      */
     public function index()
     {
-        if (!check_permission('category','View')) {
+        if (!check_permission('division','View')) {
             abort(404);
         }
-        $page_heading = "Category";
-        $categories = Categories::where(['deleted' => 0])->orderBy('sort_order', 'asc')->get();
-        foreach ($categories as $key => $val) {
-            $child = Categories::where(['deleted' => 0,'parent_id' => $val->id])->orderBy('created_at', 'desc')->get();
-            $categories[$key]->child = $child;
+        $page_heading = "Division";
+        $divisions = Divisions::where(['deleted' => 0, 'parent_id' => 0])->orderBy('sort_order', 'asc')->get();
+        foreach ($divisions as $key => $val) {
+            $child = Divisions::where(['deleted' => 0,'parent_id' => $val->id])->orderBy('created_at', 'desc')->get();
+            $divisions[$key]->child = $child;
         }
-        foreach ($categories as $key => $val) {
-            $parent = Categories::where(['deleted' => 0,'id' => $val->parent_id])->first();
-
-            $categories[$key]->parent = isset($parent['name'])?$parent['name']:'';
-        }
-        
-        return view('admin.category.list', compact('page_heading', 'categories'));
+        return view('admin.division.list', compact('page_heading', 'divisions'));
     }
 
     /**
@@ -43,10 +37,10 @@ class Category extends Controller
      */
     public function create()
     {
-        if (!check_permission('category','Create')) {
+        if (!check_permission('division','Create')) {
             abort(404);
         }
-        $page_heading = "Category";
+        $page_heading = "Division";
         $mode = "create";
         $id = "";
         $name = "";
@@ -56,8 +50,8 @@ class Category extends Controller
         $active = "1";
         $banner_image = "";
         $category = [];
-        $categories = Categories::where(['deleted' => 0,'active'=>1, 'parent_id' => 0])->get();
-        return view("admin.category.create", compact('page_heading', 'category', 'mode', 'id', 'name','sort_order', 'parent_id', 'image', 'active', 'categories', 'banner_image'));
+        $categories = Divisions::where(['deleted' => 0,'active'=>1, 'parent_id' => 0])->get();
+        return view("admin.division.create", compact('page_heading', 'category', 'mode', 'id', 'name','sort_order', 'parent_id', 'image', 'active', 'categories', 'banner_image'));
     }
 
     /**
@@ -83,7 +77,7 @@ class Category extends Controller
             $errors = $validator->messages();
         } else {
             $input = $request->all();
-            $check_exist = Categories::where(['deleted' => 0, 'name' => $request->name, 'parent_id' => $request->parent_id])->where('id', '!=', $request->id)->get()->toArray();
+            $check_exist = Divisions::where(['deleted' => 0, 'name' => $request->name, 'parent_id' => $request->parent_id])->where('id', '!=', $request->id)->get()->toArray();
             if (empty($check_exist)) {
                 $ins = [
                     'name' => $request->name,
@@ -107,18 +101,18 @@ class Category extends Controller
                     }
                 }
                 if ($request->id != "") {
-                    $category = Categories::find($request->id);
+                    $division = Divisions::find($request->id);
                     $ins['slug'] = Str::slug($request->name);
-                    $category->update($ins);
+                    $division->update($ins);
                     $status = "1";
-                    $message = "Category updated succesfully";
+                    $message = "Division updated succesfully";
                 } else {
                     $ins['created_uid'] = session("user_id");
                     $ins['created_at'] = gmdate('Y-m-d H:i:s');
                     $ins['slug'] = Str::slug($request->name);
-                    Categories::create($ins);
+                    Divisions::create($ins);
                     $status = "1";
-                    $message = "Category added successfully";
+                    $message = "Division added successfully";
                 }
             } else {
                 $status = "0";
@@ -131,17 +125,6 @@ class Category extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
@@ -149,37 +132,25 @@ class Category extends Controller
      */
     public function edit($id)
     {
-        if (!check_permission('category','Edit')) {
+        if (!check_permission('division','Edit')) {
             abort(404);
         }
-        $category = Categories::find($id);
-        if ($category) {
+        $division = Divisions::find($id);
+        if ($division) {
             $page_heading = "Category ";
             $mode = "edit";
-            $id = $category->id;
-            $name = $category->name;
-            $sort_order = $category->sort_order;
-            $parent_id = $category->parent_id;
-            $image = $category->image;
-            $active = $category->active;
-            $banner_image = $category->banner_image;
-            $categories = Categories::where(['deleted' => 0, 'parent_id' => 0])->where('id', '!=', $id)->get();
-            return view("admin.category.create", compact('page_heading', 'category', 'mode', 'id', 'name','sort_order', 'parent_id', 'image', 'active', 'categories', 'banner_image'));
+            $id = $division->id;
+            $name = $division->name;
+            $sort_order = $division->sort_order;
+            $parent_id = $division->parent_id;
+            $image = $division->image;
+            $active = $division->active;
+            $banner_image = $division->banner_image;
+            $divisions = Divisions::where(['deleted' => 0, 'parent_id' => 0])->where('id', '!=', $id)->get();
+            return view("admin.division.create", compact('page_heading', 'division', 'mode', 'id', 'name','sort_order', 'parent_id', 'image', 'active', 'divisions', 'banner_image'));
         } else {
             abort(404);
         }
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
     }
 
     /**
@@ -194,8 +165,8 @@ class Category extends Controller
         $message = "";
         $o_data = [];
 
-        $category_count = Categories::where(['deleted' => 0, 'parent_id' => $id])->count();
-        if($category_count){
+        $division_count = Divisions::where(['deleted' => 0, 'parent_id' => $id])->count();
+        if($division_count){
             $message = "Sorry!.. You can't delete this parent category. First delete it's subcategories";
             echo json_encode(['status' => $status, 'message' => $message, 'o_data' => $o_data]);
             die();
@@ -224,44 +195,5 @@ class Category extends Controller
 
         echo json_encode(['status' => $status, 'message' => $message, 'o_data' => $o_data]);
 
-    }
-    public function change_status(Request $request)
-    {
-        $status = "0";
-        $message = "";
-        if (Categories::where('id', $request->id)->update(['active' => $request->status])) {
-            $status = "1";
-            $msg = "Successfully activated";
-            if (!$request->status) {
-                $msg = "Successfully deactivated";
-            }
-            $message = $msg;
-        } else {
-            $message = "Something went wrong";
-        }
-        echo json_encode(['status' => $status, 'message' => $message]);
-    }
-    public function sort(Request $request)
-    {
-        if ($request->ajax()) {
-            $status = 0;
-            $message = '';
-
-            $items = $request->items;
-            $items = explode(",", $items);
-            $sorted = Categories::sort_item($items);
-            if ($sorted) {
-                $status = 1;
-            }
-
-            echo json_encode(['status' => $status, 'message' => $message]);
-
-        } else {
-            $page_heading = "Sort Categories";
-
-            $list = Categories::where(['deleted' => 0])->orderBy('sort_order', 'asc')->get();
-            $back = url("admin/category");
-            return view("admin.sort", compact('page_heading', 'list','back'));
-        }
     }
 }
