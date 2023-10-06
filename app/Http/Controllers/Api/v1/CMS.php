@@ -142,14 +142,25 @@ class CMS extends Controller
             'oData' => $categories,
         ], 200);
     }
-    public function home(){
+    public function home($division=null){
       $user = '';
-      $banners = BannerModel::select('banner_image','product_id','category_id','division_id')->where('active',1)->where('type',1)->orderBy('created_at','desc')->get();
-      $banners2 = BannerModel::select('banner_image','product_id','category_id','division_id')->where('active',1)->where('type',2)->orderBy('created_at','desc')->get();
-      $banners3 = BannerModel::select('banner_image','product_id','category_id','division_id')->where('active',1)->where('type',3)->orderBy('created_at','desc')->get();
+      if($division){
+            $banners = BannerModel::select('banner_image','product_id','category_id','division_id')->where('active',1)->where('type',1)->where('division_id',$division)->orderBy('created_at','desc')->get();
+            $banners2 = BannerModel::select('banner_image','product_id','category_id','division_id')->where('active',1)->where('type',2)->where('division_id',$division)->orderBy('created_at','desc')->get();
+            $banners3 = BannerModel::select('banner_image','product_id','category_id','division_id')->where('active',1)->where('type',3)->where('division_id',$division)->orderBy('created_at','desc')->get();
 
 
-      $categories = Categories::select('id','name','image','banner_image')->where(['parent_id'=>0,'active'=>1,'deleted'=>0])->limit(6)->get();
+            $categories = Categories::select('id','name','image','banner_image')->where(['parent_id'=>0,'active'=>1,'deleted'=>0,'division_id'=>$division])->limit(6)->get();
+        }
+        else{
+            $banners = BannerModel::select('banner_image','product_id','category_id','division_id')->where('active',1)->where('type',1)->orderBy('created_at','desc')->get();
+            $banners2 = BannerModel::select('banner_image','product_id','category_id','division_id')->where('active',1)->where('type',2)->orderBy('created_at','desc')->get();
+            $banners3 = BannerModel::select('banner_image','product_id','category_id','division_id')->where('active',1)->where('type',3)->orderBy('created_at','desc')->get();
+
+
+            $categories = Categories::select('id','name','image','banner_image')->where(['parent_id'=>0,'active'=>1,'deleted'=>0])->limit(6)->get();      
+        }
+      
 
 
       $where['product.deleted'] = 0;

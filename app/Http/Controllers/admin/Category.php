@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Categories;
+use App\Models\Divisions;
 use Illuminate\Support\Str;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -56,8 +57,9 @@ class Category extends Controller
         $active = "1";
         $banner_image = "";
         $category = [];
+        $divisions = Divisions::where(['deleted' => 0,'active'=>1])->get();
         $categories = Categories::where(['deleted' => 0,'active'=>1, 'parent_id' => 0])->get();
-        return view("admin.category.create", compact('page_heading', 'category', 'mode', 'id', 'name','sort_order', 'parent_id', 'image', 'active', 'categories', 'banner_image'));
+        return view("admin.category.create", compact('page_heading', 'category', 'mode', 'id', 'name','sort_order', 'parent_id', 'image', 'active', 'categories', 'banner_image','divisions'));
     }
 
     /**
@@ -91,6 +93,7 @@ class Category extends Controller
                     'updated_at' => gmdate('Y-m-d H:i:s'),
                     'updated_uid' => session("user_id"),
                     'parent_id' => $request->parent_id ?? 0,
+                    'division_id' => $request->division_id ?? 0,
                     'active' => $request->active,
                 ];
 
@@ -127,6 +130,7 @@ class Category extends Controller
             }
 
         }
+
         echo json_encode(['status' => $status, 'message' => $message, 'errors' => $errors]);
     }
 
@@ -161,10 +165,12 @@ class Category extends Controller
             $sort_order = $category->sort_order;
             $parent_id = $category->parent_id;
             $image = $category->image;
+            $division_id = $category->division_id;
             $active = $category->active;
             $banner_image = $category->banner_image;
+            $divisions = Divisions::where(['deleted' => 0,'active'=>1])->get();
             $categories = Categories::where(['deleted' => 0, 'parent_id' => 0])->where('id', '!=', $id)->get();
-            return view("admin.category.create", compact('page_heading', 'category', 'mode', 'id', 'name','sort_order', 'parent_id', 'image', 'active', 'categories', 'banner_image'));
+            return view("admin.category.create", compact('page_heading', 'category', 'mode', 'id', 'name','sort_order', 'parent_id', 'image', 'active', 'categories', 'banner_image','divisions','division_id'));
         } else {
             abort(404);
         }
