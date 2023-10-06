@@ -85,60 +85,7 @@
                                 </td>
 
                             </tr>
-                            @foreach ($category->child as $child)
-                            <?php $i++; ?>
-                            <tr>
-                                <td>{{ $i }}</td>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <span>
-                                        @if ($child->image != '')
-                                            <img id="image-preview" style="width:100px; height:90px;"
-                                                class="img-responsive mb-2" data-image="{{ asset($child->image) }}"
-                                                src="{{ asset($child->image) }}">
-                                        @endif
-                                        </span>
-                                        <span class="ml-2">
-                                            <a href="#" class="yellow-text">{{ $child->name }}</a>
-                                            {{-- <span>{{ $child->parent_name }}</span> --}}
-                                        </span>
-                                    </div>
-                                </td>
-                                {{-- <td>{{ $category->name }}</td> --}}
-                                <td>
-                                    <label class="switch s-icons s-outline  s-outline-warning mt-2 mb-2 mr-2">
-                                        <input type="checkbox" class="change_status" data-id="{{ $child->id }}"
-                                            data-url="{{ url('admin/category/change_status') }}"
-                                            @if ($child->active) checked @endif>
-                                        <span class="slider round"></span>
-                                    </label>
-                                </td>
-                                <td>{{web_date_in_timezone($child->created_at,'d-M-Y h:i A')}}</td>
-                                <td class="text-center">
-                                    <div class="dropdown custom-dropdown">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink7"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                            <i class="flaticon-dot-three"></i>
-                                        </a>
-
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink7">
-                                            @if(check_permission('category','Edit'))
-                                            <a class="dropdown-item"
-                                                href="{{ url('admin/category/edit/' . $child->id) }}"><i
-                                                    class="flaticon-pencil-1"></i> Edit</a>
-                                            @endif 
-                                            @if(check_permission('category','Delete'))
-                                            <a class="dropdown-item" data-role="unlink"
-                                                data-message="Do you want to remove this category?"
-                                                href="{{ url('admin/category/delete/' . $child->id) }}"><i
-                                                    class="flaticon-delete-1"></i> Delete</a>
-                                            @endif       
-                                        </div>
-                                    </div>
-                                </td>
-
-                            </tr>
-                        @endforeach
+                            
                         @endforeach
                     </tbody>
                 </table>
