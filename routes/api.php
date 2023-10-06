@@ -22,7 +22,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::namespace('App\Http\Controllers\Api\v1')->prefix("v1")->name("api.v1.")->group(function() {
-    Route::get('/home', 'CMS@home')->name('home');
+    Route::post('/home', 'CMS@home')->name('home');
     
     Route::post('signup', 'AuthController@signup')->name('signup');
     Route::post('resend_phone_code', 'AuthController@resend_phone_code')->name('resend_phone_code');
