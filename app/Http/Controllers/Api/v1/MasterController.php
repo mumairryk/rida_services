@@ -13,6 +13,7 @@ use App\Models\Room;
 use App\Models\SquareFootage;
 use App\Models\TypeofProperty;
 use App\Classes\FaceReg;
+use App\Models\Divisions;
 
 class MasterController extends Controller
 {
@@ -21,6 +22,13 @@ class MasterController extends Controller
         $status = 1;
         $message = "project purpose data fetched successfully!";
         return response()->json(['status' => $status, 'message' => $message, 'Data' => $datamain], 200);
+   }
+
+   public function getDivisions(){
+        $datamain = Divisions::where(['deleted' => 0,'active'=>1])->get();
+        $status = 1;
+        $message = "Divisions data fetched successfully!";
+        return response()->json(['status' => $status, 'message' => $message, 'Data' => convert_all_elements_to_string($datamain)], 200);
    }
 
    public function getRoomType(){
