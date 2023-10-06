@@ -16,3 +16,4 @@ public/uploads
 .idea/*
 ffmpeg.exe
 ffprobe.exe
+.htaccess

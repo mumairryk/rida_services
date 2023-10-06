@@ -1104,6 +1104,7 @@ function GetDrivingDistance($lat1, $lat2, $long1, $long2)
    }
    function question_for($id)
    {
+     $value ="";
      if($id == 1)
      {
          $value = "Interior Designing";
@@ -1115,6 +1116,32 @@ function GetDrivingDistance($lat1, $lat2, $long1, $long2)
      if($id == 3)
      {
          $value = "Investing";
+     }
+     return $value;
+   }
+
+   function answer_type($id)
+   {
+    
+     if($id == 1)
+     {
+         $value = "Text field";
+     }
+     else if($id == 2)
+     {
+         $value = "Textarea";
+     }
+     else if($id == 3)
+     {
+         $value = "Radio";
+     }
+     else if($id == 4)
+     {
+         $value = "Check Box";
+     }
+     else
+     {
+         $value ="";
      }
      return $value;
    }
