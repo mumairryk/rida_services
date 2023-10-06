@@ -9,9 +9,9 @@
 @section('content')
     <div class="card mb-5">
         @if(check_permission('division','Create'))
-        <div class="card-header">
+        <!-- <div class="card-header">
             <a href="{{ url('admin/division/create') }}" class="btn-custom btn mr-2 mt-2 mb-2"><i class="fa-solid fa-plus"></i> Create Division</a>            
-        </div>
+        </div> -->
         @endif
         <div class="card-body">
             <div class="table-responsive">
