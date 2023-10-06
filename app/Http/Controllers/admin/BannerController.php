@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\BannerModel;
 use App\Models\Categories;
+use App\Models\Divisions;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -62,6 +63,7 @@ class BannerController extends Controller
                 $ins['type'] = $request->type;
                 $ins['banner_title'] = '';
                 $ins['category_id'] = $request->category_id ?? 0;
+                $ins['division_id'] = $request->division_id ?? 0;
                 $ins['product_id'] = $request->product_id ?? 0;
                 
                 $ins['created_at'] = gmdate('Y-m-d H:i:s');
@@ -87,7 +89,8 @@ class BannerController extends Controller
         } else {
             $page_heading = "Create App Banner";
             $categories = Categories::where(['deleted'=>0,'active'=>1])->get();
-            return view('admin.banner.create', compact('page_heading','categories'));
+            $divisions = Divisions::where(['deleted' => 0,'active'=>1])->get();
+            return view('admin.banner.create', compact('page_heading','categories','divisions'));
         }
 
     }
@@ -160,8 +163,9 @@ class BannerController extends Controller
         if ($banner) {
             $page_heading = "Edit App Banner";
             $categories = Categories::where(['deleted'=>0,'active'=>1])->get();
+            $divisions = Divisions::where(['deleted' => 0,'active'=>1])->get();
             $prds = \App\Models\ProductModel::select('product.id', 'product_name')->join('product_category','product_category.product_id','product.id')->where(['product.deleted' => 0, 'product.product_status' => 1,'product_category.category_id'=>$banner->category_id])->get();
-            return view('admin.banner.edit', compact('page_heading', 'banner','categories','prds'));
+            return view('admin.banner.edit', compact('page_heading', 'banner','categories','divisions','prds'));
         } else {
             abort(404);
         }
@@ -202,6 +206,7 @@ class BannerController extends Controller
             $ins['updated_at'] = gmdate('Y-m-d H:i:s');
             $ins['updated_by'] = session("user_id");
             $ins['category_id'] = $request->category_id ?? 0;
+            $ins['division_id'] = $request->division_id ?? 0;
             $ins['product_id'] = $request->product_id ?? 0;
             if ($file = $request->file("banner")) {
                 $dir = config('global.upload_path') . "/" . config('global.banner_image_upload_dir');

@@ -181,6 +181,12 @@ $_current_user = \Request::get('_current_user');
                                 <a class="{{preg_match('/admin\/category/', $CurrentUrl) ? 'active' : null}}" href="{{ url('admin/category') }}"><span class="text">Category</span></a>
                             </li>
                             @endif
+
+                            @if(check_permission('division','View'))
+                            <li>
+                                <a class="{{preg_match('/admin\/division/', $CurrentUrl) ? 'active' : null}}" href="{{ url('admin/division') }}"><span class="text">Division</span></a>
+                            </li>
+                            @endif
                           
                                              
                             @if(check_permission('attribute','View'))
