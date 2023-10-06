@@ -11,6 +11,7 @@ use App\Models\HelpModel;
 use App\Models\States;
 use App\Models\Services;
 use App\Models\BannerModel;
+use App\Models\Divisions;
 use App\Models\ProductModel;
 use DB;
 use Illuminate\Http\Request;
@@ -163,8 +164,12 @@ class CMS extends Controller
       $newproductlist = ProductModel::products_list($where, $filter, 5, 0)->get();
       $newproductlist = $this->product_inv($newproductlist, $user);
 
+
+      $divisions = Divisions::select('id','name','image')->where(['deleted' => 0, 'active' => 1])->get();
+
      
         $o_data['banners'] = $banners;
+        $o_data['divisions'] = $divisions;
         $o_data['category_list'] = $categories;
         $o_data['banners_2'] = $banners2;
         $o_data['banners_3'] = $banners3;
