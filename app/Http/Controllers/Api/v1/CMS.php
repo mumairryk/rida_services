@@ -181,6 +181,9 @@ class CMS extends Controller
         $o_data['banners_3'] = $banners3;
         $o_data['latest'] = $latestproductlist;
         $o_data['new'] = $newproductlist;
+
+        $o_data['recomented'] = $latestproductlist;
+        $o_data['bestselling'] = $latestproductlist;
         $o_data['view'] = $newproductlist;
 
       
