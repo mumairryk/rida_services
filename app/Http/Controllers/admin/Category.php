@@ -56,10 +56,11 @@ class Category extends Controller
         $image = "";
         $active = "1";
         $banner_image = "";
+        $division_id = "";
         $category = [];
         $divisions = Divisions::where(['deleted' => 0,'active'=>1])->get();
         $categories = Categories::where(['deleted' => 0,'active'=>1, 'parent_id' => 0])->get();
-        return view("admin.category.create", compact('page_heading', 'category', 'mode', 'id', 'name','sort_order', 'parent_id', 'image', 'active', 'categories', 'banner_image','divisions'));
+        return view("admin.category.create", compact('page_heading', 'category', 'mode', 'id', 'name','sort_order', 'parent_id', 'image', 'active', 'categories', 'banner_image','divisions','division_id'));
     }
 
     /**
