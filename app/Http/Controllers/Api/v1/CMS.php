@@ -142,8 +142,9 @@ class CMS extends Controller
             'oData' => $categories,
         ], 200);
     }
-    public function home($division=null){
+    public function home(Request $request){
       $user = '';
+      $division = $request->division;
       if($division){
             $banners = BannerModel::select('banner_image','product_id','category_id','division_id')->where('active',1)->where('type',1)->where('division_id',$division)->orderBy('created_at','desc')->get();
             $banners2 = BannerModel::select('banner_image','product_id','category_id','division_id')->where('active',1)->where('type',2)->where('division_id',$division)->orderBy('created_at','desc')->get();
