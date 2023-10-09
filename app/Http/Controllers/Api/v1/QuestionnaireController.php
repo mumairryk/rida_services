@@ -10,6 +10,7 @@ use App\Models\UserAdress;
 use App\Models\OrderStatusHistroy;
 use App\Models\PaymentReport;
 use App\Models\Enquiry;
+use App\Models\EnquiryDetails;
 use DB;
 use Illuminate\Http\Request;
 use Kreait\Firebase\Contract\Database;
@@ -118,20 +119,59 @@ class QuestionnaireController extends Controller
 
             $datainput = json_decode($request->answer,true);
 
-            foreach ($datainput as $key => $value) {
                $datains = new Enquiry;
                $datains->user_id = $user_id;
                $datains->type = $request->type;
-               $datains->question_id = $value['question_id'];
                $datains->status = 1;
-               $datains->answers = $value['answers'];
                $datains->created_at = gmdate('Y-m-d H:i:s');
                $datains->updated_at = gmdate('Y-m-d H:i:s');
                $datains->save();
+
+            foreach ($datainput as $key => $value) {
+               $datains1 = new EnquiryDetails;
+               $datains1->enquiry_id = $datains->id;
+               $datains1->question_id = $value['question_id'];
+               $datains1->answers = $value['answers'];
+               $datains1->created_at = gmdate('Y-m-d H:i:s');
+               $datains1->updated_at = gmdate('Y-m-d H:i:s');
+               $datains1->save();
             }
 
             $status = "1";
             $message = "Enquiry sent successfully";
+        }
+        return response()->json(['status' => $status, 'errors' => (object)$errors, 'message' => $message, 'oData' => (object)$o_data], 200);
+    }
+
+    public function my_enquiries(REQUEST $request)
+    {
+        $status = "1";
+        $message = "";
+        $o_data = [];
+        $errors = [];
+
+        $validator = Validator::make($request->all(), [
+            'access_token' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $status = "0";
+            $message = "Validation error occured";
+            $errors = $validator->messages();
+        } else {
+
+            $user_id = $this->validateAccesToken($request->access_token);
+            $type = $request->type;
+
+            $o_data['list'] = Enquiry::where('user_id',$user_id)->orderBy('id','desc')->paginate(10)->items();
+            foreach ($o_data['list'] as $key => $value) {
+                $o_data['list'][$key]->type_text = question_for($value->type);
+                $o_data['list'][$key]->date = web_date_in_timezone($value->created_at,'d F Y');
+                $o_data['list'][$key]->details = EnquiryDetails::select('question','answers')->where('enquiry_id',$value->id)->leftjoin('question','question.id','=','enquiry_details.question_id')->get();
+            }
+
+            $status = "1";
+            $message = "Enquiry List";
         }
         return response()->json(['status' => $status, 'errors' => (object)$errors, 'message' => $message, 'oData' => (object)$o_data], 200);
     }

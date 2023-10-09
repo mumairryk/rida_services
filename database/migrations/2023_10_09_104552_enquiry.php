@@ -17,9 +17,7 @@ class Enquiry extends Migration
             $table->id();
             $table->integer('user_id')->default(0);
             $table->integer('type')->default(0);
-            $table->integer('question_id')->default(0);
             $table->integer('status')->default(0);
-            $table->longText('answers')->nullable();
             $table->timestamps();
         });
     }
