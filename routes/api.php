@@ -83,6 +83,7 @@ Route::namespace('App\Http\Controllers\Api\v1')->prefix("v1")->name("api.v1.")->
 
 
    Route::post('/questionnaire','QuestionnaireController@questionnaire');
+   Route::post('/enquiry','QuestionnaireController@enquiry');
 
 
     Route::post('logout', 'AuthController@logout')->name('logout');

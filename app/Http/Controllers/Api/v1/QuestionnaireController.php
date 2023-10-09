@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\UserAdress;
 use App\Models\OrderStatusHistroy;
 use App\Models\PaymentReport;
+use App\Models\Enquiry;
 use DB;
 use Illuminate\Http\Request;
 use Kreait\Firebase\Contract\Database;
@@ -68,6 +69,7 @@ class QuestionnaireController extends Controller
 
         $validator = Validator::make($request->all(), [
             'access_token' => 'required',
+            'type' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -88,6 +90,48 @@ class QuestionnaireController extends Controller
 
             $o_data['list'] = convert_all_elements_to_string($datamain);
           
+        }
+        return response()->json(['status' => $status, 'errors' => (object)$errors, 'message' => $message, 'oData' => (object)$o_data], 200);
+    }
+
+    public function enquiry(REQUEST $request)
+    {
+        $status = "1";
+        $message = "";
+        $o_data = [];
+        $errors = [];
+
+        $validator = Validator::make($request->all(), [
+            'access_token' => 'required',
+            'type' => 'required',
+            'answer' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $status = "0";
+            $message = "Validation error occured";
+            $errors = $validator->messages();
+        } else {
+
+            $user_id = $this->validateAccesToken($request->access_token);
+            $type = $request->type;
+
+            $datainput = json_decode($request->answer,true);
+
+            foreach ($datainput as $key => $value) {
+               $datains = new Enquiry;
+               $datains->user_id = $user_id;
+               $datains->type = $request->type;
+               $datains->question_id = $value['question_id'];
+               $datains->status = 1;
+               $datains->answers = $value['answers'];
+               $datains->created_at = gmdate('Y-m-d H:i:s');
+               $datains->updated_at = gmdate('Y-m-d H:i:s');
+               $datains->save();
+            }
+
+            $status = "1";
+            $message = "Enquiry sent successfully";
         }
         return response()->json(['status' => $status, 'errors' => (object)$errors, 'message' => $message, 'oData' => (object)$o_data], 200);
     }
