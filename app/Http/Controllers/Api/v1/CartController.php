@@ -731,11 +731,11 @@ class CartController extends Controller
                     $temp_order_prds->save();
                 }
                 $wallet_amount_used = 0;
-                if ($request->payment_type == 3 || $request->payment_type == 4) {
+                if ($request->payment_type == 3 || $request->payment_type == 4 || $request->payment_type == 2) {
                     $o_data = $this->payment_init_stripe($payment_token = $temp_id, $invoice_id = $temp_id, $amount_to_pay, $wallet_amount_used, $user_id, $request->address_id, $cart_details['tax_amount'],$request);
                     $status = "1";
                     $message = "";
-                } else if($request->payment_type == 2)
+                } else if($request->payment_type == 20)
                 {
                     try {
                         $user = User::where(['id' => $user_id])->get()->first();
