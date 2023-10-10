@@ -972,5 +972,20 @@ function validateNumber(elem) {
                 });
             }
         });
+        $('body').off('change', '#txt_product_type');
+        $('body').on('change', '#txt_product_type', function(e) {
+        var type = $(this).val();
+        if(type == 2)
+        {
+
+            $('#product-single-variant').find('[required]').prop('required', false);
+        }
+        else
+        {
+            $('#product-single-variant').find('[required]').prop('required', true); 
+        }
+   
+});
+        
     </script>
 @stop
