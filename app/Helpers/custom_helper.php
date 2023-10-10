@@ -888,8 +888,14 @@ function decryptor( $string) {
     $product_row_data["stock_quantity"]      = $row->stock_quantity;
     $product_row_data["store_id"]          = $row->store_id;
     $product_row_data["store_name"]          = $row->store_name;
+    $product_row_data["store_logo"]          = asset($row->logo);
     $product_row_data["store_avg_rating"]          = 0;
     $product_row_data["store_total_reviews"]          = 0;
+
+
+    $product_row_data["product_avg_rating"]          = 0;
+    $product_row_data["product_total_reviews"]          = 0;
+    $product_row_data["product_reviews"]          = [];
 
     // if ($row->size_chart) {
     //     $product_row_data["size_chart"] = asset($row->size_chart);

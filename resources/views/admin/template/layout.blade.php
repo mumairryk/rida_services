@@ -233,7 +233,37 @@ $_current_user = \Request::get('_current_user');
                  
 
 
-                     @if(check_permission('questions','View'))
+                     @if(check_permission('enquiry','View'))
+                    <li class="nav-item nav-item-has-children {{preg_match('/admin\/enquiry/', $CurrentUrl) || preg_match('/admin\/enquiry/', $CurrentUrl) || preg_match('/admin\/enquiry/', $CurrentUrl) ? 'active' : null}}">
+                        <a href="#0" class="{{preg_match('/admin\/enquiry/', $CurrentUrl) || preg_match('/admin\/enquiry/', $CurrentUrl) || preg_match('/admin\/product/', $CurrentUrl) ? '' : 'collapsed'}}" data-toggle="collapse" data-auto-close="outside" data-target="#ddmenu_33" aria-controls="ddmenu_3" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="icon">
+                                <i class='bx bx-box'></i>
+                            </span>
+                            <span class="text"> Enquiry </span>
+                        </a>
+                        <ul id="ddmenu_33" class="collapse dropdown-nav {{preg_match('/admin\/enquiry/', $CurrentUrl) || preg_match('/admin\/enquiry/', $CurrentUrl) || preg_match('/admin\/questions/', $CurrentUrl) ? 'show' : null}}">
+
+                            @if(check_permission('enquiry','View'))
+                            <li>
+                                <a class="{{preg_match('/admin\/enquiry\?question_for=1/', \Request::getRequestUri()) ? 'active' : null}}" href="{{ url('admin/enquiry?question_for=1') }}"> <span class="text">Enquiry - Interior Designing</span></a>
+                            </li>
+                            @endif
+                            @if(check_permission('enquiry','View'))
+                           <li>
+                                <a class="{{preg_match('/admin\/enquiry\?question_for=2/', \Request::getRequestUri()) ? 'active' : null}}" href="{{ url('admin/enquiry?question_for=2') }}"> <span class="text">Enquiry - Contracting</span></a>
+                            </li> 
+                            @endif
+                            @if(check_permission('enquiry','View'))
+                            <li>
+                                <a class="{{preg_match('/admin\/enquiry\?question_for=3/', \Request::getRequestUri()) ? 'active' : null}}" href="{{ url('admin/enquiry?question_for=3') }}"> <span class="text">Enquiry - Investing</span></a>
+                            </li>
+                            @endif
+                        </ul>
+                    </li>
+                    @endif
+
+
+                    @if(check_permission('questions','View'))
                     <li class="nav-item nav-item-has-children {{preg_match('/admin\/questions/', $CurrentUrl) || preg_match('/admin\/questions/', $CurrentUrl) || preg_match('/admin\/questions/', $CurrentUrl) ? 'active' : null}}">
                         <a href="#0" class="{{preg_match('/admin\/questions/', $CurrentUrl) || preg_match('/admin\/questions/', $CurrentUrl) || preg_match('/admin\/product/', $CurrentUrl) ? '' : 'collapsed'}}" data-toggle="collapse" data-auto-close="outside" data-target="#ddmenu_32" aria-controls="ddmenu_3" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="icon">

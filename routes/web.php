@@ -350,6 +350,7 @@ Route::namespace('App\Http\Controllers\admin')->prefix('admin')->middleware('adm
     
     Route::match(array('GET', 'POST'), 'questions/sort', 'QuestionsController@sort');
     Route::resource("questions", "QuestionsController");
+    Route::resource("enquiry", "EnquiryController");
     
 
     //FAQ

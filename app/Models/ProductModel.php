@@ -1195,7 +1195,7 @@ class ProductModel extends Model
         $where['product.id'] = $product_id;
        
 
-        $res = ProductModel::select('product.*', 'product_category.category_id AS category_id', 'category.name as category_name', 'product_selected_attribute_list.*','brand.name as brand_name','store_id','users.name as store_name')->leftjoin('product_category', 'product_category.product_id', 'product.id')->leftjoin('category', 'category.id', 'product_category.category_id')->leftjoin('brand', 'brand.id', 'product.brand')->where('product_category.category_id', '!=', null)->leftjoin('users','users.id','=','product.store_id')->leftjoin('product_selected_attribute_list', 'product_selected_attribute_list.product_id', 'product.id');
+        $res = ProductModel::select('product.*', 'product_category.category_id AS category_id', 'category.name as category_name', 'product_selected_attribute_list.*','brand.name as brand_name','store_id','users.name as store_name','vendor_details.logo')->leftjoin('product_category', 'product_category.product_id', 'product.id')->leftjoin('category', 'category.id', 'product_category.category_id')->leftjoin('brand', 'brand.id', 'product.brand')->where('product_category.category_id', '!=', null)->leftjoin('users','users.id','=','product.store_id')->leftjoin('product_selected_attribute_list', 'product_selected_attribute_list.product_id', 'product.id')->leftjoin('vendor_details','vendor_details.user_id','=','users.id');
         if ($product_attribute_id) {
             $res->where('product_selected_attribute_list.product_attribute_id', $product_attribute_id);
         }
