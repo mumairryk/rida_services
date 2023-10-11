@@ -388,7 +388,7 @@ class CartController extends Controller
         $cart_total = round($cart_total, 2);
         $grand_total = round($grand_total, 2);
         $tax_amount = round($tax_amount, 2);
-        return ['cart_total' => (string)$cart_total,'sub_total' => (string)$cart_total, 'tax_amount' => (string)$tax_amount, 'discount' => "0",'delivery_charge'=>(string)$delivery_charge, 'grand_total' => (string)$grand_total, 'cart_count' => (string)$cart_count, 'cart_items' => $cart_items];
+        return ['cart_total' => (string)$cart_total,'sub_total' => (string)$cart_total, 'tax_amount' => (string)$tax_amount, 'discount' => "0",'delivery_charge'=>(string)$delivery_charge, 'grand_total' => (string)$grand_total, 'cart_count' => (string)$cart_count, 'cart_items' => convert_all_elements_to_string($cart_items)];
     }
     public function apply_coupon(Request $request)
     {
