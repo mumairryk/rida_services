@@ -253,7 +253,7 @@ class CartController extends Controller
 
             }
             $o_data = $this->process_cart($user_id,$request->device_cart_id,$address);
-            $de_address = new \stdClass;
+            $de_address = $address;
             if($address)
             {
              $de_address = $address->toArray();   

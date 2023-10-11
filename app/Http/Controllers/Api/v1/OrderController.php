@@ -212,7 +212,12 @@ class OrderController extends Controller
                 $order->delivery_charge = $order->shipping_charge;
                 // $order->grand_total = $order->shipping_charge + $order->grand_total;
                 $order->grand_total =  $order->grand_total;
-                $order->address = \App\Models\UserAdress::get_address_details($order->address_id);
+                $address_user = \App\Models\UserAdress::get_address_details($order->address_id);
+                if(!$address_user)
+                {
+                $address_user =  new \stdClass;
+                }
+                $order->address = $address_user;
                 $products = $order->products;
                 $today = gmdate("Y-m-d");
                 foreach ($products as $pkey => $pval) {
