@@ -888,14 +888,27 @@ function decryptor( $string) {
     $product_row_data["stock_quantity"]      = $row->stock_quantity;
     $product_row_data["store_id"]          = $row->store_id;
     $product_row_data["store_name"]          = $row->store_name;
-    $product_row_data["store_logo"]          = asset($row->logo);
-    $product_row_data["store_avg_rating"]          = 0;
-    $product_row_data["store_total_reviews"]          = 0;
+    $product_row_data["store_logo"]          = "";    
+    if($row->logo)
+    {
+     $product_row_data["store_logo"]          = asset($row->logo);   
+    }
+   
+    
+    $product_row_data["store_avg_rating"]          = App\Models\Rating::avg_rating(['type'=>2,'vendor_id'=>$row->store_id]);;
+    $product_row_data["store_total_reviews"]          = App\Models\Rating::total_rating(['type'=>2,'vendor_id'=>$row->store_id]);
 
 
-    $product_row_data["product_avg_rating"]          = 0;
-    $product_row_data["product_total_reviews"]          = 0;
+    $product_row_data["product_avg_rating"]          = App\Models\Rating::avg_rating(['type'=>1,'product_id'=>$row->product_id]);
+    $product_row_data["product_total_reviews"]          = App\Models\Rating::total_rating(['type'=>1,'product_id'=>$row->product_id]);
     $product_row_data["product_reviews"]          = [];
+
+    $reviews = App\Models\Rating::select('user_id','ratings.rating','title','comment','name as user_name','user_image','ratings.created_at')->where(['type'=>1,'product_id'=>$row->product_id])->leftjoin('users','users.id','=','ratings.user_id')->get(); 
+    foreach ($reviews as $key => $value) {
+        
+    }
+
+    $product_row_data["product_reviews"]          = $reviews;
 
     // if ($row->size_chart) {
     //     $product_row_data["size_chart"] = asset($row->size_chart);

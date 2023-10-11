@@ -40,6 +40,7 @@ class RatingController extends Controller
                 $ins['order_id']   = $request->order_id;
                 $purchasestatus = OrderProductsModel::join('orders','orders.order_id','=','order_products.order_id')
                 ->where(['orders.user_id'=>$user_id,'orders.status'=>config('global.order_status_delivered'),'product_id'=>$request->product_id,'product_attribute_id'=>$request->product_variant_id])->get()->count();
+                $purchasestatus = 1;//remove for purchased checking
                
             }
             if($request->type == 2)//vendor
@@ -56,6 +57,7 @@ class RatingController extends Controller
                 $ins['service_id']           = $request->service_id;
                 $purchasestatus = OrderServiceItemsModel::join('orders_services','orders_services.order_id','=','orders_services_items.order_id')
                 ->where(['service_id'=>$request->service_id,'user_id'=>$user_id,'orders_services_items.order_status'=>4])->count();
+
             }
             
 
