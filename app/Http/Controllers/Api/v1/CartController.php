@@ -253,11 +253,12 @@ class CartController extends Controller
 
             }
             $o_data = $this->process_cart($user_id,$request->device_cart_id,$address);
-            $o_data['default_address'] = $address ;
-            $o_data['address_list'] = UserAdress::get_address_list($user_id);
+            $o_data['default_address'] = convert_all_elements_to_string($address->toArray());
+            $useraddress = UserAdress::get_address_list($user_id);
+            $o_data['address_list'] = convert_all_elements_to_string($useraddress->toArray());
         }
 
-        return response()->json(['status' => $status, 'message' => $message, 'errors' => $errors, 'oData' => $o_data]);
+        return response()->json(['status' => $status, 'message' => $message, 'errors' => $errors, 'oData' =>$o_data]);
     }
     public function update_cart(Request $request)
     {
