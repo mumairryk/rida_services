@@ -215,9 +215,13 @@ class OrderController extends Controller
                 $address_user = \App\Models\UserAdress::get_address_details($order->address_id);
                 if(!$address_user)
                 {
-                $address_user =  new \stdClass;
+                $address_user =  (object) null;
                 }
-                $order->address = $address_user;
+                else
+                {
+                 $address_user = convert_all_elements_to_string($address_user->toArray());   
+                }
+                $order->address =  $address_user;
                 $products = $order->products;
                 $today = gmdate("Y-m-d");
                 foreach ($products as $pkey => $pval) {
@@ -270,8 +274,9 @@ class OrderController extends Controller
                 }
                 $order->products = $products;
                 $order->currency_code = config('global.default_currency_code');
-            }
+            } 
             $o_data = $order ? convert_all_elements_to_string($order->toArray()) : [];
+            $o_data['address'] = (object) $address_user;
         }
         return response()->json(['status' => $status, 'errors' => (object)$errors, 'message' => $message, 'oData' => (object)$o_data], 200);
     }
