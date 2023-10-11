@@ -718,13 +718,13 @@ class CartController extends Controller
 
                     $temp_order_prds->product_id = $val->product_id;
                     $temp_order_prds->product_attribute_id = $val->product_attribute_id;
-                    $temp_order_prds->product_type = isset($val['product_details']['product_type']) ? $val['product_details']['product_type'] : 1;
+                    $temp_order_prds->product_type = isset($val->product_details->product_type) ? $val->product_details->product_type : 1;
                     $temp_order_prds->quantity = $val->quantity;
-                    $temp_order_prds->price = $val['product_details']['sale_price'];
-                    $temp_order_prds->discount = isset($val['product_details']['coupon_discount']) ? $val['product_details']['coupon_discount'] : 0;
-                    $temp_order_prds->total = $val['product_details']['total_amount'];
+                    $temp_order_prds->price = $val->product_details->sale_price;
+                    $temp_order_prds->discount = isset($val->product_details->coupon_discount) ? $val->product_details->coupon_discount : 0;
+                    $temp_order_prds->total = $val->product_details->total_amount;
                     $temp_order_prds->grand_total = $temp_order_prds->total - $temp_order_prds->discount;
-                    $temp_order_prds->vendor_id = $val['product_details']['product_vender_id'];
+                    $temp_order_prds->vendor_id = $val->product_details->product_vender_id;
                     
                     $temp_order_prds->vendor_commission = 0;
                     $temp_order_prds->shipping_charge = 0;
