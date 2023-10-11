@@ -253,9 +253,18 @@ class CartController extends Controller
 
             }
             $o_data = $this->process_cart($user_id,$request->device_cart_id,$address);
-            $o_data['default_address'] = convert_all_elements_to_string($address->toArray());
+            $de_address = $address;
+            if($address)
+            {
+             $de_address = $address->toArray();   
+            }
+            $o_data['default_address'] = convert_all_elements_to_string($de_address);
             $useraddress = UserAdress::get_address_list($user_id);
-            $o_data['address_list'] = convert_all_elements_to_string($useraddress->toArray());
+            if(count($useraddress))
+            {
+             $useraddress = $useraddress->toArray();  
+            }
+            $o_data['address_list'] = convert_all_elements_to_string($useraddress);
         }
 
         return response()->json(['status' => $status, 'message' => $message, 'errors' => $errors, 'oData' =>$o_data]);
