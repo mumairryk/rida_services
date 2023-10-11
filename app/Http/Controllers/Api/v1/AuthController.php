@@ -315,7 +315,7 @@ class AuthController extends Controller
             'token_type' => 'Bearer',
             'expires_at' => Carbon::parse($tokenResult->expires_at)->toDateTimeString(),
             'firebase_user_key' => $user->firebase_user_key,
-            'user' => $users,
+            'user' => convert_all_elements_to_string($users),
         ]);
     }
     public function email_login(Request $request)
