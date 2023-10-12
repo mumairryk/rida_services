@@ -773,6 +773,7 @@ function validateNumber(elem) {
             'image/png',
             'image/jpg',
             'image/jpeg',
+            'image/webp',
             'image/svg+xml'
         ],
     }

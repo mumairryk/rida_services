@@ -392,7 +392,17 @@ class ProductController extends Controller
                         $product_variations[$attr_row->attribute_id]['attribute_values'][$attr_row->attribute_values_id]['attribute_value_color'] = $attr_row->attribute_color;
                     }
                     if ($attr_row->attribute_type === 'radio_image') {
-                        $t_image = $attr_row->attribute_value_image;
+                        $getimage = ProductModel::select('product_selected_attribute_list.image')->where('id',$product['product_id'])->leftjoin('product_selected_attribute_list','product_selected_attribute_list.product_id','product.id')->where('product_attribute_id',$attr_row->product_attribute_id)->first();
+                         $t_image = $attr_row->attribute_value_image;
+                        if($getimage)
+                        {
+                            $product_images = explode(",", $getimage->image);
+                            $product_images = array_values(array_filter($product_images));
+                            $product_image  = (count($product_images) > 0) ? $product_images[0] : $row->image;
+                            $t_image = get_uploaded_image_url( $product_image, 'product_image_upload_dir', 'placeholder.png' );
+                        }
+                        
+                        
 
                         $product_variations[$attr_row->attribute_id]['attribute_values'][$attr_row->attribute_values_id]['attribute_value_image'] = $t_image;
                     }
