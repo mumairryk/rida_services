@@ -108,6 +108,13 @@
                                                 <input type="text" class="form-control flatpickr-input" data-date-format="yyyy-mm-dd" name="vat_expiry_date" value="{{empty($vendor->vat_reg_expiry) ? '': date('Y-m-d', strtotime($vendor->vat_reg_expiry))}}" required data-parsley-required-message="Enter Vat Expiry Date" data-parsley-dategttoday data-parsley-trigger="change">
                                             </div>
                                         </div> 
+
+                                        <div class="col-sm-4 col-xs-12" style="display: block">
+                                            <div class="form-group">
+                                                <label>Delivery in (days) <span style="color:red;">*<span></span></span></label>
+                                                <input type="number" class="form-control"  name="deliverydays" value="{{empty($vendor->deliverydays) ? '':$vendor->deliverydays}}" required data-parsley-required-message="Enter Delivery in (days)" >
+                                            </div>
+                                        </div> 
                                         
                                         <!-- <div class="col-sm-4 col-xs-12">
                                             <div class="form-group">

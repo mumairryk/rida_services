@@ -218,6 +218,7 @@ class VendorsController extends Controller
                  $vendordatils->identy2_type           = 1;//$request->identity_file_name_2;
                  $vendordatils->company_identy1_type           = $request->company_identity_value ?? 1;
                  $vendordatils->company_identy2_type           = 1;//$request->residential_proff_value;
+                 $vendordatils->deliverydays      = $request->deliverydays ?? 0;
 
                  // $vendordatils->holiday_dates           = $request->holiday_dates;
                     $holiday_dates = explode(',', $request->holiday_dates);
