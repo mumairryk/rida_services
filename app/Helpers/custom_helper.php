@@ -303,11 +303,11 @@ function send_email($to, $subject, $mailbody)
         $mail->isSMTP();
         $mail->Host = "smtp.gmail.com";
         $mail->SMTPAuth = true;
-        $mail->Username = "hopniger@gmail.com";
-        $mail->Password = "inwszdmvtmzqtzii";
+        $mail->Username = "homebuilderuae2023@gmail.com";
+        $mail->Password = "jokteoqpxipkwvct";
         $mail->SMTPSecure = "STARTTLS";
         $mail->Port = 587;
-        $mail->setFrom("hopniger@gmail.com","HOP");
+        $mail->setFrom("homebuilderuae2023@gmail.com","Home Builder");
         $mail->addAddress($to);
         $mail->isHTML(true);
         $mail->Subject = $subject;
