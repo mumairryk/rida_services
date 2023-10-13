@@ -64,7 +64,7 @@
                         <div class="custom-file">
                             <input type="file" class="custom-file-input jqv-input" name="banner"
                                 data-role="file-image" data-preview="image-preview" required
-                                data-parsley-required-message="image is required" name="upload_image" id="banner" data-parsley-imagedimensionsss="1920X1079" data-parsley-trigger="change" data-parsley-fileextension="jpg,png,gif,jpeg"
+                                data-parsley-required-message="image is required" name="upload_image" id="banner" data-parsley-imagedimensionsss="1920X1079" data-parsley-trigger="change" data-parsley-fileextension="jpg,png,gif,jpeg,webp"
                                 data-parsley-fileextension-message="Only files with type jpg,png,gif,jpeg are supported" data-parsley-max-file-size="5120" data-parsley-max-file-size-message="Max file size should be 5MB" accept="image/*">
                             <label class="custom-file-label" for="customFile">Choose file</label>
                         </div>
