@@ -12,28 +12,30 @@
             <form method="post" action="{{ url('/admin/banner/create') }}" id="admin-form" enctype="multipart/form-data" data-parsley-validate="true">
                 @csrf
                 <div class="row  d-flex justify-content-between align-items-center">
-                    
-                    <div class="col-md-6 form-group select-category-form-group">
-                        <label>Category</label>
-                        <select class="form-control select2"
-                            name="category_id" data-role="category-change" data-input-prd="prd-id">
-                            <option value="">Select Category</option>
-                            @foreach($categories as $key => $val)
-                                <option value="{{$val->id}}">{{$val->name}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
                     <div class="col-md-6 form-group select-category-form-group">
                         <label>Division</label>
                         <select class="form-control select2"
-                            name="division_id" data-role="category-change" data-input-prd="prd-id">
+                            name="division_id" id="division-change" data-input-prd="prd-id">
                             <option value="">Select Division</option>
                             @foreach($divisions as $key => $val)
                                 <option value="{{$val->id}}">{{$val->name}}</option>
                             @endforeach
                         </select>
                     </div>
+
+
+                    <div class="col-md-6 form-group select-category-form-group">
+                        <label>Category</label>
+                        <select class="form-control select2"
+                            name="category_id" data-role="category-change" data-input-prd="prd-id">
+                            <option value="">Select Category</option>
+                           <!--  @foreach($categories as $key => $val)
+                                <option value="{{$val->id}}">{{$val->name}}</option>
+                            @endforeach -->
+                        </select>
+                    </div>
+
+                    
 
                     <div class="col-md-6 form-group">
                         <label>Product</label>
@@ -160,6 +162,23 @@
                 }
             });
         });
+
+$('body').off('change', '#division-change');
+$('body').on('change', '#division-change', function(e) {
+    var ctid = $(this).val();
+    $.ajax({
+     dataType: "json",
+     url: "{{url('admin/banner/get_category')}}?division="+ctid,
+     success: function(data){
+      $("#state").empty();
+      $("#state").append('<option value="">All Regions</option>');
+      $.each(data, function(index) {
+        $("#state").append('<optionB value=' + data[index].id +' >'+data[index].name+'</option>');
+      });
+    }
+  })
+});
+
 
 
     </script>

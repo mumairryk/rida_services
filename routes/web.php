@@ -337,6 +337,8 @@ Route::namespace('App\Http\Controllers\admin')->prefix('admin')->middleware('adm
     Route::post("banner/update", "BannerController@update");
     Route::delete("banner/delete/{id}", "BannerController@delete");
 
+    Route::get("banner/get_category", "BannerController@get_category");
+
 
     Route::get('cms_pages', 'PagesController@index')->name('cms_pages');
     Route::get('page/create', 'PagesController@create')->name('cms_pages.add');

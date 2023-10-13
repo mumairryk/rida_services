@@ -300,5 +300,16 @@ class BannerController extends Controller
     //     $message = "Banner removed successfully";
     //     echo json_encode(['status' => $status, 'message' => $message]);
     // }
+    
+    public function get_category($ctid)
+    {
+    $query= Categories::where('states',array('country_id'=>$ctid));
+        $data=$query->result_array();
+        if($query->num_rows()==0)
+        { $data ="0"; }
+        echo  json_encode($data);
+
+     
+     }
 
 }

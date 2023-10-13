@@ -84,7 +84,7 @@ class UsersController extends Controller
             if ($data->count() > 0) {
                 $user = $data->first();
                 $o_data['data'] = convert_all_elements_to_string($user->toArray());
-                $o_data['data']['id'] = $user->id;
+                $o_data['data']['id'] = (string) $user->id;
                 $status = "1";
                 $message = "data fetched Successfully";
             } else {
