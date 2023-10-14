@@ -11,14 +11,15 @@
         <div class="card-body">
             <form method="post" action="{{ url('/admin/banner/create') }}" id="admin-form" enctype="multipart/form-data" data-parsley-validate="true">
                 @csrf
+                <input type="hidden" name="id" value="{{$datamain->id??''}}">
                 <div class="row  d-flex justify-content-between align-items-center">
                     <div class="col-md-6 form-group select-category-form-group">
                         <label>Division</label>
                         <select class="form-control select2"
-                            name="division_id" id="division-change" data-input-prd="prd-id">
+                            name="division_id" id="division-change" data-input-prd="prd-id" required>
                             <option value="">Select Division</option>
                             @foreach($divisions as $key => $val)
-                                <option value="{{$val->id}}">{{$val->name}}</option>
+                                <option value="{{$val->id}}" {{!empty($datamain->division_id) && $datamain->division_id == $val->id ? 'selected' : null;}}>{{$val->name}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -27,11 +28,11 @@
                     <div class="col-md-6 form-group select-category-form-group">
                         <label>Category</label>
                         <select class="form-control select2"
-                            name="category_id" data-role="category-change" data-input-prd="prd-id">
+                            name="category_id" data-role="category-change" id="catbydiv" data-input-prd="prd-id">
                             <option value="">Select Category</option>
-                           <!--  @foreach($categories as $key => $val)
-                                <option value="{{$val->id}}">{{$val->name}}</option>
-                            @endforeach -->
+                            @foreach($categories as $key => $val)
+                                <option value="{{$val->id}}" {{!empty($datamain->category_id) && $datamain->category_id == $val->id ? 'selected' : null;}}>{{$val->name}}</option>
+                            @endforeach
                         </select>
                     </div>
 
@@ -41,15 +42,18 @@
                         <label>Product</label>
                         <select name="product_id" class="form-control select2" id="prd-id">
                             <option value="">Select Category First</option>
+                             @foreach($prds as $key => $val)
+                                <option {{!empty($datamain->product_id) && $datamain->product_id == $val->id ? 'selected' : null;}} value="{{$val->id}}">{{$val->product_name}}</option>
+                            @endforeach
                         </select>
                     </div>
 
                     <div class="col-md-6 form-group">
                         <label>Banner Type</label>
                         <select name="type" class="form-control select2" id="prd-id">
-                            <option value="1">Main banner</option>
-                            <option value="2">Secondary banner</option>
-                            <option value="3">Tertiary Banner</option>
+                            <option value="1" {{!empty($datamain->type) && $datamain->type == 1 ? 'selected' : null;}}>Main banner</option>
+                            <option value="2" {{!empty($datamain->type) && $datamain->type == 2 ? 'selected' : null;}}>Secondary banner</option>
+                            <option value="3" {{!empty($datamain->type) && $datamain->type == 3 ? 'selected' : null;}}>Tertiary Banner</option>
                         </select>
                     </div>
 
@@ -60,12 +64,17 @@
                             <option value="0">Inactive</option>
                         </select>
                     </div>
+                   @if(!empty($datamain->banner_image))
+                     <div class="col-md-6 form-group" >
+                        <img id="image-preview" style="width:192px; height:108px;" class="img-responsive mb-1"  data-image="{{$datamain->banner_image}}" src="{{$datamain->banner_image}}">
+                    </div>
+                    @endif
 
                     <div class="col-md-6 form-group">
                         <label>Upload Banner<b class="text-danger">*</b></label>
                         <div class="custom-file">
                             <input type="file" class="custom-file-input jqv-input" name="banner"
-                                data-role="file-image" data-preview="image-preview" required
+                                data-role="file-image" data-preview="image-preview" {{!empty($datamain->id) ? '' : 'required';}}
                                 data-parsley-required-message="image is required" name="upload_image" id="banner" data-parsley-imagedimensionsss="1920X1079" data-parsley-trigger="change" data-parsley-fileextension="jpg,png,gif,jpeg,webp"
                                 data-parsley-fileextension-message="Only files with type jpg,png,gif,jpeg are supported" data-parsley-max-file-size="5120" data-parsley-max-file-size-message="Max file size should be 5MB" accept="image/*">
                             <label class="custom-file-label" for="customFile">Choose file</label>
@@ -170,10 +179,10 @@ $('body').on('change', '#division-change', function(e) {
      dataType: "json",
      url: "{{url('admin/banner/get_category')}}?division="+ctid,
      success: function(data){
-      $("#state").empty();
-      $("#state").append('<option value="">All Regions</option>');
+      $("#catbydiv").empty();
+      $("#catbydiv").append('<option value="">Select</option>');
       $.each(data, function(index) {
-        $("#state").append('<optionB value=' + data[index].id +' >'+data[index].name+'</option>');
+        $("#catbydiv").append('<option value=' + data[index].id +' >'+data[index].name+'</option>');
       });
     }
   })

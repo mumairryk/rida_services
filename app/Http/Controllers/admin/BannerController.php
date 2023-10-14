@@ -45,7 +45,7 @@ class BannerController extends Controller
             $errors = '';
             $validator = Validator::make($request->all(),
                 [
-                    'banner' => 'required|image',
+                    //'banner' => 'required|image',
                     'type' => 'required',
                 ],
                 [
@@ -74,14 +74,17 @@ class BannerController extends Controller
                     $file->move($dir, $file_name);
                     $ins['banner_image'] = $file_name;
                 }
-                if (BannerModel::insert($ins)) {
-
+                if($request->id > 0)
+                {
+                    BannerModel::where('id', $request->id)->update($ins);
+                    $status = "1";
+                    $message = "Banner updated";
+                    $errors = '';
+                }
+                else {
+                    BannerModel::insert($ins);
                     $status = "1";
                     $message = "Banner created";
-                    $errors = '';
-                } else {
-                    $status = "0";
-                    $message = "Something went wrong";
                     $errors = '';
                 }
             }
@@ -90,7 +93,8 @@ class BannerController extends Controller
             $page_heading = "Create App Banner";
             $categories = Categories::where(['deleted'=>0,'active'=>1])->get();
             $divisions = Divisions::where(['deleted' => 0,'active'=>1])->get();
-            return view('admin.banner.create', compact('page_heading','categories','divisions'));
+            $prds = [];
+            return view('admin.banner.create', compact('page_heading','categories','divisions','prds'));
         }
 
     }
@@ -159,13 +163,13 @@ class BannerController extends Controller
     // }
     public function edit($id = '')
     {
-        $banner = BannerModel::find($id);
-        if ($banner) {
+        $datamain = BannerModel::find($id);
+        if ($datamain) {
             $page_heading = "Edit App Banner";
-            $categories = Categories::where(['deleted'=>0,'active'=>1])->get();
+            $categories = Categories::where(['deleted'=>0,'active'=>1,'division_id'=>$datamain->division_id])->get();
             $divisions = Divisions::where(['deleted' => 0,'active'=>1])->get();
-            $prds = \App\Models\ProductModel::select('product.id', 'product_name')->join('product_category','product_category.product_id','product.id')->where(['product.deleted' => 0, 'product.product_status' => 1,'product_category.category_id'=>$banner->category_id])->get();
-            return view('admin.banner.edit', compact('page_heading', 'banner','categories','divisions','prds'));
+            $prds = \App\Models\ProductModel::select('product.id', 'product_name')->join('product_category','product_category.product_id','product.id')->where(['product.deleted' => 0, 'product.product_status' => 1,'product_category.category_id'=>$datamain->category_id])->get();
+            return view('admin.banner.create', compact('page_heading', 'datamain','categories','divisions','prds'));
         } else {
             abort(404);
         }
@@ -301,11 +305,11 @@ class BannerController extends Controller
     //     echo json_encode(['status' => $status, 'message' => $message]);
     // }
     
-    public function get_category($ctid)
+    public function get_category(Request $request)
     {
-    $query= Categories::where('states',array('country_id'=>$ctid));
-        $data=$query->result_array();
-        if($query->num_rows()==0)
+    $query= Categories::select('id','name')->where('division_id',$request->division)->get();
+        $data=$query->toArray();
+        if(count($data) == 0) 
         { $data ="0"; }
         echo  json_encode($data);
 
