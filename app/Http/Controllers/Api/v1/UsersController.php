@@ -131,6 +131,9 @@ class UsersController extends Controller
                 $address->user_id = $user_id;
             }
 
+            $address->full_name = $request->full_name;
+            $address->dial_code = $request->dial_code;
+            $address->phone = $request->phone;
             $address->location = isset($request->location) ? $request->location : '';
             $address->apartment = $request->apartment;
             $address->building = $request->building;
@@ -185,7 +188,11 @@ class UsersController extends Controller
                     $removedefault = UserAdress::where('user_id', $user_id)->update(['is_default' => 0]);
                 }
                 $address = UserAdress::find($request->address_id);
+                $address->full_name = $request->full_name;
+                $address->dial_code = $request->dial_code;
+                $address->phone = $request->phone;
                 $address->location = isset($request->location) ? $request->location : '';
+                $address->apartment = $request->apartment;
                 $address->apartment = $request->apartment;
                 $address->building = $request->building;
                 $address->street = $request->street;
@@ -194,9 +201,9 @@ class UsersController extends Controller
                 $address->longitude = isset($request->longitude) ? $request->longitude : '';
                 $address->land_mark = $request->land_mark;
                 $address->is_default = $request->is_default;
-                $address->country_id = $request->country_id;
-                $address->state_id = $request->state_id;
-                $address->city_id = $request->area_id;
+                $address->country_id = $request->country_id??0;
+                $address->state_id = $request->state_id??0;
+                $address->city_id = $request->area_id??0;
                 $address->save();
                 $status = "1";
                 $message = "Address updated successfully";

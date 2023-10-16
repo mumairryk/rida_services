@@ -15,13 +15,13 @@ class UserAdress extends Model
         // ->leftjoin('country', 'country.id', 'user_address.country_id')
         // ->leftjoin('states', 'states.id', 'user_address.state_id')
         // ->leftjoin('cities', 'cities.id', 'user_address.city_id')
-        ->get(['user_address.id', 'street', 'user_address.location', 'user_address.address_type', 'is_default', 'land_mark', 'building', 'latitude', 'longitude','apartment']);
+        ->get(['user_address.id','full_name','dial_code','phone', 'street', 'user_address.location', 'user_address.address_type', 'is_default', 'land_mark', 'building', 'latitude', 'longitude','apartment']);
        
         return $list;
     }
     public static function get_address_details($address_id)
     {
-        $adress = UserAdress::where(['user_address.id' => $address_id])->select('user_address.id', 'street', 'user_address.location', 'user_address.address_type', 'is_default', 'land_mark', 'building', 'latitude', 'longitude','apartment')
+        $adress = UserAdress::where(['user_address.id' => $address_id])->select('user_address.id', 'full_name','dial_code','phone', 'street', 'user_address.location', 'user_address.address_type', 'is_default', 'land_mark', 'building', 'latitude', 'longitude','apartment')
             // ->leftjoin('country', 'country.id', 'user_address.country_id')
             // ->leftjoin('states', 'states.id', 'user_address.state_id')
             // ->leftjoin('cities', 'cities.id', 'user_address.city_id')
