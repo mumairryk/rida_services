@@ -86,6 +86,11 @@ Route::namespace('App\Http\Controllers\Api\v1')->prefix("v1")->name("api.v1.")->
    Route::post('/enquiry','QuestionnaireController@enquiry');
    Route::post('/my_enquiries','QuestionnaireController@my_enquiries');
 
+  Route::get('/countries', 'CMS@countrylist')->name('countries');
+   Route::post('/states', 'CMS@states')->name('states');
+  Route::post('/cities', 'CMS@cities')->name('cities');
+  Route::post('/submit_contact_us','CMS@submit_contact_us');
+
 
     Route::post('logout', 'AuthController@logout')->name('logout');
     Route::post('delete_account', 'AuthController@delete_account')->name('delete_account');

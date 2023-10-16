@@ -149,7 +149,7 @@
                     } else {
                         App.alert(res['message']);
                         setTimeout(function() {
-                            window.location.href = App.siteUrl('/admin/questions');
+                            window.location.href = App.siteUrl('/admin/questions?question_for={{$question_for}}');
                         }, 1500);
                     }
 

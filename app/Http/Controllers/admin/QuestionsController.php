@@ -115,8 +115,9 @@ class QuestionsController extends Controller
         if (!check_permission('questions','Edit')) {
             abort(404);
         }
-        $question_for = '';
+        
         $datamain = Question::find($id);
+        $question_for = $datamain->question_for;
         $options = QuestionOptions::where('question',$id)->get();
         if ($datamain) {
             $page_heading = "Edit Question";
