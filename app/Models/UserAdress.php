@@ -12,10 +12,10 @@ class UserAdress extends Model
     public static function get_address_list($user_id)
     {
         $list = UserAdress::where(['status' => 1, 'user_id' => $user_id])->orderBy('id', 'DESC')
-        // ->leftjoin('country', 'country.id', 'user_address.country_id')
-        // ->leftjoin('states', 'states.id', 'user_address.state_id')
-        // ->leftjoin('cities', 'cities.id', 'user_address.city_id')
-        ->get(['user_address.id','full_name','dial_code','phone', 'street', 'user_address.location', 'user_address.address_type', 'is_default', 'land_mark', 'building', 'latitude', 'longitude','apartment']);
+        ->leftjoin('country', 'country.id', 'user_address.country_id')
+        ->leftjoin('states', 'states.id', 'user_address.state_id')
+        ->leftjoin('cities', 'cities.id', 'user_address.city_id')
+        ->get(['user_address.id','full_name','user_address.dial_code','phone', 'street', 'user_address.location', 'user_address.address_type', 'is_default', 'land_mark', 'building', 'latitude', 'longitude','apartment','user_address.state_id','user_address.city_id','states.name as state','cities.name as city']);
        
         return $list;
     }
