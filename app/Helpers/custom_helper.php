@@ -903,12 +903,32 @@ function decryptor( $string) {
     $product_row_data["product_total_reviews"]          = App\Models\Rating::total_rating(['type'=>1,'product_id'=>$row->product_id]);
     $product_row_data["product_reviews"]          = [];
 
-    $reviews = App\Models\Rating::select('user_id','ratings.rating','title','comment','name as user_name','user_image','ratings.created_at')->where(['type'=>1,'product_id'=>$row->product_id])->leftjoin('users','users.id','=','ratings.user_id')->get(); 
+    $reviews = App\Models\Rating::select('ratings.user_id','ratings.rating','title','comment','name as user_name','user_image','ratings.created_at')->where(['type'=>1,'product_id'=>$row->product_id])->leftjoin('users','users.id','=','ratings.user_id')->leftjoin('vendor_details','vendor_details.user_id','=','users.id')->get();
+    
+    $reviewsarr = [];
     foreach ($reviews as $key => $value) {
+        if(!empty($value->user_image))
+        {
+        $reviews[$key]->user_image = asset($value->user_image??'storage/users/placeholder.png');    
+        }
         
     }
+    if(!empty($reviews) && count($reviews))
+    {
+      $totalreviews = count($reviews);
+      $reviewsarr['count'] = $totalreviews;
+      $totalsum = App\Models\Rating::where(['type'=>1,'product_id'=>$row->product_id])->sum('rating');
+      $reviewsarr['avg'] = ($totalsum/5);
+      $reviewsarr['review_1'] = 0;
+      $reviewsarr['review_2'] = 0;
+      $reviewsarr['review_3'] = 0;
+      $reviewsarr['review_4'] = 0;
+      $reviewsarr['review_5'] = 0;
 
-    $product_row_data["product_reviews"]          = $reviews;
+    }
+    $reviewsarr['list'] = $reviews;
+
+    $product_row_data["product_reviews"]          = $reviewsarr;
 
     // if ($row->size_chart) {
     //     $product_row_data["size_chart"] = asset($row->size_chart);

@@ -119,11 +119,11 @@ $_current_user = \Request::get('_current_user');
                             <span class="text"> Users </span>
                         </a>
                         <ul id="ddmenu_2" class="collapse dropdown-nav {{preg_match('/admin\/customers/', $CurrentUrl) || preg_match('/admin\/vendors/', $CurrentUrl) ? 'show' : null}}">
-                            <!-- @if(check_permission('customer','View'))
+                            @if(check_permission('customer','View'))
                             <li>
                                 <a class="{{preg_match('/admin\/customers/', $CurrentUrl) ? 'active' : null}}" href="{{ url('admin/customers') }}"><span class="text">Customers</span></a>
                             </li>
-                            @endif -->
+                            @endif
 
                             @if(check_permission('vendor','View'))
                             <li>
