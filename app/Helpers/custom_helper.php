@@ -909,7 +909,11 @@ function decryptor( $string) {
     foreach ($reviews as $key => $value) {
         if(!empty($value->user_image))
         {
-        $reviews[$key]->user_image = asset($value->user_image??'storage/users/placeholder.png');    
+        $reviews[$key]->user_image = asset('storage/users/'.$value->user_image??'storage/users/placeholder.png');    
+        }
+        else
+        {
+         $reviews[$key]->user_image  = asset('storage/users/placeholder.png');
         }
         
     }
