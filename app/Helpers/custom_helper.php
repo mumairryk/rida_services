@@ -918,12 +918,19 @@ function decryptor( $string) {
       $totalreviews = count($reviews);
       $reviewsarr['count'] = $totalreviews;
       $totalsum = App\Models\Rating::where(['type'=>1,'product_id'=>$row->product_id])->sum('rating');
-      $reviewsarr['avg'] = ($totalsum/5);
-      $reviewsarr['review_1'] = 0;
-      $reviewsarr['review_2'] = 0;
-      $reviewsarr['review_3'] = 0;
-      $reviewsarr['review_4'] = 0;
-      $reviewsarr['review_5'] = 0;
+      $review_1 = App\Models\Rating::where(['type'=>1,'product_id'=>$row->product_id])->where('rating','>=', 0)->where('rating','<=', 1)->count();
+      $review_2 = App\Models\Rating::where(['type'=>1,'product_id'=>$row->product_id])->where('rating','>', 1)->where('rating','<=', 2)->count();
+      $review_3 = App\Models\Rating::where(['type'=>1,'product_id'=>$row->product_id])->where('rating','>', 2)->where('rating','<=', 3)->count();
+      $review_4 = App\Models\Rating::where(['type'=>1,'product_id'=>$row->product_id])->where('rating','>', 3)->where('rating','<=', 4)->count();
+      $review_5 = App\Models\Rating::where(['type'=>1,'product_id'=>$row->product_id])->where('rating','>', 4)->where('rating','<=', 5)->count();
+      
+
+      $reviewsarr['avg'] = !empty($totalsum) && !empty($totalreviews) ? $totalsum/$totalreviews : 0;
+      $reviewsarr['review_1'] = !empty($totalreviews) && !empty($review_1) ? number_format(($review_1/$totalreviews)*100, 0, '.', '') : 0;
+      $reviewsarr['review_2'] = !empty($totalreviews) && !empty($review_2) ? number_format(($review_2/$totalreviews)*100, 0, '.', '') : 0;
+      $reviewsarr['review_3'] = !empty($totalreviews) && !empty($review_3) ? number_format(($review_3/$totalreviews)*100, 0, '.', '') : 0;
+      $reviewsarr['review_4'] = !empty($totalreviews) && !empty($review_4) ? number_format(($review_4/$totalreviews)*100, 0, '.', '') : 0;
+      $reviewsarr['review_5'] = !empty($totalreviews) && !empty($review_5) ? number_format(($review_5/$totalreviews)*100, 0, '.', '') : 0;
 
     }
     $reviewsarr['list'] = $reviews;
