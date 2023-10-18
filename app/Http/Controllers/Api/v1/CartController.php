@@ -399,7 +399,7 @@ class CartController extends Controller
         $grand_total = round($grand_total, 2);
         $tax_amount = round($tax_amount, 2);
 
-        
+
         return ['cart_total' => (string)$cart_total,'sub_total' => (string)$cart_total, 'tax_amount' => (string)$tax_amount, 'discount' => "0",'delivery_charge'=>(string)$delivery_charge, 'grand_total' => (string)$grand_total, 'cart_count' => (string)$cart_count, 'cart_items' => convert_all_elements_to_string($cart_items)];
     }
     public function apply_coupon(Request $request)
@@ -449,30 +449,30 @@ class CartController extends Controller
                     $categories = array_column($categories, 'category_id');
                     $discount = 0;
                     foreach ($o_data['cart_items'] as $key => $val) {
-                        $det = $val['product_details'];
+                        $det = $val->product_details;
                         if ($applied_to == 1) {
-                            if (in_array($val->product_details['category_id'], $categories)) {
+                            if (in_array($val->product_details->category_id, $categories)) {
                                 $dis = $amount;
                                 if ($amount_type == 1) {
-                                    $dis = ($val->product_details['total_amount'] * $amount) / 100;
+                                    $dis = ($val->product_details->total_amount * $amount) / 100;
                                 }
-                                $det['coupon_discount'] = $dis;
-                                $det['grand_total'] = $val->product_details['total_amount'] - $dis;
+                                $det->coupon_discount = $dis;
+                                $det->grand_total = $val->product_details->total_amount - $dis;
                                 $discount += $dis;
                             } else {
                                 $det['coupon_discount'] = 0;
-                                $det['grand_total'] = $val->product_details['total_amount'];
+                                $det['grand_total'] = $val->product_details->total_amount;
                             }
                         } else {
                             $dis = $amount;
                             if ($amount_type == 1) {
-                                $dis = ($val->product_details['total_amount'] * $amount) / 100;
+                                $dis = ($val->product_details->total_amount * $amount) / 100;
                             }
-                            $det['coupon_discount'] = 0;
-                            $det['grand_total'] = $val->product_details['total_amount'];
+                            $det->coupon_discount = 0;
+                            $det->grand_total = $val->product_details->total_amount;
                             $discount += $dis;
                         }
-                        $o_data['cart_items'][$key]['product_details'] = $det;
+                        $o_data['cart_items'][$key]->product_details = $det;
                     }
                     if($o_data['grand_total'] - $discount > 0){
                         $o_data['grand_total'] =  $o_data['grand_total'] - $discount;
