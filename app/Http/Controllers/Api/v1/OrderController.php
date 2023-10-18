@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\UserAdress;
 use App\Models\OrderStatusHistroy;
 use App\Models\PaymentReport;
+use App\Models\VendorDetailsModel;
 use DB;
 use Illuminate\Http\Request;
 use Kreait\Firebase\Contract\Database;
@@ -224,6 +225,15 @@ class OrderController extends Controller
                 $order->address =  $address_user;
                 $products = $order->products;
                 $today = gmdate("Y-m-d");
+                
+                $vendordatils = VendorDetailsModel::select('deliverydays')->where('user_id',$products[0]->vendor_id??0)->first();
+                $expected_delivery = 3;
+                if(!empty($vendordatils))
+                {
+                $expected_delivery = strtotime("+ $vendordatils->deliverydays day");    
+                }
+                
+                $order->expected_delivery = date("Y-m-d", $expected_delivery);
                 foreach ($products as $pkey => $pval) {
                     // $ret_applicable = $pval->ret_applicable;
                     // $ret_policy_days = $pval->ret_policy_days;
@@ -270,6 +280,13 @@ class OrderController extends Controller
                         }
                     }
                     $products[$pkey]->image = $product_image ? url(config('global.upload_path') . '/' . config('global.product_image_upload_dir') . $product_image) : '';
+                    $product_avg_rating   = \App\Models\Rating::avg_rating(['type'=>1,'product_id'=>$pval->product_id,'user_id'=>$user_id]);
+                    $products[$pkey]->is_rated = 0;
+                    if($product_avg_rating)
+                    {
+                     $products[$pkey]->is_rated = 1;  
+                    }
+
 
                 }
                 $order->products = $products;
