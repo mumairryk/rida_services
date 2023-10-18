@@ -151,7 +151,31 @@
 
                         <div class="row">
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3">
-                                <h4>Order Status</h4>
+                                <h4>Order Status
+
+                                    @if($list[0]->status == config('global.order_status_pending'))
+                                        <!-- <li class="accepted @if($list[0]->status >= config('global.order_status_accepted')) active @endif"> -->
+                                            <button @if($list[0]->status < config('global.order_status_accepted')) data-role="status-change" data-st="{{config('global.order_status_accepted')}}" @endif class="btn btn-warning mb-4 ml-2 btn-rounded">Accept</button>
+                                        <!-- </li> -->
+                                    @endif
+                                    @if($list[0]->status == config('global.order_status_accepted'))
+                                        <!-- <li class="ready-for-delivery @if($list[0]->status >= config('global.order_status_ready_for_delivery')) active @endif"> -->
+                                            <button  @if($list[0]->status < config('global.order_status_ready_for_delivery')) data-role="status-change" data-st="{{config('global.order_status_ready_for_delivery')}}" @endif class="btn btn-warning mb-4 ml-2 btn-rounded">Ready For Delivery</button>
+                                        <!-- </li> -->
+                                    @endif
+                                    @if($list[0]->status == config('global.order_status_ready_for_delivery'))
+                                    <!-- <li class="dispatched @if($list[0]->status >= config('global.order_status_dispatched')) active @endif"> -->
+                                        <button @if($list[0]->status < config('global.order_status_dispatched')) data-role="status-change" data-st="{{config('global.order_status_dispatched')}}" @endif  class="btn btn-warning mb-4 ml-2 btn-rounded">Dispatch</button>
+                                    <!-- </li> -->
+                                    @endif
+                                    @if($list[0]->status == config('global.order_status_dispatched'))
+                                    <!-- <li class="delivered @if($list[0]->status >= config('global.order_status_delivered')) active @endif"> -->
+                                        <button @if($list[0]->status < config('global.order_status_delivered')) data-role="status-change" data-st="{{config('global.order_status_delivered')}}" @endif class="btn btn-warning mb-4 ml-2 btn-rounded">Deliver</button>
+                                    <!-- </li> -->
+                                    @endif
+
+                                </h4>
+                                
                             <div class="delivery-status-block">
                                 <ul class="list-unstyled ord_list" data-href="{{url('admin/order/change_status')}}" data-detailsid="{{$list[0]->order_id}}">
                                     <li class="pending @if($list[0]->status >= config('global.order_status_pending')) active @endif">
