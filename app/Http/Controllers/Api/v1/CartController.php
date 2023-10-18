@@ -253,6 +253,64 @@ class CartController extends Controller
 
             }
             $o_data = $this->process_cart($user_id,$request->device_cart_id,$address);
+
+            $discount = 0;
+
+            $coupon = [];
+            $coupon_id = 0;
+            if ($request->coupon_code) {
+                $coupon = Coupons::where(['coupon_code' => $request->coupon_code, 'coupon_status' => 1])->where('start_date', '<=', date('Y-m-d'))->where('coupon_end_date', '>=', date('Y-m-d'))->first();
+            }
+            if ($coupon) {
+                if ($o_data['grand_total'] < $coupon->minimum_amount) {
+                } else {
+                    $applied_to = $coupon->applied_to;
+                    $amount_type = $coupon->amount_type;
+                    $amount = $coupon->coupon_amount;
+                    $categories = CouponCategory::where('coupon_id', $coupon->coupon_id)->get()->toArray();
+                    $categories = array_column($categories, 'category_id');
+                    $coupon_id = $coupon->coupon_id;
+                    foreach ($o_data['cart_items'] as $key => $val) {
+                        $det = $val->product_details;
+                        if ($applied_to == 1) {
+                            if (in_array($val->product_details->category_id, $categories)) {
+                                $dis = $amount;
+                                if ($amount_type == 1) {
+                                    $dis = ($val->product_details['total_amount'] * $amount) / 100;
+                                }
+                                $det->coupon_discount = $dis;
+                                $det->grand_total = $val->product_details->total_amount - $dis;
+                                $discount += $dis;
+                            } else {
+                                $det->coupon_discount = 0;
+                                $det->grand_total = $val->product_details->total_amount;
+                            }
+                        } else {
+                            $dis = $amount;
+                            if ($amount_type == 1) {
+                                $dis = ($val->product_details->total_amount * $amount) / 100;
+                            }
+                            $det->coupon_discount = 0;
+                            $det->grand_total = $val->product_details->total_amount;
+                            $discount += $dis;
+                        }
+                        $o_data['cart_items'][$key]->product_details = $det;
+                    }
+                    
+                    if($o_data['grand_total'] - $discount > 0){
+                        $o_data['grand_total'] =  (string) ($o_data['grand_total'] - $discount);
+                    }else{
+                        $d= $o_data['grand_total'] - (float)$discount;
+                        $discount = $discount - ($d < 0 ? -$d : $d);
+                        $cart_details['grand_total'] =  (string) 0;
+
+                    }
+                    // $cart_details['grand_total'] = $cart_details['grand_total'] - $discount;
+                    $o_data['discount'] = (string) $discount;
+                }
+            }
+
+            $amount_to_pay = (string) $o_data['grand_total'];
             $de_address = $address;
             if($address)
             {
@@ -485,6 +543,7 @@ class CartController extends Controller
                     $o_data['grand_total'] = round($o_data['grand_total'],2);
                     $o_data['grand_total'] = (string)$o_data['grand_total'];
                     $o_data['discount'] = (string) $discount;
+
                     $o_data['default_address'] = UserAdress::get_user_default_address($user_id);
                     $o_data['address_list'] = UserAdress::get_address_list($user_id);
                 }
@@ -496,7 +555,7 @@ class CartController extends Controller
             }
 
         }
-        return response()->json(['status' => $status, 'message' => $message, 'errors' => $errors, 'oData' => (object) $o_data]);
+        return response()->json(['status' => $status, 'message' => $message, 'errors' => $errors, 'oData' => $o_data]);
     }
     public function delete_cart(Request $request)
     {
