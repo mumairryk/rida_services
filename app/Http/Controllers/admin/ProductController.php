@@ -642,6 +642,9 @@ class ProductController extends Controller
                              'width'   => 0,//$variant_width[$vi] ?? 0,
                              'height'      => 0,//$variant_height[$vi] ?? 0,
                              'size_chart'  => '',//$size_chart_attr_file,
+                             'material' => $material[$vi] ?? '',
+                             'product_details' => $product_details[$vi] ?? '',
+                             'needtoknow' => $needtoknow[$vi] ?? '',
                         ];  
 
 

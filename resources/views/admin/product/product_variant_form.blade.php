@@ -172,21 +172,21 @@ $attribute_values = isset($attribute_values) ? $attribute_values : [];
                     <div class="col-lg-6">
         <div class="form-group profile-form">
             <label>Material </label>
-            <textarea rows="5" type="text" name="material[{{$input_index}}]"  class="form-control"  {{ $readonly }} />{{$material}}</textarea>
+            <textarea rows="5" type="text" name="material[<?=$input_index?>]"  class="form-control"  {{ $readonly }} />{{$material}}</textarea>
         </div>
     </div>
 
     <div class="col-lg-6">
         <div class="form-group profile-form">
             <label>Product Details </label>
-            <textarea rows="5" type="text" name="product_details[{{$input_index}}]"  class="form-control"  {{ $readonly }} />{{$product_details}}</textarea>
+            <textarea rows="5" type="text" name="product_details[<?=$input_index?>]"  class="form-control"  {{ $readonly }} />{{$product_details}}</textarea>
         </div>
     </div>
 
     <div class="col-lg-6">
         <div class="form-group profile-form">
             <label>What You Need to Know </label>
-            <textarea rows="5" type="text" name="needtoknow[{{$input_index}}]"  class="form-control"  {{ $readonly }} />{{$needtoknow}}</textarea>
+            <textarea rows="5" type="text" name="needtoknow[<?=$input_index?>]"  class="form-control"  {{ $readonly }} />{{$needtoknow}}</textarea>
         </div>
     </div>
 
