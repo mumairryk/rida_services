@@ -69,6 +69,7 @@ class ProductModel extends Model
     }
 
     public static function update_product($product_id,$ins=[],$category_ids=[],$specs=[],$spec_doc_ins=[],$data = []){
+        
         DB::beginTransaction();
 
         try {  

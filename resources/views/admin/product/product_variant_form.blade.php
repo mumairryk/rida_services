@@ -51,9 +51,9 @@ $attribute_values = isset($attribute_values) ? $attribute_values : [];
         $t_variant_width    = $product_variations[$i]->width;
         $t_variant_height   = $product_variations[$i]->height;
         $t_variant_size_chart   = $product_variations[$i]->size_chart;
-        $t_variant_material   = $product_variations[$i]->material;
-        $t_variant_product_details   = $product_variations[$i]->product_details;
-        $t_variant_needtoknow   = $product_variations[$i]->needtoknow;
+        $material   = $product_variations[$i]->material;
+        $product_details   = $product_variations[$i]->product_details;
+        $needtoknow   = $product_variations[$i]->needtoknow;
         
         array_walk_recursive($t_variant_images, function (&$v, $k) {
             $v = trim($v);
@@ -172,21 +172,21 @@ $attribute_values = isset($attribute_values) ? $attribute_values : [];
                     <div class="col-lg-6">
         <div class="form-group profile-form">
             <label>Material </label>
-            <textarea rows="5" type="text" name="material[<?=$input_index?>]"  class="form-control"  {{ $readonly }} />{{$material}}</textarea>
+            <textarea rows="5" type="text" name="material[{{$input_index}}]"  class="form-control"  {{ $readonly }} />{{$material}}</textarea>
         </div>
     </div>
 
     <div class="col-lg-6">
         <div class="form-group profile-form">
             <label>Product Details </label>
-            <textarea rows="5" type="text" name="product_details[<?=$input_index?>]"  class="form-control"  {{ $readonly }} />{{$product_details}}</textarea>
+            <textarea rows="5" type="text" name="product_details[{{$input_index}}]"  class="form-control"  {{ $readonly }} />{{$product_details}}</textarea>
         </div>
     </div>
 
     <div class="col-lg-6">
         <div class="form-group profile-form">
             <label>What You Need to Know </label>
-            <textarea rows="5" type="text" name="needtoknow[<?=$input_index?>]"  class="form-control"  {{ $readonly }} />{{$needtoknow}}</textarea>
+            <textarea rows="5" type="text" name="needtoknow[{{$input_index}}]"  class="form-control"  {{ $readonly }} />{{$needtoknow}}</textarea>
         </div>
     </div>
 
