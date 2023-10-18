@@ -69,6 +69,7 @@ class ProductModel extends Model
     }
 
     public static function update_product($product_id,$ins=[],$category_ids=[],$specs=[],$spec_doc_ins=[],$data = []){
+        echo '<pre>'; print_r($data['product_multi_variant']); echo '</pre>';exit;
         DB::beginTransaction();
 
         try {  
@@ -119,7 +120,7 @@ class ProductModel extends Model
                               $t_attribute['image'] = $t_attribute['image'];     
                              }
                              
-                             DB::table('product_selected_attribute_list')->where('product_attribute_id',$product_attribute_id)-> update($t_attribute);
+                             DB::table('product_selected_attribute_list')->where('product_attribute_id',$product_attribute_id)->update($t_attribute);
                             if($defaultAttribute) {
                                 self::updateDefaultAttribute($product_id,$defaultAttribute);
                             }
@@ -143,7 +144,7 @@ class ProductModel extends Model
                                     'product_attribute_id' => $product_attribute_id,
                                     'product_id' => $product_id,
                                 ];
-                                DB::table('product_variations')-> insert($t_data);
+                                DB::table('product_variations')->insert($t_data);
                                 
 
                                 if ( array_key_exists($t_data['attribute_id'], $selected_attributes) === FALSE ) {
