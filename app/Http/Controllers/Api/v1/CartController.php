@@ -276,7 +276,7 @@ class CartController extends Controller
                             if (in_array($val->product_details->category_id, $categories)) {
                                 $dis = $amount;
                                 if ($amount_type == 1) {
-                                    $dis = ($val->product_details['total_amount'] * $amount) / 100;
+                                    $dis = ($val->product_details->total_amount * $amount) / 100;
                                 }
                                 $det->coupon_discount = $dis;
                                 //$det->grand_total = $val->product_details->total_amount - $dis;
