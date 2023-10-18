@@ -279,11 +279,11 @@ class CartController extends Controller
                                     $dis = ($val->product_details['total_amount'] * $amount) / 100;
                                 }
                                 $det->coupon_discount = $dis;
-                                $det->grand_total = $val->product_details->total_amount - $dis;
+                                //$det->grand_total = $val->product_details->total_amount - $dis;
                                 $discount += $dis;
                             } else {
                                 $det->coupon_discount = 0;
-                                $det->grand_total = $val->product_details->total_amount;
+                                //$det->grand_total = $val->product_details->total_amount;
                             }
                         } else {
                             $dis = $amount;
@@ -291,7 +291,7 @@ class CartController extends Controller
                                 $dis = ($val->product_details->total_amount * $amount) / 100;
                             }
                             $det->coupon_discount = 0;
-                            $det->grand_total = $val->product_details->total_amount;
+                            //$det->grand_total = $val->product_details->total_amount;
                             $discount += $dis;
                         }
                         $o_data['cart_items'][$key]->product_details = $det;
@@ -302,15 +302,15 @@ class CartController extends Controller
                     }else{
                         $d= $o_data['grand_total'] - (float)$discount;
                         $discount = $discount - ($d < 0 ? -$d : $d);
-                        $cart_details['grand_total'] =  (string) 0;
+                        $o_data['grand_total'] =  (string) 0;
 
                     }
                     // $cart_details['grand_total'] = $cart_details['grand_total'] - $discount;
                     $o_data['discount'] = (string) $discount;
                 }
             }
-
-            $amount_to_pay = (string) $o_data['grand_total'];
+           
+            
             $de_address = $address;
             if($address)
             {
