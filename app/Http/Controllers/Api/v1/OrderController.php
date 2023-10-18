@@ -281,10 +281,14 @@ class OrderController extends Controller
                     }
                     $products[$pkey]->image = $product_image ? url(config('global.upload_path') . '/' . config('global.product_image_upload_dir') . $product_image) : '';
                     $product_avg_rating   = \App\Models\Rating::avg_rating(['type'=>1,'product_id'=>$pval->product_id,'user_id'=>$user_id]);
+                    $rating  = \App\Models\Rating::where(['type'=>1,'product_id'=>$pval->product_id,'user_id'=>$user_id])->first();
                     $products[$pkey]->is_rated = 0;
+                    $products[$pkey]->rating = 0;
+
                     if($product_avg_rating)
                     {
                      $products[$pkey]->is_rated = 1;  
+                     $products[$pkey]->rating = $rating->rating;
                     }
 
 
