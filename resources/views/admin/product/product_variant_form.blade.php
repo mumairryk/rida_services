@@ -51,9 +51,9 @@ $attribute_values = isset($attribute_values) ? $attribute_values : [];
         $t_variant_width    = $product_variations[$i]->width;
         $t_variant_height   = $product_variations[$i]->height;
         $t_variant_size_chart   = $product_variations[$i]->size_chart;
-        $material   = $product_variations[$i]->material;
-        $product_details   = $product_variations[$i]->product_details;
-        $needtoknow   = $product_variations[$i]->needtoknow;
+        $t_variant_material   = $product_variations[$i]->material;
+        $t_variant_product_details   = $product_variations[$i]->product_details;
+        $t_variant_needtoknow   = $product_variations[$i]->needtoknow;
         
         array_walk_recursive($t_variant_images, function (&$v, $k) {
             $v = trim($v);

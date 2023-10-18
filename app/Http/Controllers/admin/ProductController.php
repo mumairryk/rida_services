@@ -554,9 +554,9 @@ class ProductController extends Controller
                     'width'    => $request->width??0,
                     'image'    => implode(",",$imagesList),
                     'size_chart'=> '',//$size_chart
-                    'material'    => $request->material,
-                    'product_details'    => $request->product_details,
-                    'needtoknow'    => $request->needtoknow,
+                    'material'    => $request->material1,
+                    'product_details'    => $request->product_details1,
+                    'needtoknow'    => $request->needtoknow1,
                 ]; 
 
             } else  {

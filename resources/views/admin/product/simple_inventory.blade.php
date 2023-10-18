@@ -81,21 +81,21 @@
     <div class="col-lg-6">
         <div class="form-group profile-form">
             <label>Material </label>
-            <textarea rows="5" type="text" name="material"  class="form-control"  {{ $readonly }} />{{$material}}</textarea>
+            <textarea rows="5" type="text" name="material1"  class="form-control"  {{ $readonly }} />{{$material}}</textarea>
         </div>
     </div>
 
     <div class="col-lg-6">
         <div class="form-group profile-form">
             <label>Product Details </label>
-            <textarea rows="5" type="text" name="product_details"  class="form-control"  {{ $readonly }} />{{$product_details}}</textarea>
+            <textarea rows="5" type="text" name="product_details1"  class="form-control"  {{ $readonly }} />{{$product_details}}</textarea>
         </div>
     </div>
 
     <div class="col-lg-6">
         <div class="form-group profile-form">
             <label>What You Need to Know </label>
-            <textarea rows="5" type="text" name="needtoknow"  class="form-control"  {{ $readonly }} />{{$needtoknow}}</textarea>
+            <textarea rows="5" type="text" name="needtoknow1"  class="form-control"  {{ $readonly }} />{{$needtoknow}}</textarea>
         </div>
     </div>
 
