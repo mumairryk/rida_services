@@ -1122,6 +1122,9 @@ class ProductModel extends Model
         if (isset($filter['is_featured']) && $filter['is_featured']) {
             $products->where('is_featured', 1);
         }
+        if (isset($filter['division']) && $filter['division']) {
+            $products->where('division', $filter['division']);
+        }
         if (isset($filter['parent_category_id']) && $filter['parent_category_id']) {
             $sub_categories = [];
             if (isset($filter['sub_category']) && $filter['sub_category']) {

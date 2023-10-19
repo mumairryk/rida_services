@@ -24,7 +24,7 @@
                             
                             <th>Image</th> -->
                             <th>Category Details</th>
-                            <th>Parent</th>
+                            <!-- <th>Parent</th> -->
                             <th>Is Active</th>
                             <th>Created Date</th>
                             <th>Action</th>
@@ -51,7 +51,7 @@
                                         </span>
                                     </div>
                                 </td>
-                                <td>{{ $category->parent }}</td>
+                                <!-- <td>{{ $category->parent }}</td> -->
                                 <td>
                                     <label class="switch s-icons s-outline  s-outline-warning mt-2 mb-2 mr-2">
                                         <input type="checkbox" class="change_status" data-id="{{ $category->id }}"

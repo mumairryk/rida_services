@@ -49,7 +49,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6" style="display:none;">
 
                             <div class="form-group">
                                 <label>Parent Category</label>
