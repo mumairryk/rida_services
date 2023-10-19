@@ -694,30 +694,30 @@ class CartController extends Controller
                     $categories = array_column($categories, 'category_id');
                     $coupon_id = $coupon->coupon_id;
                     foreach ($cart_details['cart_items'] as $key => $val) {
-                        $det = $val['product_details'];
+                        $det = $val->product_details;
                         if ($applied_to == 1) {
-                            if (in_array($val->product_details['category_id'], $categories)) {
+                            if (in_array($val->product_details->category_id, $categories)) {
                                 $dis = $amount;
                                 if ($amount_type == 1) {
-                                    $dis = ($val->product_details['total_amount'] * $amount) / 100;
+                                    $dis = ($val->product_details->total_amount * $amount) / 100;
                                 }
-                                $det['coupon_discount'] = $dis;
-                                $det['grand_total'] = $val->product_details['total_amount'] - $dis;
+                                $det->coupon_discount = $dis;
+                                $det->grand_total = $val->product_details->total_amount - $dis;
                                 $discount += $dis;
                             } else {
-                                $det['coupon_discount'] = 0;
-                                $det['grand_total'] = $val->product_details['total_amount'];
+                                $det->coupon_discount = 0;
+                                $det->grand_total = $val->product_details->total_amount;
                             }
                         } else {
                             $dis = $amount;
                             if ($amount_type == 1) {
-                                $dis = ($val->product_details['total_amount'] * $amount) / 100;
+                                $dis = ($val->product_details->total_amount * $amount) / 100;
                             }
-                            $det['coupon_discount'] = 0;
-                            $det['grand_total'] = $val->product_details['total_amount'];
+                            $det->coupon_discount = 0;
+                            $det->grand_total = $val->product_details->total_amount;
                             $discount += $dis;
                         }
-                        $cart_details['cart_items'][$key]['product_details'] = $det;
+                        $cart_details['cart_items'][$key]->product_details = $det;
                     }
                     
                     if($cart_details['grand_total'] - $discount > 0){
