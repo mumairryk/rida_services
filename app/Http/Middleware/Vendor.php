@@ -18,7 +18,7 @@ class Vendor
     public function handle(Request $request, Closure $next)
     {
 
-        if (Auth::check() && (Auth::user()->user_type_id == '1' || Auth::user()->user_type_id == '2' || Auth::user()->user_type_id == '3' || Auth::user()->user_type_id == '4' || Auth::user()->user_type_id == '5' || Auth::user()->user_type_id == '6')) {
+        if (Auth::check() && (Auth::user()->role == '3')) {
             return $next($request);
         }
         return redirect()->route('vendor.login');

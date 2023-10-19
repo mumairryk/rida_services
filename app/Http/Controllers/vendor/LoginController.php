@@ -28,7 +28,7 @@ class LoginController extends Controller
         // Validate request
         $roles = [1, 2, 3, 4, 5, 6];
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-            if (Auth::check() && (Auth::user()->user_type_id == '1' || Auth::user()->user_type_id == '2' || Auth::user()->user_type_id == '3' || Auth::user()->user_type_id == '4' || Auth::user()->user_type_id == '5' || Auth::user()->user_type_id == '6')) {
+            if (Auth::check() && (Auth::user()->role == '3')) {
                 $request->session()->put('user_id',Auth::user()->id);
                 if($request->timezone){
                     $request->session()->put('user_timezone',$request->timezone);
