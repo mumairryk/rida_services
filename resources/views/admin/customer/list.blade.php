@@ -86,6 +86,10 @@
                                     @if(check_permission('orders','View'))
                                     <a class="dropdown-item" href="{{url('admin/orders?customer='.$datarow->id)}}"><i class="flaticon-view"></i> Orders</a>    
                                     @endif 
+
+                                     @if(check_permission('enquiry','View'))
+                                    <a class="dropdown-item" href="{{url('admin/enquiry?customer='.$datarow->id)}}"><i class="flaticon-view"></i> Enquiries</a>    
+                                    @endif 
                                     
                                 </div>
                             </div>

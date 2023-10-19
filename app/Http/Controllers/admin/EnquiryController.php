@@ -24,8 +24,10 @@ class EnquiryController extends Controller
         $params = [];
         $params['search_key'] = $_GET['search_key'] ?? '';
         $params['question_for'] = $_GET['question_for'] ?? '';
+        $params['customer'] = $_GET['customer'] ?? '';
         $search_key = $params['search_key'];
         $question_for = $params['question_for'];
+        $customer = $params['customer'];
         if(!empty($question_for))
         {
          $page_heading = "Enquiry - ".question_for($question_for);   
@@ -34,6 +36,10 @@ class EnquiryController extends Controller
         if(!empty($question_for))
         {
         $list = $list->where('type',$question_for);     
+        }
+        if(!empty($customer))
+        {
+        $list = $list->where('user_id',$customer);     
         }
         $list = $list->paginate(10);
         return view("admin.enquiry.list", compact("page_heading", "list", "search_key","question_for"));
