@@ -31,6 +31,7 @@
                     <div class="col-md-6">
                         <label class="w-100">Search:
                             <input type="search" name="search_key" class="form-control form-control-sm" placeholder="" aria-controls="column-filter" value="{{$search_key}}">
+                            <input type="hidden" name="question_for" value="{{$question_for??''}}">
                         </label>
                     </div>
                     <div class="col-md-6">
@@ -69,7 +70,7 @@
 
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink7">
                                     @if(check_permission('enquiry','View'))
-                                    <a class="dropdown-item" href="{{url('admin/enquiry/'.$item->id.'/edit')}}"><i class="flaticon-057-eye"></i> View</a>
+                                    <a class="dropdown-item" href="{{url('admin/enquiry/details/'.$item->id)}}"><i class="flaticon-057-eye"></i> View</a>
                                     @endif
                                    
                                 </div>

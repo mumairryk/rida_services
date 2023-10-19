@@ -81,14 +81,11 @@
                                         class="flaticon-delete-1"></i> Delete</a>
                                     @endif
 
-                                    @if(check_permission('pets','View'))
-                                    <a class="dropdown-item" href="{{url('admin/pets?customer='.$datarow->id)}}"><i class="flaticon-view"></i> Pets</a>    
-                                    @endif
 
-{{--                                     
+                                  
                                     @if(check_permission('orders','View'))
                                     <a class="dropdown-item" href="{{url('admin/orders?customer='.$datarow->id)}}"><i class="flaticon-view"></i> Orders</a>    
-                                    @endif --}}
+                                    @endif 
                                     
                                 </div>
                             </div>

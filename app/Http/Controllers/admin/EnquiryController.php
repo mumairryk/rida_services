@@ -130,6 +130,22 @@ class EnquiryController extends Controller
         }
     }
 
+    public function details($id = '')
+    {
+        if (!check_permission('questions','Edit')) {
+            abort(404);
+        }
+        $question_for = '';
+        $datamain = Enquiry::with('customer','enquiery_details')->find($id);
+        
+        if ($datamain) {
+            $page_heading = "Enquiry - ".question_for($datamain->type);
+            return view('admin.enquiry.details', compact('page_heading', 'datamain','question_for'));
+        } else {
+            abort(404);
+        }
+    }
+
     
     public function destroy($id = '')
     {
