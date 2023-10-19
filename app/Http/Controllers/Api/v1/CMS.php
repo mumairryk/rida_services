@@ -171,6 +171,10 @@ class CMS extends Controller
       $where['product_status'] = 1;
 
       $filter['search_text'] = '';
+      if(!empty($division))
+      {
+      $filter['division'] = $division;  
+      }
 
       $latestproductlist = ProductModel::products_list($where, $filter, 5, 0)->get();
       $latestproductlist = $this->product_inv($latestproductlist, $user);

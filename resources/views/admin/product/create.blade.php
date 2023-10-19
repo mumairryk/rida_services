@@ -97,9 +97,24 @@
                             </select>
                         </div>
 
+                        <div class="col-md-6 form-group           select-category-form-group">
+                            <label>Division<b class="text-danger">*</b></label>
+                            <select class="form-control select2"
+                                name="division_id" data-role="divison-change"  required>
+                                <option value="">Select Division</option>
+                                @foreach($divisions as $key => $val)
+                                    <option
+                                    {{ $val->id == $division_id ? 'selected' : '' }}
+                                     value="{{$val->id}}">{{$val->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+
+
                         <div class="col-md-6 form-group select-category-form-group">
                             <label>Category<b class="text-danger">*</b></label>
-                            <select class="form-control jqv-input product_catd select2" data-jqv-required="true"
+                            <select class="form-control jqv-input product_catd select2" data-jqv-required="true" id="categories"
                                 name="category_ids[]"  data-placeholder="Select Categories"
                                 data-allow-clear="true" multiple="multiple" required
                                 data-parsley-required-message="Select Category">
@@ -987,6 +1002,21 @@ function validateNumber(elem) {
         }
    
 });
+        $('body').off('change', '[data-role="divison-change"]');
+        $('body').on('change', '[data-role="divison-change"]', function() {
+         var ctid = $(this).val();
+    $.ajax({
+     dataType: "json",
+     url: "{{route('admin.get_category')}}?division="+ctid,
+     success: function(data){
+      $("#categories").empty();
+      $("#categories").append('<option value="">Select categories</option>');
+      $.each(data, function(index) {
+        $("#categories").append('<option value=' + data[index].id +' >'+data[index].name+'</option>');
+      });
+    }
+  })
+            });
         
     </script>
 @stop

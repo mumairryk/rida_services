@@ -271,4 +271,12 @@ class Category extends Controller
             return view("admin.sort", compact('page_heading', 'list','back'));
         }
     }
+    public function get_category(Request $request){
+        $ctid = $request->division;
+      $query= Categories::select('id','name')->orderBy('sort_order','asc')->where(['deleted'=>0,'active'=>1,])->where('division_id',$ctid)->get();
+        $data=$query->toArray();
+        if($query->count()==0)
+        { $data ="0"; }
+        echo  json_encode($data);
+    }
 }

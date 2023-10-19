@@ -33,6 +33,7 @@ use Maatwebsite\Excel\Facades\Excel;
 
 use App\Models\AccountType;
 use App\Models\ActivityType;
+use App\Models\Divisions;
 
 class ProductController extends Controller
 {
@@ -176,6 +177,7 @@ class ProductController extends Controller
         $meta_keyword = "";
         $meta_description = "";
         $product_type = 1;
+        $division_id = 0;
         $attribute_list = ProductModel::getProductAttributes();
         $regular_price = '';
         $pr_code = '';
@@ -196,7 +198,7 @@ class ProductController extends Controller
         ->get();
 
        
-        $categories = Categories::select('id','name')->orderBy('sort_order','asc')->where(['deleted'=>0,'active'=>1,])->get();
+        $categories = [];
         // foreach($categories as $key => $val){
         //     $categories[$key]->sub = Categories::select('id','name')->orderBy('sort_order','asc')->where(['deleted'=>0,'active'=>1,'parent_id'=>$val->id])->get();
         // }
@@ -221,7 +223,9 @@ class ProductController extends Controller
             $product = ProductModel::getProductInfo($id); //print_r($product); die();
             $action = "edit";
             if($product){
+                
                 $product = $product[0];
+                $categories = Categories::select('id','name')->orderBy('sort_order','asc')->where(['deleted'=>0,'active'=>1,])->where('division_id',$product->division)->get();
                 $docs = ProductDocsModel::where('product_id',$id)->get()->toArray();
                 $page_heading = "Edit Product";
                 $mode         = "edit";
@@ -230,6 +234,7 @@ class ProductController extends Controller
                 $product_type = $product->product_type;
                 $sku = $product->product_unique_iden;
                 $meta_title     = $product->meta_title;
+                $division_id   = $product->division;
                 $meta_keyword   = $product->meta_keyword;
                 $meta_description = $product->meta_description;
                 $active       = $product->product_status;
@@ -337,8 +342,10 @@ class ProductController extends Controller
             $activity_types = ActivityType::select('id','name as activity_name')->where(['deleted' => 0])->get();
 
         }
+
+        $divisions = Divisions::where(['deleted' => 0,'active'=>1])->get();
       
-        return view('admin.product.create',compact('page_heading','mode','categories','category_ids','id','active','name','description','image_path','specs','sellers','seller_user_id','docs','sku','meta_title','meta_keyword','meta_description','product_type','combinations','product','action','attribute_list','size_chart','selected_attributes','product_variations','attribute_value_ids','attribute_values','regular_price','readonly','sale_price','stock_quantity','input_index','t_variant_allow_backorder','product_desc','product_desc_full','bar_code','product_code','default_category_id','default_attribute_id','brand','pr_code','store_id','stores','account_types','activity_types','account_id','activity_id','is_featured','material','product_details','needtoknow'));
+        return view('admin.product.create',compact('page_heading','mode','categories','category_ids','id','active','name','description','image_path','specs','sellers','seller_user_id','docs','sku','meta_title','meta_keyword','meta_description','product_type','combinations','product','action','attribute_list','size_chart','selected_attributes','product_variations','attribute_value_ids','attribute_values','regular_price','readonly','sale_price','stock_quantity','input_index','t_variant_allow_backorder','product_desc','product_desc_full','bar_code','product_code','default_category_id','default_attribute_id','brand','pr_code','store_id','stores','account_types','activity_types','account_id','activity_id','is_featured','material','product_details','needtoknow','divisions','division_id'));
     }
 
     /**
@@ -471,6 +478,7 @@ class ProductController extends Controller
                     'account_id'          => 0,//$request->account_id,
                     'activity_id'          => 0,//$request->activity_id,
                     'is_featured' => isset($request->is_featured) ? 1 : 0,
+                    'division'    => $request->division_id??0,
                 ],
                 'product_category' => $categories,
                 'specifications' => $request->spec,

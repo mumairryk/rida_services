@@ -78,6 +78,7 @@ Route::namespace('App\Http\Controllers\admin')->prefix('admin')->middleware('adm
     Route::delete("category/delete/{id}", "Category@destroy");
     Route::post("save_category", "Category@store");
     Route::match(array('GET', 'POST'), 'category/sort', 'Category@sort');
+    Route::get("category/get_category", "Category@get_category")->name('get_category');
     //Division Routes
     Route::get("division", "Division@index");
     Route::get("division/create", "Division@create");
