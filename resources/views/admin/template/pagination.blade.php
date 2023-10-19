@@ -16,6 +16,7 @@
         if(!empty($_GET)) { 
             
             foreach ($_GET as $key => $value) {
+                if($key!='page')
                 $apString .= "&".$key."=".$value; 
             }
         }
@@ -38,7 +39,7 @@
                         </li>
                     @else
                         <li class="paginate_button page-item">
-                            <a href="{{ $url }}" aria-controls="example2" data-dt-idx="{{ $page }}" tabindex="0" class="page-link">{{ $page }}</a>
+                            <a href="{{ $url.$apString }}" aria-controls="example2" data-dt-idx="{{ $page }}" tabindex="0" class="page-link">{{ $page }}</a>
                         </li>
                     @endif
                 @endforeach
