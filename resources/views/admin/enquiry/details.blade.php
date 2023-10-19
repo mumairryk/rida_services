@@ -67,8 +67,8 @@
                                 @php $details_sub = json_decode($details->question);
                           
                                  @endphp
-                                <span><strong>{{$key+1}}. {{$details_sub->question}}</strong><span><br>
-                                 <span>Ans: {{$details->answers}}</span> <br>  
+                                <span><strong>{{$key+1}}. {{$details_sub->question??''}}</strong><span><br>
+                                 <span>Ans: {{$details->answers??''}}</span> <br>  
                                 @endforeach
                            
                         </div>
