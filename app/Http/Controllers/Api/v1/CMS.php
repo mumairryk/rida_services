@@ -13,6 +13,8 @@ use App\Models\Services;
 use App\Models\BannerModel;
 use App\Models\Divisions;
 use App\Models\ProductModel;
+use App\Models\User;
+use App\Models\ProductLikes;
 use DB;
 use Illuminate\Http\Request;
 
@@ -143,7 +145,8 @@ class CMS extends Controller
         ], 200);
     }
     public function home(Request $request){
-      $user = '';
+      $access_token = $request->access_token;
+      $user = User::where('user_access_token', $access_token)->first();
       $division = $request->division;
       if($division){
             $banners = BannerModel::select('banner_image','product_id','category_id','division_id')->where('active',1)->where('type',1)->where('division_id',$division)->orderBy('created_at','desc')->get();
