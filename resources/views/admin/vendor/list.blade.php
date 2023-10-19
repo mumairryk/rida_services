@@ -115,6 +115,10 @@
                                     <a class="dropdown-item" href="{{url('admin/products')}}"><i class="flaticon-view"></i> Products</a>    
                                     @endif
 
+                                    @if(check_permission('orders','View'))
+                                    <a class="dropdown-item" href="{{url('admin/orders?vendor='.$datarow->id)}}"><i class="flaticon-view"></i> Orders</a>
+                                    @endif 
+
                                    
 
 

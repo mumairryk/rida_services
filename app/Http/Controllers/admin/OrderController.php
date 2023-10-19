@@ -27,12 +27,20 @@ class OrderController extends Controller
         $order_id = $_GET['order_id'] ?? '';
         $name = $_GET['name'] ?? '';
         $customer = $_GET['customer'] ?? '';
+        $vendor = $_GET['vendor'] ?? '';
         $from = !empty($_GET['from']) ? date('Y-m-d', strtotime($_GET['from'])) : '';
         $to = !empty($_GET['to']) ? date('Y-m-d', strtotime($_GET['to'])) : '';
 
-        $list = OrderModel::select('orders.*', 'users.name', DB::raw("CONCAT(users.first_name,' ',users.last_name) as customer_name"))->leftjoin('users', 'users.id', 'orders.user_id')->with(['customer' => function ($q) use ($name) {
+        $list = OrderModel::select('orders.*', 'users.name', DB::raw("CONCAT(users.first_name,' ',users.last_name) as customer_name"),'vendor_id')->leftjoin('users', 'users.id', 'orders.user_id')->with(['customer' => function ($q) use ($name) {
             $q->where('display_name', 'like', '%' . $name . '%');
-        }]);
+        }])->leftJoinSub(
+        OrderProductsModel::select('vendor_id', 'order_id')
+            ->groupBy('order_id', 'vendor_id'),
+        'order_products',
+        'order_products.order_id',
+        '=',
+        'orders.order_id'
+    );
         if ($name) {
             $list = $list->whereRaw("concat(first_name, ' ', last_name) like '%" . $name . "%' ");
         }
@@ -44,6 +52,9 @@ class OrderController extends Controller
         if ($customer) {
             $list = $list->where('orders.user_id', $customer);
         }
+        if ($vendor) {
+            $list = $list->where('order_products.vendor_id', $vendor);
+        }
         if ($from) {
             $list = $list->whereDate('orders.created_at', '>=', $from . ' 00:00:00');
         }
@@ -51,6 +62,8 @@ class OrderController extends Controller
             $list = $list->where('orders.created_at', '<=', $to . ' 23:59:59');
         }
         $list = $list->orderBy('orders.order_id', 'DESC')->paginate(10);
+
+        
 
         return view('admin.orders.list', compact('page_heading', 'list', 'order_id', 'name', 'from', 'to'));
     }
