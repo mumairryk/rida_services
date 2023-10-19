@@ -48,6 +48,9 @@
                 <th>ID</th>
                 <th>User</th>
                 <th>Phone</th>
+                @if(!empty($customer))
+                <th>Type</th>
+                @endif
                 <th>Date</th>
                 <th>Action</th>
                 </tr>
@@ -61,6 +64,9 @@
                    <td>#{{$item->id}}</td>
                    <td>{{$item->name}}</td>
                    <td>+{{$item->dial_code}} {{$item->phone}}</td>
+                   @if(!empty($customer))
+                   <td>{{question_for($item->type)}}</td>
+                   @endif
                    <td>{{web_date_in_timezone($item->created_at,'d-M-Y h:i A')}}</td>
                    <td class="text-center">
                             <div class="dropdown custom-dropdown">

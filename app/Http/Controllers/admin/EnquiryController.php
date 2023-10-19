@@ -42,7 +42,7 @@ class EnquiryController extends Controller
         $list = $list->where('user_id',$customer);     
         }
         $list = $list->paginate(10);
-        return view("admin.enquiry.list", compact("page_heading", "list", "search_key","question_for"));
+        return view("admin.enquiry.list", compact("page_heading", "list", "search_key","question_for",'customer'));
     }
     public function create(Request $request)
     {
