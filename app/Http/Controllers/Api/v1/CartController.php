@@ -1352,7 +1352,7 @@ class CartController extends Controller
                         "title" => $title,
                         "description" => $description,
                         "notificationType" => $ntype,
-                        'createdDate'     => $order->created_at,
+                        'createdDate'     => gmdate("d-m-Y H:i:s", $notification_id),
                         "orderId" => (string) $order_id,
                         "url" => "",
                         "imageURL" => '',

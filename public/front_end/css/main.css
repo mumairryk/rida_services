@@ -25686,7 +25686,7 @@ a {
   top: 0%;
   left: 0%;
   border-radius: 20px;
-  background: #EBC05E;
+  background: #000;
   transition: all .5s;
   opacity: 0;
   z-index: -1;

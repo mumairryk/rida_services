@@ -23,135 +23,172 @@ if($role == 4) //store manager
 
 <div class="row mb-2">
         <div class="col-lg-8 mb-4">
-            <ul class="nav nav-pills mb-3 custom-pills justify-content-around" id="pills-tab" role="tablist">
+            <!--<ul class="nav nav-pills mb-3 custom-pills justify-content-around" id="pills-tab" role="tablist">-->
                 
-                <li class="nav-item">
-                    <a class="nav-link active" id="pills-stores-tab" href="{{url('vendor/orders')}}" role="tab" aria-controls="pills-stores" aria-selected="false">
-                        <i class='bx bx-cart-alt' ></i> <span>Orders</span>
-                    </a>
-                </li>
+            <!--    <li class="nav-item">-->
+            <!--        <a class="nav-link active" id="pills-stores-tab" href="{{url('vendor/orders')}}" role="tab" aria-controls="pills-stores" aria-selected="false">-->
+            <!--            <i class='bx bx-cart-alt' ></i> <span>Orders</span>-->
+            <!--        </a>-->
+            <!--    </li>-->
 
-                <li class="nav-item">
-                    <a class="nav-link" id="pills-stores-tab" href="{{url('vendor/videos')}}" role="tab" aria-controls="pills-stores" aria-selected="false">
-                        <i class='bx bx-video' ></i> <span>Videos</span>
-                    </a>
-                </li>
+            <!--    <li class="nav-item">-->
+            <!--        <a class="nav-link" id="pills-stores-tab" href="{{url('vendor/videos')}}" role="tab" aria-controls="pills-stores" aria-selected="false">-->
+            <!--            <i class='bx bx-video' ></i> <span>Videos</span>-->
+            <!--        </a>-->
+            <!--    </li>-->
 
-                <li class="nav-item">
-                    <a class="nav-link" id="pills-stores-tab" href="{{url('vendor/pictures')}}" role="tab" aria-controls="pills-stores" aria-selected="false">
-                        <i class='bx bx-image-alt' ></i> <span>Pictures</span>
-                    </a>
-                </li>
+            <!--    <li class="nav-item">-->
+            <!--        <a class="nav-link" id="pills-stores-tab" href="{{url('vendor/pictures')}}" role="tab" aria-controls="pills-stores" aria-selected="false">-->
+            <!--            <i class='bx bx-image-alt' ></i> <span>Pictures</span>-->
+            <!--        </a>-->
+            <!--    </li>-->
                
                 
-            </ul>
-            <div class="tab-content mt-5" id="pills-tabContent">
-                <div class="tab-pane fade  show active" id="pills-stores" role="tabpanel" aria-labelledby="pills-stores-tab">
-                    <div class="card custom-card">
-                        <div class="row align-items-center">
-                            <div class="col-lg-6">
-                                <div class="">
-                                    <div class="mb-2">
-                                        <h6 class="text-xl">Lorem Ipsum</h6>
-                                        <p class="text-xxs mb-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                                    </div>
-                                    <div class="mb-0">
-                                        <h6 class="text-xl">Lorem Ipsum</h6>
-                                        <p class="text-xxs mb-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="progress-circle">
-                                    <div role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="--value: 75"></div>
-                                    <div role="progressbar" aria-valuenow="71" aria-valuemin="0" aria-valuemax="100" style="--value: 71"></div>
-                                    <div role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="--value: 30"></div>
-                                    <div role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="--value: 45"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="tab-pane fade" id="pills-managers" role="tabpanel" aria-labelledby="pills-managers-tab">
-                    <div class="card custom-card">
-                            <div class="row align-items-center">
-                                <div class="col-lg-6">
-                                    <div class="">
-                                        <div class="mb-2">
-                                            <h6 class="text-xl">Lorem Ipsum</h6>
-                                            <p class="text-xxs mb-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                                        </div>
-                                        <div class="mb-0">
-                                            <h6 class="text-xl">Lorem Ipsum</h6>
-                                            <p class="text-xxs mb-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="progress-circle">
-                                        <div role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="--value: 75"></div>
-                                        <div role="progressbar" aria-valuenow="71" aria-valuemin="0" aria-valuemax="100" style="--value: 71"></div>
-                                        <div role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="--value: 30"></div>
-                                        <div role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="--value: 45"></div>
-                                    </div>
-                                </div>
-                            </div>
-                    </div>
-                </div>
-                <div class="tab-pane fade" id="pills-designations" role="tabpanel" aria-labelledby="pills-designations-tab">
-                    <div class="card custom-card">
-                                <div class="row align-items-center">
-                                    <div class="col-lg-6">
-                                        <div class="">
-                                            <div class="mb-2">
-                                                <h6 class="text-xl">Lorem Ipsum</h6>
-                                                <p class="text-xxs mb-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                                            </div>
-                                            <div class="mb-0">
-                                                <h6 class="text-xl">Lorem Ipsum</h6>
-                                                <p class="text-xxs mb-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="progress-circle">
-                                            <div role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="--value: 75"></div>
-                                            <div role="progressbar" aria-valuenow="71" aria-valuemin="0" aria-valuemax="100" style="--value: 71"></div>
-                                            <div role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="--value: 30"></div>
-                                            <div role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="--value: 45"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                        </div>
-                </div>
-                <div class="tab-pane fade" id="pills-product" role="tabpanel" aria-labelledby="pills-product-tab">
-                    <div class="card custom-card">
-                        <div class="row align-items-center">
-                            <div class="col-lg-6">
-                                <div class="">
-                                    <div class="mb-2">
-                                        <h6 class="text-xl">Lorem Ipsum</h6>
-                                        <p class="text-xxs mb-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                                    </div>
-                                    <div class="mb-0">
-                                        <h6 class="text-xl">Lorem Ipsum</h6>
-                                        <p class="text-xxs mb-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="progress-circle">
-                                    <div role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="--value: 75"></div>
-                                    <div role="progressbar" aria-valuenow="71" aria-valuemin="0" aria-valuemax="100" style="--value: 71"></div>
-                                    <div role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="--value: 30"></div>
-                                    <div role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="--value: 45"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
+            <!--</ul>-->
+            
+            <div class="row">
+   <div class="col-xl-4 col-lg-4 col-md-6 mb-30">
+      <a href="{{url('vendor/orders')}}" class="icon-card height-100 text-center align-items-center" style="height:100%; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 10px;">
+         <div class="icon purple m-0">
+               <i class="bx bx-cart-alt"></i>
+         </div>
+         <div class="content m-0">
+               <h6 class="mb-0">Orders</h6>
+         </div>
+      </a>
+      <!-- End Icon Cart -->
+   </div>
+   <div class="col-xl-4 col-lg-4 col-md-6 mb-30">
+      <a href="{{url('vendor/videos')}}" class="icon-card height-100 text-center align-items-center" style="height:100%; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 10px;">
+         <div class="icon success m-0">
+            <i class="bx bx-video"></i>
             </div>
+         <div class="content m-0">
+               <h6 class="mb-0">Videos</h6>
+         </div>
+      </a>
+   </div>
+   <div class="col-xl-4 col-lg-4 col-md-6 mb-30">
+      <a href="{{url('vendor/pictures')}}" class="icon-card height-100 text-center align-items-center" style="height:100%; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 10px;">
+         <div class="icon purple m-0">
+               <i class="bx bx-image-alt"></i>
+         </div>
+         <div class="content m-0">
+               <h6 class="mb-0">Pictures</h6>
+         </div>
+      </a>
+      <!-- End Icon Cart -->
+   </div>
+</div>
+
+
+            <!--<div class="tab-content" id="pills-tabContent">-->
+            <!--    <div class="tab-pane fade  show active" id="pills-stores" role="tabpanel" aria-labelledby="pills-stores-tab">-->
+            <!--        <div class="card custom-card">-->
+            <!--            <div class="row align-items-center">-->
+            <!--                <div class="col-lg-6">-->
+            <!--                    <div class="">-->
+            <!--                        <div class="mb-2">-->
+            <!--                            <h6 class="text-xl">Lorem Ipsum</h6>-->
+            <!--                            <p class="text-xxs mb-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>-->
+            <!--                        </div>-->
+            <!--                        <div class="mb-0">-->
+            <!--                            <h6 class="text-xl">Lorem Ipsum</h6>-->
+            <!--                            <p class="text-xxs mb-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>-->
+            <!--                        </div>-->
+            <!--                    </div>-->
+            <!--                </div>-->
+            <!--                <div class="col-lg-6">-->
+            <!--                    <div class="progress-circle">-->
+            <!--                        <div role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="--value: 75"></div>-->
+            <!--                        <div role="progressbar" aria-valuenow="71" aria-valuemin="0" aria-valuemax="100" style="--value: 71"></div>-->
+            <!--                        <div role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="--value: 30"></div>-->
+            <!--                        <div role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="--value: 45"></div>-->
+            <!--                    </div>-->
+            <!--                </div>-->
+            <!--            </div>-->
+            <!--        </div>-->
+            <!--    </div>-->
+            <!--    <div class="tab-pane fade" id="pills-managers" role="tabpanel" aria-labelledby="pills-managers-tab">-->
+            <!--        <div class="card custom-card">-->
+            <!--                <div class="row align-items-center">-->
+            <!--                    <div class="col-lg-6">-->
+            <!--                        <div class="">-->
+            <!--                            <div class="mb-2">-->
+            <!--                                <h6 class="text-xl">Lorem Ipsum</h6>-->
+            <!--                                <p class="text-xxs mb-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>-->
+            <!--                            </div>-->
+            <!--                            <div class="mb-0">-->
+            <!--                                <h6 class="text-xl">Lorem Ipsum</h6>-->
+            <!--                                <p class="text-xxs mb-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>-->
+            <!--                            </div>-->
+            <!--                        </div>-->
+            <!--                    </div>-->
+            <!--                    <div class="col-lg-6">-->
+            <!--                        <div class="progress-circle">-->
+            <!--                            <div role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="--value: 75"></div>-->
+            <!--                            <div role="progressbar" aria-valuenow="71" aria-valuemin="0" aria-valuemax="100" style="--value: 71"></div>-->
+            <!--                            <div role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="--value: 30"></div>-->
+            <!--                            <div role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="--value: 45"></div>-->
+            <!--                        </div>-->
+            <!--                    </div>-->
+            <!--                </div>-->
+            <!--        </div>-->
+            <!--    </div>-->
+            <!--    <div class="tab-pane fade" id="pills-designations" role="tabpanel" aria-labelledby="pills-designations-tab">-->
+            <!--        <div class="card custom-card">-->
+            <!--                    <div class="row align-items-center">-->
+            <!--                        <div class="col-lg-6">-->
+            <!--                            <div class="">-->
+            <!--                                <div class="mb-2">-->
+            <!--                                    <h6 class="text-xl">Lorem Ipsum</h6>-->
+            <!--                                    <p class="text-xxs mb-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>-->
+            <!--                                </div>-->
+            <!--                                <div class="mb-0">-->
+            <!--                                    <h6 class="text-xl">Lorem Ipsum</h6>-->
+            <!--                                    <p class="text-xxs mb-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>-->
+            <!--                                </div>-->
+            <!--                            </div>-->
+            <!--                        </div>-->
+            <!--                        <div class="col-lg-6">-->
+            <!--                            <div class="progress-circle">-->
+            <!--                                <div role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="--value: 75"></div>-->
+            <!--                                <div role="progressbar" aria-valuenow="71" aria-valuemin="0" aria-valuemax="100" style="--value: 71"></div>-->
+            <!--                                <div role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="--value: 30"></div>-->
+            <!--                                <div role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="--value: 45"></div>-->
+            <!--                            </div>-->
+            <!--                        </div>-->
+            <!--                    </div>-->
+            <!--            </div>-->
+            <!--    </div>-->
+            <!--    <div class="tab-pane fade" id="pills-product" role="tabpanel" aria-labelledby="pills-product-tab">-->
+            <!--        <div class="card custom-card">-->
+            <!--            <div class="row align-items-center">-->
+            <!--                <div class="col-lg-6">-->
+            <!--                    <div class="">-->
+            <!--                        <div class="mb-2">-->
+            <!--                            <h6 class="text-xl">Lorem Ipsum</h6>-->
+            <!--                            <p class="text-xxs mb-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>-->
+            <!--                        </div>-->
+            <!--                        <div class="mb-0">-->
+            <!--                            <h6 class="text-xl">Lorem Ipsum</h6>-->
+            <!--                            <p class="text-xxs mb-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>-->
+            <!--                        </div>-->
+            <!--                    </div>-->
+            <!--                </div>-->
+            <!--                <div class="col-lg-6">-->
+            <!--                    <div class="progress-circle">-->
+            <!--                        <div role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="--value: 75"></div>-->
+            <!--                        <div role="progressbar" aria-valuenow="71" aria-valuemin="0" aria-valuemax="100" style="--value: 71"></div>-->
+            <!--                        <div role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="--value: 30"></div>-->
+            <!--                        <div role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="--value: 45"></div>-->
+            <!--                    </div>-->
+            <!--                </div>-->
+            <!--            </div>-->
+            <!--        </div>-->
+            <!--    </div>-->
+                
+            <!--</div>-->
         </div>
         <div class="col-lg-4 mb-4">
             <div class="card custom-card">
