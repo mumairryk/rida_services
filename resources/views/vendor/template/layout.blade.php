@@ -98,9 +98,9 @@
                     <span class="flaticon-user-12"></span>
                 </a>
                 <div class="dropdown-menu  position-absolute" aria-labelledby="userProfileDropdown">
-                    {{-- <a class="dropdown-item" href="#">
+                    <a class="dropdown-item" href="#">
                         <i class="mr-1 flaticon-user-6"></i> <span>My Profile</span>
-                    </a> --}}
+                    </a> 
                     <a class="dropdown-item" href="{{ url('vendor/change_password') }}">
                         <i class="mr-1 flaticon-key-2"></i> <span>Change Password</span>
                     </a>
@@ -160,13 +160,13 @@
             </li>
 
             <li>
-                <a href="{{ url('vendor/videos') }}">
+                <a href="{{ url('vendor/products') }}">
                     <i class='bx bx-video'></i>
-                    <span class="link_name">Videos</span>
+                    <span class="link_name"> Inventory </span>
                 </a>
                 <ul class="sub-menu blank">
                     <li>
-                        <a class="link_name" href="{{ url('vendor/videos') }}">Videos</a>
+                        <a class="link_name" href="{{ url('vendor/videos') }}"> Inventory </a>
                     </li>
                 </ul>
             </li>
@@ -306,21 +306,25 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ url('vendor/videos') }}">
+                        <a href="{{ url('vendor/products') }}">
                             <span class="icon">
-                                <i class="bx bx-video"></i>
+                                <i class="bx bx-grid-alt"></i>
                             </span>
-                            <span class="text">Videos</span>
+                            <span class="text">Inventory</span>
                         </a>
                     </li>
+
                     <li class="nav-item">
-                        <a href="{{ url('vendor/pictures') }}">
+                        <a href="{{ url('vendor/my_profile') }}">
                             <span class="icon">
-                                <i class="bx bx-image-alt"></i>
+                                <i class="bx bx-user-circle"></i>
                             </span>
-                            <span class="text">Pictures</span>
+                            <span class="text">My Profile</span>
                         </a>
                     </li>
+
+                    
+                    
 
                 
                 </ul>

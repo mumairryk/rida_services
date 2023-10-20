@@ -22,7 +22,7 @@ if($role == 4) //store manager
 @section('content')
 
 <div class="row mb-2">
-        <div class="col-lg-8 mb-4">
+        <div class="col-lg-12 mb-4">
             <!--<ul class="nav nav-pills mb-3 custom-pills justify-content-around" id="pills-tab" role="tablist">-->
                 
             <!--    <li class="nav-item">-->
@@ -47,34 +47,26 @@ if($role == 4) //store manager
             <!--</ul>-->
             
             <div class="row">
-   <div class="col-xl-4 col-lg-4 col-md-6 mb-30">
-      <a href="{{url('vendor/orders')}}" class="icon-card height-100 text-center align-items-center" style="height:100%; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 10px;">
-         <div class="icon purple m-0">
-               <i class="bx bx-cart-alt"></i>
+   
+   
+   <div class="col-xl-3 col-lg-3 col-sm-6 mb-30">
+      <a href="{{ url('vendor/products') }}" class="icon-card height-100 text-center align-items-center" style="height:100%; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 10px;">
+         <div class="icon orange m-0">
+               <i class="bx bx-box"></i>
          </div>
          <div class="content m-0">
-               <h6 class="mb-0">Orders</h6>
+               <h6 class="mb-0">Inventory</h6>
          </div>
       </a>
       <!-- End Icon Cart -->
    </div>
-   <div class="col-xl-4 col-lg-4 col-md-6 mb-30">
-      <a href="{{url('vendor/videos')}}" class="icon-card height-100 text-center align-items-center" style="height:100%; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 10px;">
-         <div class="icon success m-0">
-            <i class="bx bx-video"></i>
-            </div>
-         <div class="content m-0">
-               <h6 class="mb-0">Videos</h6>
-         </div>
-      </a>
-   </div>
-   <div class="col-xl-4 col-lg-4 col-md-6 mb-30">
-      <a href="{{url('vendor/pictures')}}" class="icon-card height-100 text-center align-items-center" style="height:100%; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 10px;">
+   <div class="col-xl-3 col-lg-3 col-sm-6 mb-30">
+      <a href="{{ url('vendor/orders') }}" class="icon-card height-100 text-center align-items-center" style="height:100%; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 10px;">
          <div class="icon purple m-0">
-               <i class="bx bx-image-alt"></i>
+               <i class="bx bx-cart"></i>
          </div>
          <div class="content m-0">
-               <h6 class="mb-0">Pictures</h6>
+               <h6 class="mb-0">Orders</h6>
          </div>
       </a>
       <!-- End Icon Cart -->
@@ -190,7 +182,7 @@ if($role == 4) //store manager
                 
             <!--</div>-->
         </div>
-        <div class="col-lg-4 mb-4">
+        <div class="col-lg-4 mb-4" style="display:none;">
             <div class="card custom-card">
                 <div class="progress-bars">
                     <span>
