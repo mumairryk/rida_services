@@ -1343,7 +1343,7 @@ class CartController extends Controller
                 Cart::where(['user_id' => $users->id])->delete();
                 Cart::where(['user_id' => $users->id])->delete();
 
-                $title = trans('validation.order_placed_successfully');
+                $title = "#".config('global.sale_order_prefix').date(date('Ymd', strtotime($order->created_at))).$order_id;
                 $description = trans('validation.your_order_has_been_placed_successfully');
                 $notification_id = time();
                 $ntype = 'order_placed';
