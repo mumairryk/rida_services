@@ -51,7 +51,6 @@
                             <tr>
                                 <th>#</th>
                                 <th>Order No</th>
-                                <th>Invoice ID</th>
                                 <th>Customer </th>
                                 <th>Total</th>
                                 <th>Payment Mode</th>
@@ -69,31 +68,31 @@
                                     <?php   $i++; ?>
                                     <tr>
                                         <td>{{ $i }}</td>
-                                        <td> <?php echo config('global.sale_order_prefix').date(date('Ymd', strtotime($item->created_at))).$item->id; ?></td>
-                                        <td>{{ $item->order_number }}</td>
+                                        <td> <?php echo config('global.sale_order_prefix').date(date('Ymd', strtotime($item->created_at))).$item->order_id; ?></td>
+                                        
                                         <td>{{$item->customer->name }}</td>
                                         {{-- <td>{{ $item->discount }}</td>
                                          <td>{{ $item->vat }}</td>--}}
                                         {{-- <td>{{ $item->admin_commission }}</td> --}}
                                         {{-- <td>{{ $item->vendor_commission }}</td> --}}
-                                        <td>{{ $item->total_amount }}</td>
-                                        <td>
-                                            @if($item->payment_method==1)
-                                                Wallet
-                                            @endif
-                                            @if($item->payment_method==2)
-                                                Card
-                                            @endif
-                                            @if($item->payment_method==3)
-                                                Apple Pay
-                                            @endif
-                                        </td>
+                                        <td>{{ $item->grand_total }}</td>
+                                        <td> 
+                                        @if($item->payment_mode==2)
+                                            Card
+                                        @endif  
+                                        @if($item->payment_mode==3)
+                                            Apple Pay
+                                        @endif 
+                                        @if($item->payment_mode==4)
+                                            Google Pay
+                                        @endif 
+                                    </td>
                                         <td>{{ order_status($item->status_id) }}</td>
                                         <td>
                                             {{web_date_in_timezone($item->booking_date,'d-M-Y h:i A')}}
                                         </td>
                                             <td class="text-center">
-                                                <a href="{{ url('vendor/order_details/' . $item->id) }}" class="btn btn-info btn-sm"></i> Details</a>
+                                                <a href="{{ url('vendor/order_details/' . $item->order_id) }}" class="btn btn-info btn-sm"></i> Details</a>
                                             </td>
                                     </tr>
                                 @endforeach

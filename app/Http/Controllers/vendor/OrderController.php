@@ -23,34 +23,60 @@ class OrderController extends Controller
     }
     public function index(Request $request)
     {
-
-        $vendor_id = Auth::user()->id;
-
         $page_heading = "Orders";
         $order_id = $_GET['order_id'] ?? '';
         $name = $_GET['name'] ?? '';
-        $from = !empty($_GET['from']) ? date('Y-m-d', strtotime($_GET['from'])) : '';
-        $to = !empty($_GET['to']) ? date('Y-m-d', strtotime($_GET['to'])) : '';
+        $from = !empty($_GET['from'])?date('Y-m-d',strtotime($_GET['from'])): '';
+        $to = !empty($_GET['to']) ?date('Y-m-d',strtotime($_GET['to'])): '';
+        $status = $_GET['status'] ?? '';
+        $store_id = Auth::user()->id;
 
-        $list = WholesaleOrder::select('wholesale_orders.*', 'users.name')
-            ->leftjoin('users', 'users.id', 'wholesale_orders.user_id')
-            ->where('wholesale_orders.vendor_id', $vendor_id);
-        if ($name) {
-            $list = $list->whereRaw("name like '%" . $name . "%' ");
+        $list =  OrderModel::select('orders.*',DB::raw("CONCAT(users.first_name,' ',users.last_name) as customer_name"))->leftjoin('users','users.id','orders.user_id')->with(['customer'=>function($q) use($name){
+            $q->where('display_name','like','%'.$name.'%');
+        }])
+        ->with('customer')->leftJoinSub(
+        OrderProductsModel::select('vendor_id', 'order_id')
+            ->groupBy('order_id', 'vendor_id'),
+        'order_products',
+        'order_products.order_id',
+        '=',
+        'orders.order_id'
+    )->where('vendor_id',$store_id);
+        if($name)
+        {
+            $list =$list->whereRaw("concat(first_name, ' ', last_name) like '%" .$name. "%' ");
         }
-        if ($order_id) {
-            $list = $list->where('wholesale_orders.order_number', 'like', '%' . $order_id . '%');
+        if($order_id){
+            $list=$list->where(function ($query) use ($order_id) {
+                $query->where('orders.order_id','like','%'.$order_id.'%' );
+                $query->orWhere('orders.order_no', "like", "%" . $order_id . "%");
+            });
         }
-        if ($from) {
-            $list = $list->whereDate('wholesale_orders.created_at', '>=', $from . ' 00:00:00');
+        if($from){
+            $list=$list->whereDate('orders.created_at','>=',$from.' 00:00:00');
         }
-        if ($to) {
-            $list = $list->where('wholesale_orders.created_at', '<=', $to . ' 23:59:59');
+        if($to){
+            $list=$list->where('orders.created_at','<=',$to.' 23:59:59');
         }
-        $list = $list->orderBy('wholesale_orders.id', 'DESC')->paginate(10);
+        
+        if($status){
+            $list=$list->where('orders.status',$status);
+        }
+        if(isset($_GET['status'])){
+            if($_GET['status'] == 0)
+            {
+            $list=$list->where('orders.status',0);    
+            }
+            
+        }
+        $list=$list->orderBy('orders.order_id','DESC')->paginate(10);
 
+        foreach ($list as $key => $value) {
+            $list[$key]->admin_commission = OrderProductsModel::where('order_id',$value->order_id)->sum('admin_commission');
+            $list[$key]->vendor_commission = OrderProductsModel::where('order_id',$value->order_id)->sum('vendor_commission');
+        }
 
-        return view('vendor.orders.list', compact('page_heading', 'list', 'order_id', 'name', 'from', 'to'));
+        return view('vendor.orders.list',compact('page_heading','list','order_id','name','from','to','status'));
     }
     public function commission(Request $request)
     {
@@ -128,23 +154,31 @@ class OrderController extends Controller
         }
     }
 
-    public function details(Request $request, $id)
+    public function details(Request $request,$id)
     {
         $page_heading = "Orders Details";
-        $page_heading = "Orders Details";
-        $filter['order_id'] = $id;
+        //$list =  OrderProductsModel::select('orders.*',DB::raw("CONCAT(res_users.first_name,' ',res_users.last_name) as customer_name"))->->leftjoin('res_users','res_users.id','orders.user_id')->with('vendor')->where(['order_id'=>$id])->paginate(10);
+        //if($list->total()){
+        //foreach($list->items() as $key=>$row){
 
-        $page = (int) $request->page ?? 1;
-        $limit = 10;
-        $offset = ($page - 1) * $limit;
-        $list = WholesaleOrderItem::get_order_details($filter)->skip($offset)->take($limit)->get();
-        $list = process_order($list);
-        // $highest_order_prd_status = WholesaleOrderItem::where('wholesale_order_id', $id)->orderby('order_status', 'desc')->first();
-        $show_cancel = 0;
-        // if (isset($highest_order_prd_status->order_status) && $highest_order_prd_status->order_status == 1) {
-        //     $show_cancel = 1;
+        //$list->items()[$key]->tickets=OrderModel::tickets($row->id);
+        //$list->items()[$key]->product_name=OrderProductsModel::product_name($row->product_id,$row->product_type);
+        //}
         // }
-        return view('vendor.orders.details', compact('page_heading', 'list','show_cancel'));
+        $filter['order_id']  = $id;
+
+        $page = (int)$request->page??1;
+        $limit= 10;
+        $offset = ($page - 1) * $limit;
+        $list = OrderProductsModel::get_order_details($filter)->skip($offset)->take($limit)->get();
+        $list = process_order($list);
+        $show_cancel = 0;
+
+        /*echo "<pre>";
+            print_r($list);
+        die;*/
+
+        return view('vendor.orders.details',compact('page_heading','list', 'show_cancel'));
     }
 
     public function edit_order(Request $request, $id)

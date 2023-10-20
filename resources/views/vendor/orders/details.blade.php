@@ -14,50 +14,101 @@
                     <div class="card">
                     <div class="card-body">
                     <div class="col-sm-12">
-                        <?php $ordernumber = config('global.sale_order_prefix').date(date('Ymd', strtotime($list[0]->created_at))).$list[0]->id; ?>
-
-                <h4>Order NO: {{$ordernumber}} </h4>
+                    <?php $ordernumber = config('global.sale_order_prefix').date(date('Ymd', strtotime($list[0]->created_at))).$list[0]->order_id; ?>
+                <h4>Order NO: {{$ordernumber ?? ''}} </h4>
                 <div class="table-responsive">
                 <table width="100%">
                     <thead>
                         <tr>
                             <th>Order No.</th>
-                            <th>: {{$ordernumber}}</th>
+                            <th>: {{$ordernumber ?? ''}}</th>
                             <th>Customer</th>
                             <th>: {{$list[0]->name??$list[0]->customer_name}}</th>
                         </tr>
-                        <tr>
+                        {{--<tr>
                             <th>Invoice ID.</th>
                             <th>: {{$list[0]->order_number}}</th>
                             
-                        </tr>
+                        </tr>--}}
                         <tr>
                             <th>Created on.</th>
                             <th>: {{web_date_in_timezone($list[0]->created_at,'d-M-Y h:i A')}} </th>
                             <th>Sale Amount</th>
-                            <th>: {{number_format($list[0]->total_amount, 2, '.', '')}}</th>
+                            <th>: {{number_format($list[0]->grand_total, 2, '.', '')}}</th>
                         </tr>
 
                         <tr>
                      
                         <tr>
                             <th>Grand Total</th>
-                            <th>: {{number_format($list[0]->total_amount, 2, '.', '')}} </th>
+                            <th>: {{number_format($list[0]->grand_total, 2, '.', '')}} </th>
                             <th>Payment Mode</th>
                             <th>:
 
-                                @if($list[0]->payment_method==1)
-                                            Wallet
-                                        @endif  
-                                        @if($list[0]->payment_method==2)
-                                            Card
-                                        @endif  
-                                        @if($list[0]->payment_method==3)
-                                            Apple Pay
-                                        @endif 
-                            
+                                @if($list[0]->payment_mode==1)
+                                    Wallet
+                                @endif
+
+                                @if($list[0]->payment_mode==2)
+                                    Card
+                                @endif
+
+                                @if($list[0]->payment_mode==3)
+                                    Apple Pay
+                                @endif
+
+                                @if($list[0]->payment_mode==4)
+                                    COD
+                                @endif
+
                             </th>
                         </tr>
+                        <tr>
+                            <th>Vendor Commission</th>
+                            <th>: {{number_format($list[0]->vendor_commission, 2, '.', '')}} </th>
+                            <th>Admin Commission</th>
+                            <th>: {{number_format($list[0]->admin_commission, 2, '.', '')}} </th>
+                        </tr>
+                        <tr>
+                            <th>Discount</th>
+                            <th>: {{number_format($list[0]->discount, 2, '.', '')}} </th>
+                            <th>Delivery Address</th>
+                           <th> 
+                            : {{$list[0]->shipping_address->full_name}}<br/>{{$list[0]->shipping_address->dial_code.$list[0]->shipping_address->phone}} <br/>                          
+                            @if($list[0]->shipping_address->address)
+                            {{$list[0]->shipping_address->address}}<br/>@endif
+
+                             @if($list[0]->shipping_address->land_mark)
+                            {{$list[0]->shipping_address->land_mark}}<br/>
+                            @endif
+
+                             @if($list[0]->shipping_address->building_name)
+                            {{$list[0]->shipping_address->building_name}}<br/>
+                            @endif
+
+                             @if($list[0]->shipping_address->flat_no)
+                            {{$list[0]->shipping_address->flat_no}}<br/> 
+                            @endif
+                         
+                            </th>
+                            @if($list[0]->driver_id > 0 )
+
+                              <th>Driver</th>
+                           <th> 
+                            
+                                @php $driver = \App\Models\User::find($list[0]->driver_id); @endphp
+                               {{ $driver->name}}<br/>
+                                +{{ $driver->dial_code.$driver->phone}}<br/>
+                                 {{ $driver->email}}<br/>
+                                 {{$driver->address}}
+
+                           
+
+                           </th>
+                            @endif
+                        </tr>
+                      
+
                     </thead>
 
                 </table>
@@ -68,38 +119,35 @@
                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3">
                             <h4>Order Status</h4>
                         <div class="delivery-status-block">
-                            <ul class="list-unstyled ord_list" data-href="{{url('vendor/order/change_status')}}" data-detailsid="{{$list[0]->id}}">
+                            <ul class="list-unstyled ord_list" data-href="{{url('vendor/order/change_status')}}" data-detailsid="{{$list[0]->order_id}}">
                                 <li class="pending @if($list[0]->status >= config('global.order_status_pending')) active @endif">
                                     <button @if($list[0]->status != config('global.order_status_pending')) data-role="status-change" data-st="{{config('global.order_status_pending')}}" @endif  class="btn-design">Pending</button>
                                 </li>
-                            
+                                 @if($list[0]->status != config('global.order_status_cancelled'))
                                 <li class="accepted @if($list[0]->status >= config('global.order_status_accepted')) active @endif">
                                     <button @if($list[0]->status != config('global.order_status_accepted')) data-role="status-change" data-st="{{config('global.order_status_accepted')}}" @endif class="btn-design">Accepted</button>
                                 </li>
                                 <li class="ready-for-delivery @if($list[0]->status >= config('global.order_status_ready_for_delivery')) active @endif">
                                     <button  @if($list[0]->status != config('global.order_status_ready_for_delivery')) data-role="status-change" data-st="{{config('global.order_status_ready_for_delivery')}}" @endif class="btn-design">Ready For Delivery</button>
                                 </li>
-                                <li class="dispatched @if($list[0]->status >= config('global.order_status_dispatched')) active @endif">
-                                    <button @if($list[0]->status != config('global.order_status_dispatched')) data-role="status-change" data-st="{{config('global.order_status_dispatched')}}" @endif  class="btn-design">Dispatched</button>
-                                </li>
+
+                                 <!-- <li class="dispatched @if($list[0]->status >= config('global.order_status_dispatched')) active @endif"><button @if($list[0]->status != config('global.order_status_dispatched')) data-role="status-change" data-st="{{config('global.order_status_dispatched')}}" @endif class="btn-design" >Dispatched</button></li> -->
+                               
                                 <li class="delivered @if($list[0]->status >= config('global.order_status_delivered')) active @endif">
                                     <button @if($list[0]->status != config('global.order_status_delivered')) data-role="status-change" data-st="{{config('global.order_status_delivered')}}" @endif class="btn-design">Delivered</button>
                                 </li>
+                                @endif
+                                @if($list[0]->status == config('global.order_status_cancelled'))
                                 <li class="delivered @if($list[0]->status >= config('global.order_status_cancelled')) active @endif">
                                     <button @if($list[0]->status != config('global.order_status_cancelled')) data-role="status-change" data-st="{{config('global.order_status_cancelled')}}" @endif class="btn-design">Cancelled</button>
                                 </li>
+                                @endif
             
                             </ul>
                        </div>
-
-                    </div>
-
-
-
-
-                    </div>
-                    </div>
-                </div>
+ </div>
+                   
+                <div class="col-sm-12">
                 <div class="order-totel-details">
                 <div class="card">
                 <div class="card-body">
@@ -110,10 +158,9 @@
                             <button class="cancel-selection" data-role="cancel-order" href="{{url('admin/order/cancel_order')}}" order_id="{{$list[0]->order_id}}">Cancel Order</button>
                         </div>
                     @endif
+
                     <?php if(sizeof($list[0]->order_products)) { ?>
                     <form>
-                        <div class="action-divs d-flex align-items-center">
-                        </div>
                         <div class="product-order-details-div">
                             <div class="product-headeing-title">
                                 <h4>Order Items</h4>
@@ -125,10 +172,12 @@
                                    
                                     <div class="product_details-flex d-flex">
                                         <div class="producT_img">
-                                            <img src="{{asset($datavalue->image)}}" style="width:100px;height:100px;object-fit:cover;">
+                                            @if ( isset ( $datavalue->product_images[0] ) && $datavalue->product_images[0] != "" )
+                                                <img src="{{asset($datavalue->product_images[0])}}" style="width:100px;height:100px;object-fit:cover;">
+                                            @endif
                                         </div>
                                         <div class="product_content">
-                                            <h4 class="product-name">{{$datavalue->title}}</h4>
+                                            <h4 class="product-name">{{$datavalue->product_name}}</h4>
                                             {{-- <p><strong>Vendor: </strong> {{$datavalue->title}}</p> --}}
                                             <p><strong>Quantity: </strong> {{$datavalue->order_qty}}</p>
                                             <p><strong>Price: </strong> {{$datavalue->order_price}}</p>
@@ -174,6 +223,7 @@
                                             </button></li>
                                             @endif
                                             @else
+
                                             <li class="delivered @if($datavalue->order_status >= config('global.order_status_cancelled')) active @endif"><button class="btn-design">Cancelled</button></li>
                                             @endif
 
@@ -195,12 +245,16 @@
                         </div>
                     </form>
                     <?php } ?>
+
+                       
                 </div>
             </div>
             </div>
              </div>
+             </div>
             </div>
     </div>
+</div>
 @stop
 
 @section('script')
