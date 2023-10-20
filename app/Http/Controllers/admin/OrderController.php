@@ -278,7 +278,7 @@ class OrderController extends Controller
                         "description" => $description,
                         "notificationType" => $ntype,
                         "createdAt" => gmdate("d-m-Y H:i:s", $notification_id),
-                        "orderId" => (string) $reqWuest->detailsid,
+                        "orderId" => (string) $request->detailsid,
                         "url" => "",
                         "imageURL" => '',
                         "read" => "0",
