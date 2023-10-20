@@ -166,7 +166,7 @@
           </div>
           <div class="col-md-3">
             <div class="copyright-area-l-13 text-center text-md-right">
-              <p>© Live Market 2023 All right reserved.</p>
+              <p>© {{env('APP_NAME')}} 2023 All right reserved.</p>
             </div>
           </div>
         </div>
