@@ -28,13 +28,20 @@ class LoginController extends Controller
         // Validate request
         $roles = [1, 2, 3, 4, 5, 6];
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-            if (Auth::check() && (Auth::user()->role == '3')) {
+            if (Auth::check() && (Auth::user()->role == '3') && Auth::user()->active == 1) {
+                if(Auth::user()->verified == 1)
+               {
                 $request->session()->put('user_id',Auth::user()->id);
                 if($request->timezone){
                     $request->session()->put('user_timezone',$request->timezone);
                 }
+                 }
+               else
+               {
+               return response()->json(['error' => true, 'message' => "Admin not verified"]); 
+               }
                 return response()->json(['success' => true, 'message' => "Logged in successfully."]);
-            }elseif (Auth::check() && (Auth::user()->active == '0')) {
+            }else if (Auth::check() && (Auth::user()->active == '0')) {
                 return response()->json(['success' => false, 'message' => "You are blocked by admin!"]);
             }
 
