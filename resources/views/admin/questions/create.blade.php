@@ -47,6 +47,9 @@
                             <option value="2" @if(!empty($datamain)) {{$datamain->answer_type==2 ? "selected" : null}} @endif>Textarea</option>
                             <option value="3" @if(!empty($datamain)) {{$datamain->answer_type==3 ? "selected" : null}} @endif>Radio</option>
                             <option value="4" @if(!empty($datamain)) {{$datamain->answer_type==4 ? "selected" : null}} @endif>Check Box</option>
+                            <option value="5" @if(!empty($datamain)) {{$datamain->answer_type==5 ? "selected" : null}} @endif>Email</option>
+                            <option value="6" @if(!empty($datamain)) {{$datamain->answer_type==6 ? "selected" : null}} @endif>Phone</option>
+                            <option value="7" @if(!empty($datamain)) {{$datamain->answer_type==7 ? "selected" : null}} @endif>Location</option>
                         </select>
                     </div>
 

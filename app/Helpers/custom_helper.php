@@ -1189,6 +1189,18 @@ function GetDrivingDistance($lat1, $lat2, $long1, $long2)
      {
          $value = "Check Box";
      }
+     else if($id == 4)
+     {
+         $value = "Email";
+     }
+     else if($id == 4)
+     {
+         $value = "Phone";
+     }
+     else if($id == 4)
+     {
+         $value = "Location";
+     }
      else
      {
          $value ="";
