@@ -4026,7 +4026,8 @@ label.custom-control-label { margin-bottom: .5rem; margin-bottom: 16px; }
   }
 }
 .sidebar-nav-wrapper .navbar-logo .img-fluid {
-  max-width: 100px;
+  max-width: 150px;
+    padding: 7px 0px;
 }
 .alert-warning p {
   margin-bottom: 0px;

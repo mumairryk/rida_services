@@ -1,20 +1,20 @@
 :root{
-    --primary-color: #000000;
-    --secondary-color: #f39f16;
+    --primary-color: #0081EF;
+    --secondary-color: #0081EF;
     --back-color: #000;
     --white-color: #fff;
   }
 
-  body{
-    background-color: #000;
-}
+/*  body{*/
+/*    background-color: #000;*/
+/*}*/
 
 .brand-logo img{
     /* width: 105px; */
     width: 185px;
 }
 .landing-1-menu .header-btn-l1 .btn {
-    box-shadow: 0 16px 36px rgba(235, 192, 94, 0.2);
+    box-shadow: 0 16px 36px #add4f5;
     background: var(--secondary-color); /* Old browsers */
     color: #fff;
     font-size: 13px;
@@ -23,10 +23,10 @@
     /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#88219b+0,3e47b1+100 */
     background: var(--secondary-color); /* Old browsers */
     color: #fff;
-    box-shadow: 0 26px 46px rgba(235, 192, 94, 0.2);
+    box-shadow: 0 26px 46px #add4f5;
 }
 .l1-get-start-btn .btn {
-    box-shadow: 0 26px 46px rgba(235, 192, 94, 0.2);
+    box-shadow: 0 26px 46px #add4f5;
     background: var(--secondary-color); /* Old browsers */
     color: #fff;
 }
@@ -252,7 +252,7 @@ li.nav-item-has-children:hover > .sub-menu {
 
 #scroll_to_top {
     display: inline-block;
-    background: linear-gradient(45deg, #EBC05E 0%,#B27E30 100%);
+    background: linear-gradient(45deg, var(--primary-color) 0%, var(--primary-color) 100%);
     width: 35px;
     height: 35px;
     text-align: center;
@@ -272,10 +272,10 @@ li.nav-item-has-children:hover > .sub-menu {
   
   #scroll_to_top:hover {
     cursor: pointer;
-    background: linear-gradient(45deg,  #B27E30 0%,#EBC05E 100%);
+    background: linear-gradient(45deg,  var(--primary-color) 0%,var(--primary-color) 100%);
   }
   #scroll_to_top:active {
-    background: linear-gradient(45deg,  #B27E30 0%,#EBC05E 100%);
+    background: linear-gradient(45deg,  var(--primary-color) 0%,var(--primary-color) 100%);
   }
   #scroll_to_top.show {
     opacity: 1;
@@ -361,7 +361,7 @@ li.nav-item-has-children:hover > .sub-menu {
 
   #heading {
     text-transform: uppercase;
-    color: #fff;
+    color: var(--black-color);
     font-weight: 700;
 }
 
@@ -450,7 +450,7 @@ li.nav-item-has-children:hover > .sub-menu {
     -moz-box-shadow: none !important;
     -webkit-box-shadow: none !important;
     box-shadow: none !important;
-    border: 1px solid #fff;
+    border: 1px solid var(--primary-color);
     outline-width: 0;
     background-color: #FFF;
 }
@@ -545,19 +545,19 @@ li.nav-item-has-children:hover > .sub-menu {
 }
 
 .fieldlabels {
-    color: #FFF;
+    color: var(--black-color);
     text-align: left
 }
 
 #progressbar {
     margin-bottom: 30px;
     overflow: hidden;
-    color: lightgrey;
+    color: #252525;
     padding-left: 0;
 }
 
 #progressbar .active {
-    color: #FFF;
+    color: var(--primary-color);
 }
 
 #progressbar li {
@@ -642,7 +642,7 @@ li.nav-item-has-children:hover > .sub-menu {
 }
 
 .border-bottom {
-    border-bottom: 1px solid #ebc15e71 !important;
+    border-bottom: 1px solid #add3fd !important;
 }
 
 .card{
@@ -650,21 +650,21 @@ li.nav-item-has-children:hover > .sub-menu {
 }
 
 .flatpickr-day.selected, .flatpickr-day.startRange, .flatpickr-day.endRange, .flatpickr-day.selected.inRange, .flatpickr-day.startRange.inRange, .flatpickr-day.endRange.inRange, .flatpickr-day.selected:focus, .flatpickr-day.startRange:focus, .flatpickr-day.endRange:focus, .flatpickr-day.selected:hover, .flatpickr-day.startRange:hover, .flatpickr-day.endRange:hover, .flatpickr-day.selected.prevMonthDay, .flatpickr-day.startRange.prevMonthDay, .flatpickr-day.endRange.prevMonthDay, .flatpickr-day.selected.nextMonthDay, .flatpickr-day.startRange.nextMonthDay, .flatpickr-day.endRange.nextMonthDay{
-    background: #EBC05E;
+    background: var(--primary-color);
     -webkit-box-shadow: none;
     box-shadow: none;
     color: #fff;
-    border-color: #EBC05E;
+    border-color: var(--primary-color);
 }
 
 .flatpickr-day.today:hover, .flatpickr-day.today:focus {
-    border-color: #EBC05E;
-    background: #EBC05E;
+    border-color: var(--primary-color);
+    background: var(--primary-color);
     color: #fff;
 }
 
 .flatpickr-day.today {
-    border-color: #EBC05E;
+    border-color: var(--primary-color);
 }
   
   @media (max-width: 1399.98px) {
@@ -755,7 +755,7 @@ li.nav-item-has-children:hover > .sub-menu {
     }
 }
 .parsley-errors-list{
-    color: #ffcd28 !important;
+    color: #B94A48 !important;
 }
 
 .mobile-menu-trigger{

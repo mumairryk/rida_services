@@ -47,9 +47,13 @@
         integrity="sha512-MQXduO8IQnJVq1qmySpN87QQkiR1bZHtorbJBD0tzy7/0U9+YIC93QWHeGTEoojMVHWWNkoCp8V6OzVSYrX0oQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link href="{{ asset('') }}admin-assets/assets/css/custom.css" rel="stylesheet" type="text/css" />
     <link href="{{ asset('') }}admin-assets/assets/css/plugins.css" rel="stylesheet" type="text/css" />
     <link href="{{ asset('') }}admin-assets/assets/css/parsley.css" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('') }}admin-assets/assets/css/sidebar.css" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('') }}admin-assets/assets/css/newsidebar.css" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('') }}admin-assets/assets/css/datatable-custom.css" rel="stylesheet" type="text/css"/>
     <!-- END GLOBAL MANDATORY STYLES -->
 
     <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM STYLES -->
@@ -120,7 +124,7 @@
 
 
 
-    <div class="sidebar close">
+    <div class="sidebar close d-none">
         <div class="logo-details mt-2">
             <a href="#">
                 <i class='bx bx-menu'></i>
@@ -193,7 +197,7 @@
     </div>
 
 
-    <section class="home-section">
+    <section class="home-section d-none">
         <!-- <div class="home-content"> -->
         <!-- <div class="container-fluid">
         <i class='bx bx-menu' ></i>
@@ -275,124 +279,208 @@
 
 
 
-
-    <!--  BEGIN MAIN CONTAINER  -->
-    <div class="container d-none" id="container">
-
-        <div class="overlay"></div>
-        <div class="cs-overlay"></div>
-
-        <!--  BEGIN SIDEBAR  -->
-
-        <div class="sidebar-wrapper sidebar-theme d-none">
-
-            <div id="dismiss" class="d-lg-none"><i class="flaticon-cancel-12"></i></div>
-
-            <nav id="sidebar">
-
-                <ul class="navbar-nav theme-brand flex-row  d-none d-lg-flex justify-content-center">
-                    <li class="nav-item d-flex justify-content-center">
-                        <a href="{{ url('vendor/dashboard') }}" class="navbar-brand">
-                            <img src="{{ asset('') }}admin-assets/assets/img/logo.svg" class="img-fluid"
-                                alt="logo" style="width:212px">
-                        </a>
-                        <!--<p class="border-underline"></p>-->
-                    </li>
-                    <!--<li class="nav-item theme-text">-->
-                    <!--    <a href="{{ url('vendor/dashboard') }}" class="nav-link" style="color: black!important"> {{ config('global.site_name') }} </a>-->
-                    <!--</li>-->
-                </ul>
-
-
-                <ul class="list-unstyled menu-categories" id="accordionExample">
-                    <li class="menu">
-                        <a href="{{ url('vendor/dashboard') }}" class="dropdown-toggle">
-                            <div class="">
-                                <i class="flaticon-computer-6 ml-3"></i>
-                                <span>Dashboard</span>
-                            </div>
-
+    <!-- New Sidebar Starts Here -->
+    <aside class="sidebar-nav-wrapper">
+            <div class="navbar-logo">
+                <a href="#!">
+                    <img src="{{ asset('') }}admin-assets/assets/img/logo.svg" width="160" class="img-fluid" alt="logo" />
+                </a>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+               
+                    <li class="nav-item">
+                        <a href="{{ url('vendor/dashboard') }}">
+                            <span class="icon">
+                                <i class="bx bx-grid-alt"></i>
+                            </span>
+                            <span class="text">Dashboard</span>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="{{ url('vendor/orders') }}">
+                            <span class="icon">
+                                <i class="bx bx-cart-alt"></i>
+                            </span>
+                            <span class="text">Orders</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url('vendor/videos') }}">
+                            <span class="icon">
+                                <i class="bx bx-video"></i>
+                            </span>
+                            <span class="text">Videos</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url('vendor/pictures') }}">
+                            <span class="icon">
+                                <i class="bx bx-image-alt"></i>
+                            </span>
+                            <span class="text">Pictures</span>
+                        </a>
+                    </li>
 
-                    
-
-
-
+                
                 </ul>
             </nav>
+        </aside>
+        <div class="overlay"></div>
+        <!-- ======== sidebar-nav end =========== -->
 
+        <!-- New Sidebar Ends Here -->
+
+
+
+<!-- ======== main-wrapper start =========== -->
+    <main class="main-wrapper">
+
+        <div class="container-fluid d-none">
+            <div class="page-header">
+                <div class="page-title">
+                    <h3>{{ $page_heading ?? '' }}</h3>
+                    <div class="crumbs">
+                        <ul id="breadcrumbs" class="breadcrumb">
+                            <li><a href="{{ url('admin/dashboard') }}"><i class="flaticon-home-fill"></i></a>
+                            </li>
+                            <li><a onclick="window.history.back()" href="#">{{ $page_heading ?? '' }}</a>
+                            </li>
+                            <?php if(isset($mode)) { ?>
+                            <li class="active"><a href="#">{{ $mode ?? '' }}</a></li>
+                            <?php } ?>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <!--  END SIDEBAR  -->
 
+        <!-- ======== Header start =========== -->
+        <header class="header">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-5 col-md-5 col-6">
+                            <div class="header-left d-flex align-items-center">
+                                <div class="menu-toggle-btn mr-20">
+                                    <button id="menu-toggle" class="main-btn primary-btn btn-hover"><i class="bx bx-chevron-left"></i> Menu</button>
+                                </div>
 
-        <!--  BEGIN CONTENT PART  -->
-        <div id="content" class="main-content d-none">
-            <div class="container">
-                <div class="page-header">
-                    <div class="page-title">
-                        <h3>{{ $page_heading ?? '' }}</h3>
-                        <div class="crumbs">
-                            <ul id="breadcrumbs" class="breadcrumb">
-                                <li><a href="{{ url('vendor/dashboard') }}"><i class="flaticon-home-fill"></i></a>
-                                </li>
-                                <li><a onclick="window.history.back()" href="#">{{ $page_heading ?? '' }}</a>
-                                </li>
-                                <?php if(isset($mode)) { ?>
-                                <li class="active"><a href="#">{{ $mode ?? '' }}</a></li>
-                                <?php } ?>
-                            </ul>
+                               
+                            </div>
+                        </div>
+                        <div class="col-lg-7 col-md-7 col-6">
+                            <div class="header-right">
+                                <!-- profile start -->
+                                <div class="profile-box ml-15">
+                                    <button class="dropdown-toggle bg-transparent border-0" type="button" id="profile" data-toggle="dropdown" aria-expanded="false">
+                                        <div class="profile-info">
+                                            <div class="info">
+                                                <h6 class="text-white mb-0">Hi, Admin</h6>
+                                                <div class="image">
+                                                    <img src="{{ asset('') }}admin-assets/assets/img/profile-icon.svg" alt="" />
+                                                    <span class="status"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <i class="bx bx-chevron-down"></i>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profile">
+                                        <li>
+                                            <a href="{{ url('vendor/dashboard') }}"> <i class="bx bx-grid-alt"></i> Dashboard </a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ url('vendor/change_password') }}"> <i class="bx bxs-key"></i> Change Password </a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ url('vendor/logout') }}"> <i class="bx bx-log-out-circle"></i> Sign Out </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!-- profile end -->
+                            </div>
                         </div>
                     </div>
                 </div>
+            </header>
+            <!-- ========== Header end ========== -->
 
 
-                <!-- CONTENT AREA -->
+        <section class="section">
+            <div class="container-fluid">
+
+            <!-- ========== title-wrapper start ========== -->
+            <div class="title-wrapper pt-30 pb-10">
+                                    <div class="row align-items-center">
+                                        <div class="col-md-6">
+                                            <div class="title mb-30">
+                                                <h2>{{ $page_heading ?? '' }}</h2>
+                                            </div>
+                                        </div>
+                                        <!-- end col -->
+                                        <div class="col-md-6">
+                                            <div class="breadcrumb-wrapper mb-30">
+                                                <nav aria-label="breadcrumb">
+                                                    <ol class="breadcrumb">
+                                                        <li class="breadcrumb-item">
+                                                            <a href="{{ url('vendor/dashboard') }}">
+                                                                <i class='bx bx-home-alt'></i>
+                                                            </a>
+                                                        </li>
+                                                        <li class="breadcrumb-item">
+                                                            <a onclick="window.history.back()" href="#">{{ $page_heading ?? '' }}</a>
+                                                        </li>
+                                                        <?php if(isset($mode)) { ?>
+                                                            <li class="breadcrumb-item active">
+                                                                <a href="#">{{ $mode ?? '' }}</a>
+                                                            </li>
+                                                        <?php } ?>
+                                                    </ol>
+                                                </nav>
+                                            </div>
+                                        </div>
+                                        <!-- end col -->
+                                    </div>
+                                    <!-- end row -->
+                                </div>
 
 
-                <!-- @yield('content') -->
-
-
-                <!-- CONTENT AREA -->
-
+                @yield('content')
             </div>
-        </div>
-        <!--  END CONTENT PART  -->
-    </div>
-    <!-- END MAIN CONTAINER -->
+        </section>
 
-    <!--  BEGIN FOOTER  -->
-    <footer class="footer-section theme-footer d-none">
 
-        <div class="footer-section-1  sidebar-theme">
 
-        </div>
 
-        <div class="footer-section-2 container-fluid">
-            <div class="row">
-                <div id="toggle-grid" class="col-xl-7 col-md-6 col-sm-6 col-12 text-sm-left text-center">
-                    <ul class="list-inline links ml-sm-5">
-
-                    </ul>
+        <footer class="footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12 order-last order-md-first">
+                            <div class="copyright text-center text-md-start">
+                                <p class="text-sm mb-0">
+                                    &#xA9; {{ date('Y') }}
+                                    <a href="#!" class="" rel="nofollow" target="_blank">
+                                    {{ config('global.site_name') }}
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end row -->
                 </div>
-                <div class="col-xl-5 col-md-6 col-sm-6 col-12">
-                    <ul
-                        class="list-inline mb-0 d-flex justify-content-sm-end justify-content-center mr-sm-3 ml-sm-0 mx-3">
-                        <li class="list-inline-item  mr-3">
-                            <p class="bottom-footer">&#xA9; {{ date('Y') }} <a target="_blank"
-                                    href="#">{{ config('global.site_name') }}</a></p>
-                        </li>
-                        <li class="list-inline-item align-self-center">
-                            <div class="scrollTop"><i class="flaticon-up-arrow-fill-1"></i></div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </footer>
+                <!-- end container -->
+            </footer>
+
+                            <!-- </section> -->
+
+        @yield('footer')
+    </main>
+
+
+
+  
     @yield('footer')
-    <!--  END FOOTER  -->
+
 
     <!--  BEGIN CONTROL SIDEBAR  -->
 
@@ -928,38 +1016,38 @@
             dateFormat: "Y-m-d"
         });
 
-        let arrow = document.querySelectorAll(".arrow");
-        for (var i = 0; i < arrow.length; i++) {
-            arrow[i].addEventListener("click", (e) => {
-                let arrowParent = e.target.parentElement.parentElement; //selecting main parent of arrow
-                arrowParent.classList.toggle("showMenu");
-            });
+         /* ========= sidebar toggle ======== */
+    const sidebarNavWrapper = document.querySelector(".sidebar-nav-wrapper");
+    const mainWrapper = document.querySelector(".main-wrapper");
+    const menuToggleButton = document.querySelector("#menu-toggle");
+    const menuToggleButtonIcon = document.querySelector("#menu-toggle i");
+    const overlay = document.querySelector(".overlay");
+
+    menuToggleButton.addEventListener("click", () => {
+      sidebarNavWrapper.classList.toggle("active");
+      overlay.classList.add("active");
+      mainWrapper.classList.toggle("active");
+
+      if (document.body.clientWidth > 1200) {
+        if (menuToggleButtonIcon.classList.contains("bx-chevron-left")) {
+          menuToggleButtonIcon.classList.remove("bx-chevron-left");
+          menuToggleButtonIcon.classList.add("bx-menu");
+        } else {
+          menuToggleButtonIcon.classList.remove("bx-menu");
+          menuToggleButtonIcon.classList.add("bx-chevron-left");
         }
-
-        let sidebar = document.querySelector(".sidebar");
-        let sidebarBtn = document.querySelector(".bx-menu");
-        console.log(sidebarBtn);
-        sidebarBtn.addEventListener("click", () => {
-            sidebar.classList.toggle("close");
-        });
-
-        $(".progress-bar-1").css('width', '30%');
-        $(".progress-bar-2").css('width', '70%');
-
-
-        const body = document.querySelector("body"),
-            modeSwitch = body.querySelector(".toggle-switch"),
-            modeText = body.querySelector(".mode-text");
-        modeSwitch.addEventListener("click", () => {
-            body.classList.toggle("dark");
-
-            if (body.classList.contains("dark")) {
-                modeText.innerText = "Light mode";
-            } else {
-                modeText.innerText = "Dark mode";
-
-            }
-        });
+      } else {
+        if (menuToggleButtonIcon.classList.contains("bx-chevron-left")) {
+          menuToggleButtonIcon.classList.remove("bx-chevron-left");
+          menuToggleButtonIcon.classList.add("bx-menu");
+        }
+      }
+    });
+    overlay.addEventListener("click", () => {
+      sidebarNavWrapper.classList.remove("active");
+      overlay.classList.remove("active");
+      mainWrapper.classList.remove("active");
+    });
     </script>
 
     <!-- END GLOBAL MANDATORY SCRIPTS -->

@@ -24,14 +24,12 @@ h5 { font-size: 0.875rem; }
     /*box-shadow: 0 10px 60px 0 rgba(29,29,31,.09);*/
     width: 100%;
     margin: auto;
-    Copied to clipboard!
-
-    background: rgba( 0, 0, 0, 0.25 );
+    /*background: rgba( 0, 0, 0, 0.25 );*/
     /*box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );*/
-    backdrop-filter: blur( 20px );
-    -webkit-backdrop-filter: blur( 20px );
+    /*backdrop-filter: blur( 20px );*/
+    /*-webkit-backdrop-filter: blur( 20px );*/
     border-radius: 10px;
-    border: 1px solid #B27E30;
+    border: 1px solid #0090EF;
 }
 .form-login .social h5 { color: #6156ce; }
 .form-login .form-control::-webkit-input-placeholder {

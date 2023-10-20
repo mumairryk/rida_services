@@ -37,16 +37,18 @@
             backdrop-filter: blur( 20px );
             -webkit-backdrop-filter: blur( 20px );
             border-radius: 10px;
-            border: 1px solid #B27E30;
-            min-height: 402px;
-            padding: 30px
+            border: 1px solid #0090EF;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
         }
         .create-account-section span{
             padding: 8px 12px;
             margin-bottom: 20px !important;
             color: #fff !important;
-            background: linear-gradient(to right top, #af7a2d, #b58032, #ba8738, #c08d3d, #c59443, #cc9c48, #d2a34e, #d9ab53, #e3b65a, #ecc160, #f6cc67, #ffd76e);
-            background-image: linear-gradient(to right top, #af7a2d, #b58032, #ba8738, #c08d3d, #c59443, #cc9c48, #d2a34e, #d9ab53, #e3b65a, #ecc160, #f6cc67, #ffd76e);
+            background: #0090EF;
             box-shadow: none;
             border-radius: 50rem;
         }
@@ -62,15 +64,24 @@
         .create-account-section a{
 
         }
+        @media(max-width: 650px){
+            body{
+                padding: 40px 0px;
+                height: auto !important;
+            }
+        }
+        .form-login label.error{
+            color: #B94A48 !important;
+        }
     </style>
 
 </head>
-<body class="login" style="background: url('{{ asset('') }}admin-assets/assets/img/bg-1920x1080.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+<body class="login" style="background: url('{{ asset('') }}admin-assets/assets/img/login-bg.png'); background-size: cover; background-position: center; background-repeat: no-repeat;">
 
     <div class="container">
         <div class="row">
-            <div class="col-lg-7 mb-4">
-                <form method="POST" class="form-login" action="{{ route('vendor.check_user') }}" >
+            <div class="col-lg-6 mb-4">
+                <form method="POST" class="form-login h-100 mb-0" action="{{ route('vendor.check_user') }}" >
                     @csrf
                     <input type="hidden" name="admin" value="1">
                     <div class="row">
@@ -95,7 +106,7 @@
                            
 
                             <div style="margin-top: 30px; text-align: right;">
-                                <p class="text-muted"> <a href="{{url('/vendor')}}" class="text-white"> Login </a> </b> </p>
+                                <p class="text-muted"> <a href="{{url('/vendor')}}" class="text-black"> Login </a> </b> </p>
                             </div>
 
                         </div>
@@ -103,8 +114,8 @@
                 </form>
             </div>
 
-            <div class="col-lg-5 mb-4">
-                    <div class="create-account-section">
+            <div class="col-lg-6 mb-4">
+                    <div class="create-account-section h-100">
                         <span>New Vendor</span>
                         <h3  class="mt-3 mb-2">Create an Account</h3>
                         <p class="mb-4">Whether you are a vendor or products supplier, Moda's registration process is more easier than you think. Simply fill out the registration details to register with MODA. Vendors can then provide their company name, products and services to be sold, and other important business details through the vendor panel.The biggest selling point?</p>
