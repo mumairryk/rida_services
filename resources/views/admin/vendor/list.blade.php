@@ -112,7 +112,7 @@
                                   
 
                                     @if(check_permission('products','View'))
-                                    <a class="dropdown-item" href="{{url('admin/products')}}"><i class="flaticon-view"></i> Products</a>    
+                                    <a class="dropdown-item" href="{{url('admin/products?vendor='.$datarow->id)}}"><i class="flaticon-view"></i> Products</a>    
                                     @endif
 
                                     @if(check_permission('orders','View'))
