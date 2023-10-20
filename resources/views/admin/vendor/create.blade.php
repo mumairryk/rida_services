@@ -692,7 +692,7 @@
         App.initFormView();
 
 
-        $('.time').timepicker({timeFormat:'H:i'});
+        //$('.time').timepicker({timeFormat:'H:i'});
 
         $(".week_days").change(function(e){
         
