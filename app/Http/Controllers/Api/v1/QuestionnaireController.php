@@ -82,7 +82,7 @@ class QuestionnaireController extends Controller
             $user_id = $this->validateAccesToken($request->access_token);
             $type = $request->type;
 
-            $datamain = Question::select('id','question','active','question_for','answer_type')->where(['active'=>1,'question_for'=>$type])->orderBy('sort_order','asc')->get();
+            $datamain = Question::select('id','question','active','question_for','answer_type','placeholder')->where(['active'=>1,'question_for'=>$type])->orderBy('sort_order','asc')->get();
 
             foreach ($datamain as $key => $value) {
                 $datamain[$key]->answer_type_text = answer_type($value->answer_type);
