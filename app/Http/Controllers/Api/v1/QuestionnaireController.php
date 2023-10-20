@@ -18,9 +18,14 @@ use Validator;
 
 class QuestionnaireController extends Controller
 {
-    public function __construct(Database $database)
+    public $lang = '';
+    public function __construct(Database $database,Request $request)
     {
         $this->database = $database;
+        if(isset($request->lang)) {
+            \App::setLocale($request->lang);
+        }
+        $this->lang = \App::getLocale();
     }
     private function validateAccesToken($access_token)
     {
@@ -136,6 +141,39 @@ class QuestionnaireController extends Controller
                $datains1->updated_at = gmdate('Y-m-d H:i:s');
                $datains1->save();
             }
+             $users = User::find($user_id);
+             $title = "Enquiry ID: ".$datains->id;
+                $description = "Your enquiry sent successfully";
+                $notification_id = time();
+                $ntype = 'enquiry_sent';
+                if (!empty($users->firebase_user_key)) {
+                    $notification_data["Nottifications/" . $users->firebase_user_key . "/" . $notification_id] = [
+                        "title" => $title,
+                        "description" => $description,
+                        "notificationType" => $ntype,
+                        'createdDate'     => gmdate("d-m-Y H:i:s", $notification_id),
+                        "orderId" => (string) $datains->id,
+                        "url" => "",
+                        "imageURL" => '',
+                        "read" => "0",
+                        "seen" => "0",
+                    ];
+                    $this->database->getReference()->update($notification_data);
+                }
+
+                if (!empty($users->user_device_token)) {
+                    send_single_notification($users->user_device_token, [
+                        "title" => $title,
+                        "body" => $description,
+                        "icon" => 'myicon',
+                        "sound" => 'default',
+                        "click_action" => "EcomNotification"],
+                        ["type" => $ntype,
+                            "notificationID" => $notification_id,
+                            "orderId" => (string) $datains->id,
+                            "imageURL" => "",
+                        ]);
+                }
 
             $status = "1";
             $message = "Enquiry sent successfully";
