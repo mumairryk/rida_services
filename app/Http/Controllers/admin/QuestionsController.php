@@ -70,6 +70,7 @@ class QuestionsController extends Controller
                 $ins['active'] = $request->active;
                 $ins['question_for'] = $request->question_for;
                 $ins['answer_type'] = $request->answer_type;
+                $ins['placeholder'] = $request->placeholder;
                 $ins['created_at'] = gmdate('Y-m-d H:i:s');
                 $ins['updated_at'] = gmdate('Y-m-d H:i:s');
                 if(!$request->id)

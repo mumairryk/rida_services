@@ -53,6 +53,12 @@
                         </select>
                     </div>
 
+
+                    <div class="col-md-6 form-group" style="display:none;" id="placeholder">
+                        <label>Place Holder</label>
+                        <input type="text" name="placeholder" class="form-control jqv-input" value="{{$datamain->placeholder??''}}" data-jqv-required="true" >
+                    </div>
+
                     
 
                     </div>
@@ -172,13 +178,17 @@
 
 $('body').off('change', '#answertype');
 $('body').on('change', '#answertype', function(e) {
+  $('#placeholder').hide();
   $('#datarowsadd').hide();
   $('#datarowsadd').find('[required]').prop('required', false);
   var ans = $(this).val();
   if(ans == 3 || ans == 4)
   {
-   $('#datarowsadd').show();  
    $('#datarowsadd').find('[required]').prop('required', true);
+  }
+  if(ans == 1 || ans == 2 || ans == 5 || ans == 6 || ans == 7)
+  {
+   $('#placeholder').show();   
   }
 });
 
