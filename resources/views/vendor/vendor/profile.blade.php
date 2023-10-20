@@ -153,7 +153,7 @@
                         <div class="col-sm-4 col-xs-12">
                             <div class="form-group">
                                 <label>No of branches <span style="color:red;">*<span></span></span></label>
-                                <input type="text" class="form-control" name="no_of_branches" value="{{empty($vendor->branches) ? '': $vendor->branches}}"  data-jqv-maxlength="100" >
+                                <input type="text" class="form-control" name="no_of_branches" value="{{empty($vendor->branches) ? '': $vendor->branches}}" required data-jqv-maxlength="100" >
                                 <div class="error"></div>
                             </div>
                         </div>
