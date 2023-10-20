@@ -91,6 +91,10 @@ Route::namespace('App\Http\Controllers\Api\v1')->prefix("v1")->name("api.v1.")->
   Route::post('/cities', 'CMS@cities')->name('cities');
   Route::post('/submit_contact_us','CMS@submit_contact_us');
 
+  Route::post('get_mobile_otp', 'ChangeMobileController@get_mobile_otp');
+  Route::post('resend_mobile_otp',  'ChangeMobileController@resend_mobile_otp');
+  Route::post('change_mobile', 'ChangeMobileController@change_mobile');
+
 
     Route::post('logout', 'AuthController@logout')->name('logout');
     Route::post('delete_account', 'AuthController@delete_account')->name('delete_account');
