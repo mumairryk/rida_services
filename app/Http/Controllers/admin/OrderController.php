@@ -267,7 +267,7 @@ class OrderController extends Controller
                     }
                 }
                 
-                $title = 'Order Status Updated';
+                $title = "#".config('global.sale_order_prefix').date(date('Ymd', strtotime($ord->created_at))).$request->detailsid;
                 $ord_st = order_status($request->statusid);
                 $description = "Your order status updated to " . $ord_st;
                 $notification_id = time();
@@ -278,7 +278,7 @@ class OrderController extends Controller
                         "description" => $description,
                         "notificationType" => $ntype,
                         "createdAt" => gmdate("d-m-Y H:i:s", $notification_id),
-                        "orderId" => (string) $request->detailsid,
+                        "orderId" => (string) $reqWuest->detailsid,
                         "url" => "",
                         "imageURL" => '',
                         "read" => "0",
