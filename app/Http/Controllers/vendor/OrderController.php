@@ -205,21 +205,88 @@ class OrderController extends Controller
 
     public function change_status(Request $request)
     {
-        $status  = "0";
+        $status = "0";
         $message = "";
-        $statusid =  isset($request->statusid)? $request->statusid : 0;
-        if($request->detailsid){
-            $update['status_id'] = $statusid;
-            if(WholesaleOrder::where('id',$request->detailsid)->update($update)){
+        if ($request->detailsid && $request->statusid) {
+            $update['status'] = $request->statusid;
+            if (OrderModel::where('order_id', $request->detailsid)->update($update)) {
+
+                // $det = OrderProductsModel::find($request->detailsid);
+                // if ($request->statusid == config('global.order_status_delivered')) {
+                //     $prd_det = \App\Models\ProductModel::find($det->product_id);
+                //     $show_commission_on = gmdate("Y-m-d");
+                //     if ($prd_det->ret_applicable) {
+                //         $ret_policy_days = $prd_det->ret_policy_days ?? 0;
+                //         if ($ret_policy_days) {
+                //             $show_commission_on = \Carbon\Carbon::now()->addDays($ret_policy_days + 1);
+                //         }
+                //     }
+                //     OrderProductsModel::where('id', $request->detailsid)->update(['show_commission_on' => $show_commission_on]);
+                // }
+
+                $ord = OrderModel::with('customer')->where('order_id', $request->detailsid)->first();
+                if($request->statusid==config('global.order_status_cancelled')){
+                    
+                    $amount_to_credit = $ord->grand_total;
+                    $w_data = [
+                        'user_id' => $ord->customer->id,
+                        'wallet_amount' => $amount_to_credit,
+                        'pay_type' => 'credited',
+                        'description' => 'Order Cancelled',
+                    ];
+                    if (wallet_history($w_data)) {
+                        $users = \App\Models\User::find($ord->customer->id);
+                        $users->wallet_amount = $users->wallet_amount + $amount_to_credit;
+                        $users->save();
+                    }
+                }
+                
+                $title = "#".config('global.sale_order_prefix').date(date('Ymd', strtotime($ord->created_at))).$request->detailsid;
+                $ord_st = order_status($request->statusid);
+                $description = "Your order status updated to " . $ord_st;
+                $notification_id = time();
+                $ntype = 'order_status_changed';
+                if (!empty($ord->customer->firebase_user_key)) {
+                    $notification_data["Nottifications/" . $ord->customer->firebase_user_key . "/" . $notification_id] = [
+                        "title" => $title,
+                        "description" => $description,
+                        "notificationType" => $ntype,
+                        "createdAt" => gmdate("d-m-Y H:i:s", $notification_id),
+                        "orderId" => (string) $request->detailsid,
+                        "url" => "",
+                        "imageURL" => '',
+                        "read" => "0",
+                        "seen" => "0",
+                    ];
+                    $this->database->getReference()->update($notification_data);
+                }
+
+                if (!empty($ord->customer->user_device_token)) {
+                    send_single_notification($ord->customer->user_device_token, [
+                        "title" => $title,
+                        "body" => $description,
+                        "icon" => 'myicon',
+                        "sound" => 'default',
+                        "click_action" => "EcomNotification"],
+                        ["type" => $ntype,
+                            "notificationID" => $notification_id,
+                            "orderId" => (string) $request->detailsid,
+                            "imageURL" => "",
+                        ]);
+                }
+                $name = $ord->customer->name ?? $ord->customer->first_name . ' ' . $ord->customer->last_name;
+                
+                exec("php " . base_path() . "/artisan send:send_order_status_change_email --uri=" . urlencode($ord->customer->email) . " --uri2=" . $request->detailsid . " --uri3=" . urlencode($name) . " --uri4=" . $ord->customer->id . " --uri5=" . urlencode($ord_st) . " > /dev/null 2>&1 & ");
+
                 $status = "1";
                 $message = "Successfully updated";
-            }else{
+            } else {
                 $message = "Something went wrong";
             }
-        }else{
+        } else {
             $message = "Something went wrong";
         }
-        echo json_encode(['status'=>$status,'message'=>$message]);
+        echo json_encode(['status' => $status, 'message' => $message]);
     }
     public function cancel_order(Request $request)
     {
