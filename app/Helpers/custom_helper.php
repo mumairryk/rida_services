@@ -1244,5 +1244,22 @@ function GetDrivingDistance($lat1, $lat2, $long1, $long2)
      }
      return $value;
    }
+   function payment_mode($id)
+    {
+        $mode = "";
+        if($id == 2)
+        {
+            $mode = "Card";
+        }
+        if($id == 3)
+        {
+            $mode = "Apple Pay";
+        }
+        if($id == 4)
+        {
+            $mode = "Google Pay";
+        }
+        return $mode;
+    }
 }
 ?>

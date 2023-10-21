@@ -299,6 +299,39 @@ $_current_user = \Request::get('_current_user');
                     @endif
 
 
+                    @if(check_permission('report','View'))
+                    <li class="nav-item nav-item-has-children {{preg_match('/admin\/report/', $CurrentUrl) || preg_match('/admin\/report/', $CurrentUrl) || preg_match('/admin\/report/', $CurrentUrl) ? 'active' : null}}">
+                        <a href="#0" class="{{preg_match('/admin\/report/', $CurrentUrl) || preg_match('/admin\/report/', $CurrentUrl) || preg_match('/admin\/product/', $CurrentUrl) ? '' : 'collapsed'}}" data-toggle="collapse" data-auto-close="outside" data-target="#ddmenu_32" aria-controls="ddmenu_32" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="icon">
+                                <i class='bx bx-box'></i>
+                            </span>
+                            <span class="text"> Report </span>
+                        </a>
+                        <ul id="ddmenu_32" class="collapse dropdown-nav {{preg_match('/admin\/report/', $CurrentUrl) || preg_match('/admin\/report/', $CurrentUrl) || preg_match('/admin\/report/', $CurrentUrl) ? 'show' : null}}">
+                            {{--  @if(check_permission('users','View'))
+                            <li>
+                                <a class="{{preg_match('/admin\/report\/vendor/', $CurrentUrl) ? 'active' : null}}" href="{{ url('admin/report/users') }}"> <span class="text">Users</span></a>
+                            </li>
+                            @endif
+                             @if(check_permission('orders','View'))
+                            <li>
+                                <a class="{{preg_match('/admin\/report\/vendor/', $CurrentUrl) ? 'active' : null}}" href="{{ url('admin/report/users')}}"> <span class="text">Order</span></a>
+                            </li>
+                            @endif --}}
+
+                            @if(check_permission('orders','View'))
+                            <li>
+                                <a class="{{preg_match('/admin\/report\/orders/', $CurrentUrl) ? 'active' : null}}" href="{{ url('admin/report/orders') }}"> <span class="text">Order</span></a>
+                            </li>
+                            @endif
+                          
+                        </ul>
+                    </li>
+                    @endif
+
+                    
+
+
                     
                     @if(check_permission('cms','View') || check_permission('faq','View') || check_permission('help','View') || check_permission('contact_settings','Edit') || check_permission('settings','Edit'))
                     <li class="nav-item {{preg_match('/admin\/orders/', $CurrentUrl) ? 'active' : null}}">

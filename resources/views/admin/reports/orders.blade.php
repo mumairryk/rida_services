@@ -8,21 +8,21 @@
 
 
 @section('content')
-    <div class="card mb-5">
+    <div class="card">
         <div class="card-body">
             <div class="dataTables_wrapper container-fluid dt-bootstrap4">
                 <form action="" method="get">
                     <div class="row">
                         <div class="col-md-3 form-group">
                             <label>Date From</label>
-                            <input type="text" name="from" class="form-control flatpickr-input" autocomplete="off" value="{{ $from?date('m/d/Y',strtotime($from)):'' }}">
+                            <input type="text" name="from" class="form-control flatpickr-input" autocomplete="off" value="{{ $from??'' }}">
                         </div>
                         <div class="col-md-3 form-group">
                             <label>Date To</label>
-                            <input type="text" name="to" class="form-control flatpickr-input" autocomplete="off" value="{{ $to?date('m/d/Y',strtotime($to)):'' }}">
+                            <input type="text" name="to" class="form-control flatpickr-input" autocomplete="off" value="{{ $to??'' }}">
                         </div>
                         <div class="col-md-3 form-group">
-                            <label>Search Order ID</label>
+                            <label>Search Invoice ID</label>
                             <input type="text" name="order_id" class="form-control" autocomplete="off" value="{{ $order_id }}">
                         </div>
                         <div class="col-md-3 form-group">
@@ -30,6 +30,8 @@
                             <input type="text" name="name" class="form-control" autocomplete="off" value="{{$name}}">
                         </div>
                         <button type="submit" class="btn btn-warning mb-4 ml-2 btn-rounded">Search</button>
+                        <button type="submit" value="Export" name="excel" class="btn btn-warning mb-4 ml-2 btn-rounded">Export</button>
+                        <a href="{{url('admin/report/orders')}}" class="btn btn-primary mb-4 ml-2 btn-rounded">Clear</a>
                     </div>
                 </form>
                 
@@ -48,19 +50,18 @@
                     <table class="table table-condensed table-striped">
                         <thead>
                             <tr>
-                                <th>Order ID</th>
+                                <th>#</th>
                                 <th>Order No</th>
-                                <th>Invoice ID</th>
                                 <th>Customer </th>
                                 {{--<th>Discount</th>
                                 <th>VAT</th>--}}
-                                <th>Admin Commission</th>
-                                <th>Vendor Earning</th>
+                                {{-- <th>Admin Commission</th>
+                                <th>Vendor Earning</th> --}}
                                 <th>Total</th>
                                 <th>Payment Mode</th> 
                                 {{-- <th>Status</th>  --}}
-                                {{-- <th>Created Date</th> --}}
-                                <th>Booking Date</th>
+                                <th>Order Date</th>
+                               
                             </tr>
                         </thead>
                          <tbody>
@@ -72,28 +73,29 @@
                                 <?php   $i++; ?>
                                 <tr>
                                     <td>{{ $i }}</td>
-                                    <!-- <td>{{ $item->order_id }}</td> -->
                                     <td> <?php echo config('global.sale_order_prefix').date(date('Ymd', strtotime($item->created_at))).$item->order_id; ?></td>
-                                    <td>{{ $item->invoice_id }}</td>
-                                    <td>{{ $item->customer_name }}</td>
+                                    <td>{{ $item->name??$item->customer_name }}</td>
                                    {{-- <td>{{ $item->discount }}</td>
                                     <td>{{ $item->vat }}</td>--}}
-                                    <td>{{ $item->admin_commission }}</td>
-                                    <td>{{ $item->vendor_commission }}</td>
+                                    {{-- <td>{{ $item->admin_commission }}</td>
+                                    <td>{{ $item->vendor_commission }}</td> --}}
                                     <td>{{ $item->grand_total }}</td>
-                                    <td>@if($item->payment_mode==1)
-        {{'COD'}}
-    @else
-        {{'CARD'}}
-    @endif
-                                        
-                                        </td>
+                                    <td> 
+                                        @if($item->payment_mode==2)
+                                            Card
+                                        @endif  
+                                        @if($item->payment_mode==3)
+                                            Apple Pay
+                                        @endif 
+                                        @if($item->payment_mode==4)
+                                            Google Pay
+                                        @endif 
+                                    </td>
                                     {{-- <td>{{ order_status$item->status }}</td> --}}
-                                    {{-- <td>{{web_date_in_timezone($item->created_at,'d-M-Y h:i A')}}</td> --}}
-                                    <td>{{web_date_in_timezone($item->booking_date,'d-M-Y h:i A')}}</td>
-                                    <!-- <td class="text-center">
-                                        <a href="{{ url('admin/order_details/' . $item->order_id) }}" class="btn btn-info btn-sm"></i> Details</a>
-                                    </td> -->
+                                    <td>
+                                        {{web_date_in_timezone($item->booking_date,'d-M-Y h:i A')}}
+                                    </td>
+                                    
                                 </tr>
                             @endforeach
                              @else
@@ -113,7 +115,7 @@
 
                     <div class="col-sm-12 col-md-12 pull-right">
                         <div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
-                            {!! $list->links('admin.template.pagination') !!}
+                            {!! $list->appends(request()->all())->links('admin.template.pagination') !!}
                         </div>
                     </div>
 
@@ -121,6 +123,8 @@
             </div>
         </div>
     </div>
+
+   
 @stop
 
 @section('script')
