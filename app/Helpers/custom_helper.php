@@ -293,7 +293,7 @@ function url_title($str, $separator = '-', $lowercase = FALSE)
     return trim($str, $separator);
 }
 
-function send_email($to, $subject, $mailbody)
+function send_email_old($to, $subject, $mailbody)
 {
 
     require base_path("vendor/autoload.php");
@@ -327,6 +327,43 @@ function send_email($to, $subject, $mailbody)
         }
     } catch (Exception $e) {
          dd($e->getMessage());
+        return 0;
+    }
+}
+
+function send_email($to, $subject, $mailbody)
+{
+    require base_path("./vendor/autoload.php");
+    $mail = new PHPMailer(true);
+
+    try {
+        $mail->SMTPDebug = 0;
+        $mail->isSMTP();
+        $mail->Host = env('MAIL_HOST');
+        $mail->SMTPAuth = true;
+        $mail->Username = env('MAIL_USERNAME');
+        $mail->Password = env('MAIL_PASSWORD');
+        $mail->SMTPSecure = env('MAIL_ENCRYPTION');
+        $mail->Port = env('MAIL_PORT');
+        $mail->setFrom(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
+        $mail->addAddress($to);
+        //$mail->addCC('binshambrs@gmail.com');
+        $mail->isHTML(true);
+        $mail->Subject = $subject;
+        $mail->Body    = $mailbody;
+        $mail->SMTPOptions = array(
+            'ssl' => array(
+                'verify_peer' => false,
+                'verify_peer_name' => false,
+                'allow_self_signed' => true
+            )
+        );
+        if (!$mail->send()) {
+            return 0;
+        } else {
+            return 1;
+        }
+    } catch (Exception $e) {
         return 0;
     }
 }
