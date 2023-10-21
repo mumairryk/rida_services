@@ -82,7 +82,7 @@ class ReportController extends Controller
                 "Order Date",
             ];
             $coll = new ExportReports([$rows], $headings);
-            $ex = Excel::download($coll, 'vendors_' . date('d_m_Y_h_i_s') . '.xlsx');
+            $ex = Excel::download($coll, 'orders_' . date('d_m_Y_h_i_s') . '.xlsx');
             if (ob_get_length()) {
                 ob_end_clean();
             }
