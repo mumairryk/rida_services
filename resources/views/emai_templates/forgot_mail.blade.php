@@ -27,7 +27,7 @@
                                             <tbody>
                                                 <tr>
                                                     <td>
-                                                        <img src="{{ asset('') }}admin-assets/assets/img/logo.svg" alt="" style="max-width: 190px; margin-bottom: 0px; ">
+                                                        <img src="{{ asset('') }}admin-assets/assets/img/logo.png" alt="" style="max-width: 190px; margin-bottom: 0px; ">
                                                         <h2 style="color: #ffffff; font-size: 30px;line-height: 100%;">Reset your {{env('APP_NAME')}} Password </h2>
                                                     </td>
                                                     
