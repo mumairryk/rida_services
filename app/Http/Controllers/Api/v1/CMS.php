@@ -196,6 +196,20 @@ class CMS extends Controller
       $newproductlist = $this->product_inv($newproductlist, $user);
 
 
+      $filter['sort'] = 2;
+      $bestselling = ProductModel::products_list($where, $filter, 5, 0)->get();
+      $bestselling = $this->product_inv($newproductlist, $user);
+
+
+
+      $filter['sort'] = 3;
+      $recomented = ProductModel::products_list($where, $filter, 5, 0)->get();
+      $recomented = $this->product_inv($newproductlist, $user);
+
+       
+
+
+       
       $divisions = Divisions::select('id','name','image')->where(['deleted' => 0, 'active' => 1])->get();
 
      
@@ -207,8 +221,8 @@ class CMS extends Controller
         $o_data['latest'] = $latestproductlist;
         $o_data['new'] = $newproductlist;
 
-        $o_data['recomented'] = $latestproductlist;
-        $o_data['bestselling'] = $latestproductlist;
+        $o_data['recomented'] = $recomented;
+        $o_data['bestselling'] = $bestselling;
         $o_data['view'] = $newproductlist;
 
       
