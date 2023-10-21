@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Categories;
 use DB;
 
 class LoginController extends Controller
@@ -57,5 +58,13 @@ class LoginController extends Controller
         session()->pull("user_id");
         Auth::logout();
         return redirect()->route('admin.login');
+    }
+    public function get_category(Request $request){
+        $ctid = $request->division;
+      $query= Categories::select('id','name')->orderBy('sort_order','asc')->where(['deleted'=>0,'active'=>1,])->where('division_id',$ctid)->get();
+        $data=$query->toArray();
+        if($query->count()==0)
+        { $data ="0"; }
+        echo  json_encode($data);
     }
 }

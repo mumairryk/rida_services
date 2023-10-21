@@ -714,7 +714,7 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        exit;
+        
         //
         $combinations = [];
         $product = ProductModel::find($id);  //print_r($product);

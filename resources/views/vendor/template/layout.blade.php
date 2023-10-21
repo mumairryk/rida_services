@@ -5,6 +5,8 @@
 //     $privileges = \App\Models\UserPrivileges::privilege();
 //     $privileges = json_decode($privileges, true);
 // }
+$_current_user = \Request::get('_current_user');
+    $CurrentUrl = url()->current();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -35,7 +37,7 @@
     <!-- <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'> -->
     <link href="{{ asset('') }}admin-assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/css/bootstrap-datepicker3.min.css" rel="stylesheet">
-    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <link href="{{ asset('') }}admin-assets/assets/css/boxicons.min.css" rel='stylesheet'>
     <link href="{{ asset('') }}admin-assets/assets/css/sidebar.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
         integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
@@ -47,7 +49,6 @@
         integrity="sha512-MQXduO8IQnJVq1qmySpN87QQkiR1bZHtorbJBD0tzy7/0U9+YIC93QWHeGTEoojMVHWWNkoCp8V6OzVSYrX0oQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link href="{{ asset('') }}admin-assets/assets/css/custom.css" rel="stylesheet" type="text/css" />
     <link href="{{ asset('') }}admin-assets/assets/css/plugins.css" rel="stylesheet" type="text/css" />
     <link href="{{ asset('') }}admin-assets/assets/css/parsley.css" rel="stylesheet" type="text/css" />
@@ -123,7 +124,6 @@
 
 
 
-
     <div class="sidebar close d-none">
         <div class="logo-details mt-2">
             <a href="#">
@@ -195,7 +195,7 @@
             </li>
         </ul>
     </div>
-
+<!-- -------------------------------------------------------------------- -->
 
     <section class="home-section d-none">
         <!-- <div class="home-content"> -->
@@ -259,7 +259,7 @@
         </div>
 
         <div class="container">
-            @yield('content')
+           
         </div>
 
         <footer class="container-fluid text-center">
@@ -276,6 +276,7 @@
     </section>
 
 
+    <!-- -------------------------------------------------------------------------- -->
 
 
 

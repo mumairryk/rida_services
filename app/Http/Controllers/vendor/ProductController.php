@@ -32,6 +32,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use Auth;
 use App\Models\ModaSubCategories;
 use App\Models\ModaMainCategories;
+use App\Models\Divisions;
 class ProductController extends Controller
 {
     /**
@@ -157,10 +158,15 @@ class ProductController extends Controller
         $stock_quantity = '';
         $input_index = 1;
         $product_desc = "";
+        $division_id = 0;
         $t_variant_allow_backorder  = "";
         $default_category_id = "";
         $default_attribute_id = "";
         $size_chart = "";
+        $is_featured = "";
+        $material  = "";
+        $product_details = "";
+        $needtoknow = "";
         $sellers = VendorModel::select('users.id', 'name')->where('role','3')
             ->get();
         //$sellers = [];
@@ -187,6 +193,7 @@ class ProductController extends Controller
         $product_desc_full = "";
         $bar_code = "";
         $product_code = "";
+        $categories = [];
 
         $stores       = Stores::select('id','store_name')->where(['deleted' => 0,'active'=>1,'vendor_id'=>auth()->user()->id])->get();
 
@@ -201,7 +208,9 @@ class ProductController extends Controller
             $product = ProductModel::getProductInfo($id); //print_r($product); die();
             $action = "edit";
             if($product){
+                
                 $product = $product[0];
+                $categories = Categories::select('id','name')->orderBy('sort_order','asc')->where(['deleted'=>0,'active'=>1,])->where('division_id',$product->division)->get();
                 $moda_main_category = $product->moda_main_category;
                 $moda_sub_category = $product->moda_sub_category;
                 $moda_main_categories = ModaMainCategories::get();
@@ -215,7 +224,11 @@ class ProductController extends Controller
                 $product_type = $product->product_type;
                 $sku = $product->product_unique_iden;
                 $meta_title     = $product->meta_title;
+                $division_id   = $product->division;
                 $meta_keyword   = $product->meta_keyword;
+                $material  = $product->material;
+                $product_details = $product->product_details;
+                $needtoknow = $product->needtoknow;
                 $meta_description = $product->meta_description;
                 $active       = $product->product_status;
                 $name         = $product->product_name;
@@ -307,7 +320,11 @@ class ProductController extends Controller
 
             }
         }
-        return view('vendor.product.create',compact('page_heading','mode','category_list','sub_category_list','category_ids','id','active','name','description','image_path','specs','sellers','seller_user_id','docs','sku','meta_title','meta_keyword','meta_description','product_type','combinations','product','action','attribute_list','selected_attributes','product_variations','attribute_value_ids','attribute_values','regular_price','readonly','sale_price','stock_quantity','input_index','t_variant_allow_backorder','product_desc','product_desc_full','bar_code','product_code','default_category_id','default_attribute_id','brand','pr_code','store_id','stores','size_chart','moda_main_category','moda_sub_category','moda_main_categories','moda_sub_categories','ret_applicable','ret_policy_days','ret_policy'));
+
+        $divisions = Divisions::where(['deleted' => 0,'active'=>1])->get();
+
+
+        return view('vendor.product.create',compact('page_heading','mode','category_list','sub_category_list','category_ids','id','active','name','description','image_path','specs','sellers','seller_user_id','docs','sku','meta_title','meta_keyword','meta_description','product_type','combinations','product','action','attribute_list','selected_attributes','product_variations','attribute_value_ids','attribute_values','regular_price','readonly','sale_price','stock_quantity','input_index','t_variant_allow_backorder','product_desc','product_desc_full','bar_code','product_code','default_category_id','default_attribute_id','brand','pr_code','store_id','stores','size_chart','moda_main_category','moda_sub_category','moda_main_categories','moda_sub_categories','ret_applicable','ret_policy_days','ret_policy','divisions','division_id','categories','is_featured','material','product_details','needtoknow',));
     }
 
     /**
@@ -316,7 +333,352 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
     public function add_product(Request $request)
+    {
+        
+        $status  = "0";
+        $message = "";
+        $o_data  = [];
+        $errors  = [];
+        $redirectUrl = '';
+        $id      = $request->id;
+
+        $rules   = [
+            'product_name'      => 'required',
+            'category_ids'    => 'required',
+            
+        ];
+
+        if($id==''){
+           // $rules['product_image'] = 'required';
+        }
+
+        $validator = Validator::make($request->all(),$rules,
+        [
+
+            'category_ids.required' => 'Category required',
+            'product_image.image' => 'should be in image format (.jpg,.jpeg,.png)'
+        ]);
+        if ($validator->fails()) {
+            $status = "0";
+            $message = "Validation error occured";
+            $errors = $validator->messages();
+        }else{
+            $input = $request->all();
+
+            $specs = $request->spec;
+
+            $category_ids=$request->category_ids;
+
+            if($id) {
+                $productDetails = ProductModel::getProductInfo($id);
+                $productDetails = $productDetails[0];
+                $action ="edit";
+                $product_type = $productDetails->product_type;
+            } else {
+                $action = "add";
+                $product_type = $request->product_type;
+            }
+
+            $ins   = [
+                'name'          => $request->product_name,
+                'updated_on'    => gmdate('Y-m-d H:i:s'),
+                'updated_by'    => session("user_id"),
+                'seller_user_id'=> $request->seller_id ?? '',
+                'active'        => $request->active,
+                'description'   => $request->description,
+                'brand'         => $request->brand??0
+            ];
+            
+          
+
+            $button_counter = $request->button_counter;
+            $spec_doc_ins = [];
+
+            for ($i = 1; $i <= $button_counter; $i++) {
+                if ($file = $request->file("spec_doc_image_" . $i)) {
+                    $file_name = "";
+                    $imageuploaded = $this->verifyAndStoreImage($request,"spec_doc_image_" . $i,config("global.product_image_upload_dir"));
+                    if($imageuploaded!="") {
+                       $file_name = $imageuploaded; 
+                    }
+                   
+                    $spec_doc_ins[] = ['title' => $request->{"spec_doc_title_$i"}, 'doc_path' => $file_name];
+                }
+            }
+            
+            $specifications = [];  
+            
+            $categories = $request->category_ids; 
+          
+            if (! empty($categories) ) {
+                $all_categories = ProductModel::getCategoriesCondition($categories);
+                $all_categories = array_column($all_categories, 'category_parent_id', 'category_id');
+                foreach ($categories as $t_cat) {
+                    $p_cat_id = $all_categories[$t_cat] ?? 0;
+                    do {
+                        if ( $p_cat_id > 0) {
+                            $categories[] = $p_cat_id;
+                            $p_cat_id = $all_categories[$p_cat_id] ?? 0;
+                        }
+                    } while ( $p_cat_id > 0 );
+                }
+                $categories = array_filter($categories);
+                $categories = array_unique($categories);
+            } 
+
+            $ret_applicable = $request->ret_applicable;
+            $ret_policy_days = 0;
+            if($ret_applicable){
+                $ret_policy_days = $request->ret_policy_days;
+            }
+            $ret_policy = $request->ret_policy;
+           
+            $vendor_id = auth()->user()->id;
+            $data = [
+                'product' => [
+                    'product_type' => $product_type,
+                    'product_name' => $request->product_name,
+                    'product_name_arabic' => $request->product_name_arabic,
+                    'product_desc_full' => $request->product_desc ,
+                    'product_desc_full_arabic' => $request->product_desc_full_arabic,
+                    'product_desc_short' => $request->product_desc,
+                    'product_desc_short_arabic' => $request->product_desc_arabic,
+                    'product_vender_id' => $vendor_id??$request->store_id,
+                    'meta_title' => $request->meta_title,
+                    'meta_keyword' => $request->meta_keyword,
+                    'meta_description'    => $request->meta_description,
+                    'default_category_id' => 0,//$request->default_category_id,
+                    'brand'               => $request->brand??0,
+                    'store_id'            => $request->store_id??$vendor_id,
+                    'ret_applicable'      => 1,//$ret_applicable,
+                    'ret_policy_days'     => 0,//$ret_policy_days,
+                    'ret_policy'          => '',//$ret_policy,
+                    'account_id'          => 0,//$request->account_id,
+                    'activity_id'          => 0,//$request->activity_id,
+                    'is_featured' => isset($request->is_featured) ? 1 : 0,
+                    'division'    => $request->division_id??0,
+                ],
+                'product_category' => $categories,
+                'specifications' => $request->spec,
+            ];
+            if($product_type!=1) {
+
+              //  $data['product']['default_attribute_id'] = $request->default_attribute_selected;
+            }
+
+            if ( !$id) {
+                $action_date =  date('Y-m-d H:i:s');
+                $data['product']['product_vender_id'] = $vendor_id??$request->store_id;
+                $data['product']['product_created_by'] = $vendor_id??$request->store_id;
+                $data['product']['created_at'] = $action_date;
+                $data['product']['product_unique_iden'] = -1;
+                $data['product']['product_status'] = 0;
+                $data['product']['product_vendor_status'] = 0;
+                $data['product']['product_deleted'] = 0;
+                $data['product']['product_variation_type'] = 1;
+                $data['product']['product_taxable'] = 1;
+            } else  {
+
+                unset($data['product']['product_type']);
+                $data['product']['product_updated_by'] = $vendor_id??$request->store_id;
+                $data['product']['updated_at'] = date('Y-m-d H:i:s');
+            }
+            $data['product']['product_status'] = $request->active;;
+            if ( $product_type == 1 ) {
+                // Prepending current images
+                if ( $action == 'edit' ) {
+                   // array_unshift($imageFiles['simple'], $product->image);
+                }  
+                $product_simple_image= $request->product_simple_image;
+
+                $imagesList = []; 
+                if($id) {
+                    if(!empty($productDetails->image))
+                    {
+                    $imagesList = explode(",",$productDetails->image);
+                    }
+                }
+                 for ($i = 0; $i < $request->image_counter; $i++) {
+                    if ($file = $request->file("product_simple_image_" . $i)) {
+                        $file_name = "";
+                        $imageuploaded = $this->verifyAndStoreImage($request,"product_simple_image_" . $i,config("global.product_image_upload_dir"));
+                        if($imageuploaded!="") {
+                           $file_name = $imageuploaded; 
+                        }
+                        
+                        $imagesList[] = $file_name;
+                        
+                    }
+                    
+
+                }    
+                
+                
+                if(isset($imageFiles['simple'])) {
+                    $data['product']['product_image'] = trim(implode(',', $imageFiles['simple']), ',');
+                } 
+                
+                // $size_chart = $request->size_chart_old;
+                // if($request->file("size_chart")){
+                //     $response = image_upload($request,'products','size_chart');
+                //     if($response['status']){
+                //         $size_chart = $response['link'];
+                //     }
+                // } 
+                
+                $data['product_simple_variant'] = [
+                    'regular_price' => $request->regular_price,
+                    'sale_price' => $request->sale_price,
+                    'stock_quantity' => $request->stock_quantity,  
+                    'product_desc' => $request->product_desc,
+                    'product_full_descr' => $request->product_full_descr,
+                    'barcode' => $request->bar_code,
+                    'pr_code'  => $request->product_code,
+                    'weight'   => $request->weight??0,
+                    'length'   => $request->length??0,
+                    'height'   => $request->height??0,
+                    'width'    => $request->width??0,
+                    'image'    => implode(",",$imagesList),
+                    'size_chart'=> '',//$size_chart
+                    'material'    => $request->material1,
+                    'product_details'    => $request->product_details1,
+                    'needtoknow'    => $request->needtoknow1,
+                ]; 
+
+            } else  {
+                    $variant_attribute_id = $request->product_variant_attribute_id;
+                    $variant_regular_price =  $request->product_variant_regular_price ;
+                    $variant_sale_price =  $request->product_variant_sale_price;
+                    $variant_stock_quantity =  $request->product_variant_stock_qty;
+                    $variant_allow_backorder =   $request->product_variant_allow_backorder;
+                    $variant_attribute_values =  $request->product_variant_attribute_values ;
+                    $variant_short_desc =  $request->product_variant_short_desc;
+                    $variant_full_desc =  $request->product_variant_full_desc;
+                    $variant_barcode =  $request->product_variant_barcode;
+                    $variant_product_code =  $request->product_variant_product_code;
+                    $variant_weight    =  $request->weight_variant;
+                    $variant_length    =  $request->length_variant;
+                    $variant_width     =  $request->width_variant;
+                    $variant_height    =  $request->height_variant;
+                    $default_attribute =  $request->default_attribute_id;
+                    $variant_size_chart=  $request->size_chart_attr;
+                    $variant_size_chart_old=  $request->size_chart_attr_old;
+                    $material =  $request->material;
+                    $product_details =  $request->product_details;
+                    $needtoknow =  $request->needtoknow;
+
+            
+                
+                    $imagesList = [];
+                    for($i = 0 ; $i < count($request->product_variant_attribute_id) ;$i++) {
+                         $fname = "product_variant_image_" . $i;
+                       // print_r($request->$fname);
+                        if(1) { 
+
+                            $tname = "image_counter_".$i;
+                            for ($k = 0; $k < $request->$tname; $k++) {
+                                $tt_name = $fname."_".$k;
+                               
+                                if ($file = $request->$tt_name) {
+                                    $file_name = "";
+                                    $imageuploaded = $this->verifyAndStoreImage($request,$tt_name,config("global.product_image_upload_dir"));
+                                    if($imageuploaded!="") {
+                                       
+                                       $imagesList[$i][] = $imageuploaded ;
+                                    }
+                                    
+                                }
+                                
+
+                            }
+                        }
+
+                    } 
+
+                    for ( $vi = 0; $vi < count($variant_regular_price); $vi++ ) {
+
+                        //size chart image
+                    //    $size_chart_attr_file = $variant_size_chart_old[$vi];
+                    //    if(!empty($variant_size_chart[$vi]))
+                    //    {
+                    //      $destinationPath = 'uploads/products/';
+                    //      $size_chart_attr = time().$variant_size_chart[$vi]->getClientOriginalName();
+                    //      $variant_size_chart[$vi]->storeAs(config('global.product_image_upload_dir'),$size_chart_attr,config('global.upload_bucket'));
+                    //      $size_chart_attr_file = $size_chart_attr;
+
+
+                    //    }
+                       
+                        //size chart image END
+
+                        $t_attribute = [
+                            'regular_price' => $variant_regular_price[$vi] ?? 0,
+                            'sale_price' => $variant_sale_price[$vi] ?? 0,
+                            'stock_quantity' => $variant_stock_quantity[$vi] ?? 0,
+                            'allow_back_order' => $variant_allow_backorder[$vi] ?? 0,
+                            'image' => implode( ',', ($imagesList[$vi] ?? []) ),
+                            'attribute_values' => $variant_attribute_values[$vi] ?? [],
+                             'product_desc' => $variant_short_desc[$vi] ?? '',
+                             'product_full_descr' => $variant_full_desc[$vi] ??'',
+                             'barcode' => $variant_barcode[$vi] ?? '',
+                             'pr_code' => $variant_product_code[$vi] ?? '',
+                             'default_attribute_id' => $default_attribute[$vi] ?? '',
+                             'weight'  => $variant_weight[$vi] ?? 0,
+                             'length'  => 0,//$variant_length[$vi] ?? 0,
+                             'width'   => 0,//$variant_width[$vi] ?? 0,
+                             'height'      => 0,//$variant_height[$vi] ?? 0,
+                             'size_chart'  => '',//$size_chart_attr_file,
+                             'material' => $material[$vi] ?? '',
+                             'product_details' => $product_details[$vi] ?? '',
+                             'needtoknow' => $needtoknow[$vi] ?? '',
+                        ];  
+
+
+                        if ( $action == 'edit' && !empty($variant_attribute_id) ) {
+                            $t_attribute['product_attribute_id'] = $variant_attribute_id[$vi] ?? 0;
+                            if ( $t_attribute['product_attribute_id'] > 0 ) {
+                                $t_variant_row = ProductModel:: getProductVariants($id, $t_attribute['product_attribute_id']);
+                                if (! empty($t_variant_row) && !empty($t_attribute['image']) ) {
+                                    $t_attribute['image'] = trim(implode(',', ($imagesList[$vi] ?? [])), ',');                                
+                                }
+                            }
+                        }
+                        $data['product_multi_variant'][] = $t_attribute;
+                    }   
+
+
+            }
+
+        //    dd($request->all());
+        //    dd($data['product_multi_variant']);
+            if($id){ 
+                $ret = 1;    
+                $data['product']['updated_at'] = date('Y-m-d H:i:s');
+                $ret = ProductModel::update_product($id,$data['product'],$data['product_category'],$data['specifications'],$spec_doc_ins,$data);
+                if($ret){
+                    $status = "1";
+                    $message= "Product updated successfully";
+                }else{
+                    $message = "Something went wrong please try again";
+                }
+            } else{
+                $ret = ProductModel::addProductByVendor($data);  
+                
+                if($ret){
+                    $status = "1";
+                    $message= "Product saved successfully";
+                }else{
+                    $message = "Something went wrong please try again";
+                }
+            }
+            
+            
+        }
+        echo json_encode(['status'=>$status,'message'=>$message,'errors'=>$errors]);
+    }
+    public function add_product_old(Request $request)
     {
 
         $status  = "0";

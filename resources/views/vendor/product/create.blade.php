@@ -8,34 +8,47 @@
 
 
 @section('content')
-    <div class="card">
-      <meta name="csrf-token" content="{{ csrf_token() }}" />
-        <div class="card-body">
-            <form method="post" action="{{ url('/vendor/product/add_product') }}" id="admin-form" enctype="multipart/form-data" data-parsley-validate="true">
-                <input type="hidden" name="id" value="{{ $id }}">
-                @csrf
-                <div class="row  d-flex justify-content-between align-items-center">
-                    <div class="col-md-6 col-sm-6">
-                        <label>Product Type<b class="text-danger">*</b></label>
-                    <select class="form-control text-filed" id="txt_product_type"  name="product_type" @if($id) {{ "disabled"}} @endif >
-                        <option value="1" <?php echo (($product_type == 1) ? 'selected="selected"' : '')?>>Simple</option>
-                        <option value="2" <?php echo (($product_type == '2') ? 'selected="selected"' : '')?>>Variable</option>
-                    </select>
-                </div>
-                
-                <style>
+
+                    <style>
                     .text-muted {
                         color: #181722 !important;
                         font-size: 12px;
                     }
+                    #product-simple-images{
+                        display: flex;
+                        gap: 10px;
+                        flex-direction: row;
+                        flex-wrap: wrap;
+                    }
+                    #product-simple-images .uploaded-prev-imd{
+                        width: 100px;
+                        position: relative;
+                    }
+                    #product-simple-images .custom-upload-img{
+                        width: 100% !important;
+                        display: block !important;
+                    }
+                    #product-simple-images .uploaded-prev-imd .del-product-img{
+                        position: absolute;
+                        right: 0;
+                        z-index: 1;
+                        background: #ff3743;
+                        padding: 8px;
+                        width: 30px;
+                        height: 30px;
+                        top: 0;
+                        border-bottom-left-radius: 10px;
+                        color: #fff !important;
+                    } 
                     .uploaded-prev-imd{
-                            display: flex;
+                        
+                            /* display: flex;
                             flex-direction: row-reverse;
                             justify-content: flex-end;
                             align-items: center;
-                            margin: 10px 0px;
+                            margin: 10px 0px; */
                     }
-                    .del-product-img{
+                    /* .del-product-img{
                         margin-left: 5px;
                             color: #007bff;
                             font-size: 14px;
@@ -43,316 +56,184 @@
                     }
                     .del-product-img:hover{
                         color: #ff3743;
+                    } */
+                    .select2-container .select2-selection--multiple{
+                        min-height: 44px;
+                    }
+                    #product-single-variant legend{
+                        font-size: 15px;
+                        color: #000;
+                        font-weight: 600;
+                        margin-bottom: 5px;
+                    }
+                    #product-single-variant hr{
+                        display: none;
+                    }
+                    .select-category-form-group .parsley-required{
+                        position: absolute;
+                        bottom: -20px
+                    }
+
+                    .default_attribute_id{
+                        width: auto;
+                        margin-right: 5px;
                     }
                     
                 </style>
+    <div class="mb-5">
+      <meta name="csrf-token" content="{{ csrf_token() }}" />
+            <form method="post" action="{{ url('/vendor/product/add_product') }}" id="admin-form" enctype="multipart/form-data" data-parsley-validate="true">
+                <input type="hidden" name="id" value="{{ $id }}">
+                @csrf
 
-                    <div class="col-md-6 form-group">
-                        <label style="margin-bottom: 0.9rem;">Category<b class="text-danger">*</b></label>
-                        <select data-url="{{url('vendor/sellers_by_categories')}}" class="form-control jqv-input product_catd select2" data-jqv-required="true"
-                            name="category_ids[]" data-role="select2" data-placeholder="Select Categories"
-                            data-allow-clear="true" multiple="multiple" required
-                            data-parsley-required-message="Select Category">
-                            @if(isset($category_list) && count($category_list) > 0)
-
-                            @foreach($category_list as $parent_cat_id => $parent_cat_name)
-                            
-                            
-                            <?php if ( isset($sub_category_list[$parent_cat_id]) && !empty($sub_category_list[$parent_cat_id]) ) { ?>
-                            <optgroup label="<?php echo $parent_cat_name; ?>" <?php echo in_array($parent_cat_id, $category_ids) ? 'selected' : ''; ?>>
-                                <?php foreach ($sub_category_list[$parent_cat_id] as $sub_cat_id => $sub_cat_name): ?>
-                                <?php if ($id > 0 && $id == $sub_cat_id) {
-                                    continue;
-                                } ?>
-                                <?php if ( isset($sub_category_list[$sub_cat_id]) && !empty($sub_category_list[$sub_cat_id]) ){ ?>
-                            <optgroup label="<?php echo str_repeat('&nbsp;', 4) . $sub_cat_name; ?>" <?php echo in_array($sub_cat_id, $category_ids) ? 'selected' : ''; ?>>
-                                <?php foreach ($sub_category_list[$sub_cat_id] as $sub_cat_id2 => $sub_cat_name2): ?>
-                                <?php if ($id > 0 && $id == $sub_cat_id2) {
-                                    continue;
-                                } ?>
-                                <?php if ( isset($sub_category_list[$sub_cat_id2]) && !empty($sub_category_list[$sub_cat_id2]) ){ ?>
-                            <optgroup label="<?php echo str_repeat('&nbsp;', 6) . $sub_cat_name2; ?>" <?php echo in_array($sub_cat_id2, $category_ids) ? 'selected' : ''; ?>>
-                                <?php foreach ($sub_category_list[$sub_cat_id2] as $sub_cat_id3 => $sub_cat_name3): ?>
-                                <?php if ($id > 0 && $id == $sub_cat_id3) {
-                                    continue;
-                                } ?>
-                                <?php if ( isset($sub_category_list[$sub_cat_id3]) && !empty($sub_category_list[$sub_cat_id3]) ){ ?>
-                                <?php foreach ($sub_category_list[$sub_cat_id3] as $sub_cat_id4 => $sub_cat_name4): ?>
-                                <?php if ($id > 0 && $id == $sub_cat_id4) {
-                                    continue;
-                                } ?>
-                                <option data-style="background-color: #ff0000;" value="<?php echo $sub_cat_id4; ?>"
-                                    <?php echo in_array($sub_cat_id4, $category_ids) ? 'selected' : ''; ?>>
-                                    <?php echo str_repeat('&nbsp;', 10) . $sub_cat_name4; ?>
-                                </option>
-                                <?php endforeach; ?>
-                                <?php }else{ ?>
-                                <option data-style="background-color: #ff0000;" value="<?php echo $sub_cat_id3; ?>"
-                                    <?php echo in_array($sub_cat_id3, $category_ids) ? 'selected' : ''; ?>>
-                                    <?php echo str_repeat('&nbsp;', 8) . $sub_cat_name3; ?>
-                                </option>
-                                <?php } ?>
-                                <?php endforeach; ?>
-                            </optgroup>
-                            <?php }else{ ?>
-                            <option value="<?php echo $sub_cat_id2; ?>" <?php echo in_array($sub_cat_id2, $category_ids) ? 'selected' : ''; ?>>
-                                <?php echo str_repeat('&nbsp;', 6) . $sub_cat_name2; ?>
-                            </option>
-                            <?php } ?>
-                            <?php endforeach; ?>
-                            </optgroup>
-                            <?php }else{ ?>
-                            <option value="<?php echo $sub_cat_id; ?>" <?php echo in_array($sub_cat_id, $category_ids) ? 'selected' : ''; ?>>
-                                <?php echo str_repeat('&nbsp;', 4) . $sub_cat_name; ?>
-                            </option>
-                            <?php } ?>
-                            <?php endforeach; ?>
-                            </optgroup>
-                            <?php }else{ ?>
-                            <option value="<?php echo $parent_cat_id; ?>" <?php echo in_array($parent_cat_id, $category_ids) ? 'selected' : ''; ?>>
-                                <?php echo $parent_cat_name; ?>
-                            </option>
-                            <?php } ?>
-
-
-                            @endforeach
-                            @endif
-                        </select>
-                    </div>
-                    
-                    <div class="col-md-6 form-group" style="display:none;">
-                        <label>Default Category<b class="text-danger"></b></label>
-                        <select data-url="" class="form-control jqv-input product_catd select2"
-                            name="default_category_id" data-role="select2" data-placeholder="Select Categories"
-                            data-allow-clear="true" >
-                            @if(isset($category_list) && count($category_list) > 0)
-
-                            @foreach($category_list as $parent_cat_id => $parent_cat_name)
-                            
-                            
-                            <?php if ( isset($sub_category_list[$parent_cat_id]) && !empty($sub_category_list[$parent_cat_id]) ) { ?>
-                            <optgroup label="<?php echo $parent_cat_name; ?>" <?php echo in_array($parent_cat_id, $category_ids) ? 'selected' : ''; ?>>
-                                <?php foreach ($sub_category_list[$parent_cat_id] as $sub_cat_id => $sub_cat_name): ?>
-                                <?php if ($id > 0 && $id == $sub_cat_id) {
-                                    continue;
-                                } ?>
-                                <?php if ( isset($sub_category_list[$sub_cat_id]) && !empty($sub_category_list[$sub_cat_id]) ){ ?>
-                            <optgroup label="<?php echo str_repeat('&nbsp;', 4) . $sub_cat_name; ?>" <?php echo ($sub_cat_id== $default_category_id) ? 'selected' : ''; ?>>
-                                <?php foreach ($sub_category_list[$sub_cat_id] as $sub_cat_id2 => $sub_cat_name2): ?>
-                                <?php if ($id > 0 && $id == $sub_cat_id2) {
-                                    continue;
-                                } ?>
-                                <?php if ( isset($sub_category_list[$sub_cat_id2]) && !empty($sub_category_list[$sub_cat_id2]) ){ ?>
-                            <optgroup label="<?php echo str_repeat('&nbsp;', 6) . $sub_cat_name2; ?>" <?php echo ($sub_cat_id2 == $default_category_id) ? 'selected' : ''; ?>>
-                                <?php foreach ($sub_category_list[$sub_cat_id2] as $sub_cat_id3 => $sub_cat_name3): ?>
-                                <?php if ($id > 0 && $id == $sub_cat_id3) {
-                                    continue;
-                                } ?>
-                                <?php if ( isset($sub_category_list[$sub_cat_id3]) && !empty($sub_category_list[$sub_cat_id3]) ){ ?>
-                                <?php foreach ($sub_category_list[$sub_cat_id3] as $sub_cat_id4 => $sub_cat_name4): ?>
-                                <?php if ($id > 0 && $id == $sub_cat_id4) {
-                                    continue;
-                                } ?>
-                                <option data-style="background-color: #ff0000;" value="<?php echo $sub_cat_id4; ?>"
-                                    <?php echo in_array($sub_cat_id4, $category_ids) ? 'selected' : ''; ?>>
-                                    <?php echo str_repeat('&nbsp;', 10) . $sub_cat_name4; ?>
-                                </option>
-                                <?php endforeach; ?>
-                                <?php }else{ ?>
-                                <option data-style="background-color: #ff0000;" value="<?php echo $sub_cat_id3; ?>"
-                                    <?php echo ($sub_cat_id3== $default_category_id) ? 'selected' : ''; ?>>
-                                    <?php echo str_repeat('&nbsp;', 8) . $sub_cat_name3; ?>
-                                </option>
-                                <?php } ?>
-                                <?php endforeach; ?>
-                            </optgroup>
-                            <?php }else{ ?>
-                            <option value="<?php echo $sub_cat_id2; ?>" <?php echo ($sub_cat_id2==$default_category_id) ? 'selected' : ''; ?>>
-                                <?php echo str_repeat('&nbsp;', 6) . $sub_cat_name2; ?>
-                            </option>
-                            <?php } ?>
-                            <?php endforeach; ?>
-                            </optgroup>
-                            <?php }else{ ?>
-                            <option value="<?php echo $sub_cat_id; ?>" <?php echo ($sub_cat_id==$default_category_id) ? 'selected' : ''; ?>>
-                                <?php echo str_repeat('&nbsp;', 4) . $sub_cat_name; ?>
-                            </option>
-                            <?php } ?>
-                            <?php endforeach; ?>
-                            </optgroup>
-                            <?php }else{ ?>
-                            <option value="<?php echo $parent_cat_id; ?>" <?php echo ($parent_cat_id==$default_category_id) ? 'selected' : ''; ?>>
-                                <?php echo $parent_cat_name; ?>
-                            </option>
-                            <?php } ?>
-
-
-                            @endforeach
-                            @endif
-                        </select>
-                    </div>
-
-                    <div class="col-md-6 form-group">
-                        <label>Product Name<b class="text-danger">*</b></label>
-                        <input type="text" name="product_name" class="form-control jqv-input" required
-                            data-parsley-required-message="Enter Product Name"
-                            value="{{ $name }}">
-                    </div>
-                    <div class="col-md-6 form-group" style="display: none;">
-                        <input type="hidden" name="seller_id" id="seller_id" value="{{ auth()->user()->id }}">
-                    </div>
-                     <div class="col-md-6 form-group">
-                        <label>Stores<b class="text-danger">*</b></label>
-                        <select class="form-control jqv-input select2" name="store_id" required
-                            data-parsley-required-message="Select a Store" id="store-id">
-                            <option value="">Select Stores</option>
-                            @foreach ($stores as $sel)
-                                <option value="{{$sel->id }}" @if ($sel->id == $store_id) selected @endif>{{ $sel->store_name }}
-                                </option>
-                            @endforeach
-                            
-                        </select>
-                    </div>
-                    <div class="col-md-6 form-group">
-                        <label>Brand<b class="text-danger">*</b></label>
-                         <select name="brand" class="form-control jqv-input select2" required
-                        data-parsley-required-message="Select Brand" id="brand">
-                            <option value="">Select</option>
-
-                            @foreach ($brand as $cnt)
-                                <option <?php if(!empty($product->brand)) { ?> {{$product->brand == $cnt->id ? 'selected' : '' }} <?php } ?> value="{{ $cnt->id }}">
-                                    {{ $cnt->name }}</option>
-                            @endforeach;
-                        </select>
-                    </div>
-
-                    <div class="col-md-6 form-group">
-                        <label>Moda Main Category<b class="text-danger">*</b></label>
-                        <select name="moda_main_category" class="form-control" required  data-parsley-required-message="Select Main Category" data-role="moda-category-change">
-                            <option value="">Select</option>
-                            @foreach ($moda_main_categories as $cat)
-                                <option {{ $cat->id == $moda_main_category ? 'selected' : '' }} value="{{ $cat->id }}">
-                                    {{ $cat->name }}</option>
-                            @endforeach;
-                        </select>
-                    </div>
-
-                    <div class="col-md-6 form-group">
-                        <label>Moda Sub Category<b class="text-danger">*</b></label>
-                        <select name="moda_sub_category" class="form-control" required
-                        data-parsley-required-message="Select Sub Category" id="moda-sub-cat">
-                            <option value="">Select</option>
-                            @foreach ($moda_sub_categories as $sc)
-                                <option   @if($moda_sub_category==$sc->id) selected @endif  value="{{$sc->id}}">{{$sc->name}} ({{$sc->gender==1 ? 'Male' : 'Female'}})</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="col-md-6 form-group">
-                        <label>Status</label>
-                        <select name="active" class="form-control">
-                            <option <?= $active == 1 ? 'selected' : '' ?> value="1">Active</option>
-                            <option <?= $active == 0 ? 'selected' : '' ?> value="0">Inactive</option>
-                        </select>
-                    </div>
-
-                    <div class="col-md-6 form-group">
-                        <label>Is Returns Applicable</label>
-                        <select name="ret_applicable" class="form-control ret_applicable">
-                            <option <?= $ret_applicable == 0 ? 'selected' : '' ?> value="0">No</option>
-                            <option <?= $ret_applicable == 1 ? 'selected' : '' ?> value="1">Yes</option>
-                        </select>
-                    </div>
-                    <div class="col-md-6 form-group ret_within_div @if(!$ret_applicable) d-none @endif">
-                        <label>Return Within Days<b class="text-danger">*</b></label>
-                        <input type="number" data-parsley-type="digits" name="ret_policy_days" class="form-control jqv-input ret_within_inp" @if($ret_applicable) required @endif 
-                            data-parsley-required-message="Enter Return Within Days"
-                            value="{{ $ret_policy_days }}">
-                    </div>
-                    <div class="form-group col-md-12">
-                        <label>Return Policy Description</label>
-                        <textarea rows="5" name="ret_policy" class="form-control"
-                            data-parsley-required-message="Enter Return Policy Description">{{$ret_policy}}
-                        </textarea>
-                    </div>
-                  
-                    
-                    <div class="col-md-12 form-group other-specs-wrap" style="display:none;">
-                        <div class="top-bar">
-                        <label class="badge bg-light d-flex justify-content-between align-items-center">Other Specs <button class="btn btn-primary pull-right" type="button"
-                                data-role="add-spec"><i class="flaticon-plus-1"></i></button> </label>
+                <div class="card mb-2">
+                    <div class="card-body">
+                        <div class="row justify-content-between align-items-center">
+                            <div class="col-md-6 col-sm-6 form-group">
+                            <label>Product Type<b class="text-danger">*</b></label>
+                            <select class="form-control text-filed" id="txt_product_type"  name="product_type" @if($id) {{ "disabled"}} @endif >
+                                <option value="1" <?php echo (($product_type == 1) ? 'selected="selected"' : '')?>>Simple</option>
+                                <option value="2" <?php echo (($product_type == '2') ? 'selected="selected"' : '')?>>Variable</option>
+                            </select>
                         </div>
-                        <input type="hidden" id="spec_counter" value="{{ count($specs) }}">
-                        <div id="spec-holder">
-                            @if (!empty($specs))
-                                <?php $i = 0; ?>
-                                @foreach ($specs as $spec)
-                                    <div class="row">
-                                        <div class="col-md-5 form-group">
-                                            <input type="text" name="spec[{{ $i }}][title]" placeholder="Title"
-                                                value="{{ $spec->spec_title }}" class="form-control jqv-input"
-                                                data-jqv-required="true">
-                                        </div>
-                                        <div class="col-md-5 form-group">
-                                            <textarea name="spec[{{ $i }}][description]"
-                                                placeholder="Description" class="form-control jqv-input"
-                                                data-jqv-required="true">{{ $spec->spec_descp }}</textarea>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <button type="button" class="btn btn-danger" data-role="remove-spec"><i class="flaticon-minus-2"></i></button>
-                                        </div>
-                                    </div>
-                                    <?php $i++; ?>
+
+                        <div class="col-md-6 form-group           select-category-form-group">
+                            <label>Division<b class="text-danger">*</b></label>
+                            <select class="form-control select2"
+                                name="division_id" data-role="divison-change"  required>
+                                <option value="">Select Division</option>
+                                @foreach($divisions as $key => $val)
+                                    <option
+                                    {{ $val->id == $division_id ? 'selected' : '' }}
+                                     value="{{$val->id}}">{{$val->name}}</option>
                                 @endforeach
-                            @endif
+                            </select>
                         </div>
-                    </div>
 
-                   
-                    <div class="col-md-6 form-group" style="display:none;">
-                        <label>Meta Title<b class="text-danger"></b></label>
-                        <input type="text" name="meta_title" class="form-control jqv-input" data-jqv-required="true"
-                            value="{{ $meta_title }}">
-                    </div>
-                    <div class="col-md-6 form-group" style="display:none;">
-                        <label>Meta Keyword<b class="text-danger"></b></label>
-                        <input type="text" name="meta_keyword" class="form-control jqv-input" data-jqv-required="true"
-                            value="{{ $meta_keyword }}">
-                    </div>
-                    <div class="col-md-6 form-group" style="display:none;">
-                        <label>Meta Description<b class="text-danger"></b></label>
-                        <input type="text" name="meta_description" class="form-control jqv-input" data-jqv-required="true"
-                            value="{{ $meta_description }}">
-                    </div>
-                    <div class="col-md-6 form-group">
-                    </div>
-                    <div class="col-md-12 form-group">
-                        <fieldset id="product-single-variant" class="mt-3" <?php echo ($product_type != 1 ? 'style="display:none;"' : '') ?>>
-                             @include('vendor/product/simple_inventory')
-                        </fieldset>
-                    </div>
-                    <input type="hidden" name="mode" id="mode" value="{{$mode}}">
-                    <div class="col-md-12 form-group">
-                     <fieldset id="product-attribute-wrapper" class="mt-3" <?php echo ((empty($attribute_list) || ($mode == 'add') || ($product_type == 1)) ? 'style="display:none;"' : '') ?>>
-                        <legend>Create Variants</legend>
-                        <div id="product-variant-alert" class="alert alert-warning mb-0" style="display:none;"></div>
-                        <div id="product-attribute-box">
-                            <?php   if ( $mode == 'edit' ): ?>
-                                @include('vendor/product/category_attribute_ajax_list')
-                              
-                            <?php endif; ?>
+
+
+                        <div class="col-md-6 form-group select-category-form-group">
+                            <label>Category<b class="text-danger">*</b></label>
+                            <select class="form-control jqv-input product_catd select2" data-jqv-required="true" id="categories"
+                                name="category_ids[]"  data-placeholder="Select Categories"
+                                data-allow-clear="true" multiple="multiple" required
+                                data-parsley-required-message="Select Category">
+                                @foreach($categories as $key => $val)
+                                    <option value="<?php echo $val->id; ?>"
+                                        <?php echo in_array($val->id, $category_ids) ? 'selected' : ''; ?>>
+                                        <?php echo str_repeat('&nbsp;', 4) . $val->name; ?>
+                                    </option>
+                                    {{-- <optgroup label="<?php echo $val->name; ?>">
+                                        @foreach($val->sub as $sub)
+                                            <option data-style="background-color: #ff0000;" value="<?php echo $sub->id; ?>"
+                                                <?php echo in_array($sub->id, $category_ids) ? 'selected' : ''; ?>>
+                                                <?php echo str_repeat('&nbsp;', 4) . $sub->name; ?>
+                                            </option>
+                                        @endforeach
+                                    </optgroup> --}}
+                                @endforeach
+                            </select>
                         </div>
-                        <div id="product-multi-variant" class="mt-3 mb-3" <?php echo ($product_type != 2 ? 'style="display:none;"' : '') ?>>
-                            @include('vendor/product/product_variant_form')
                         
+                        
+                        
+
+                        <div class="col-md-6 form-group">
+                            <label>Product Name<b class="text-danger">*</b></label>
+                            <input type="text" name="product_name" class="form-control jqv-input" required
+                                data-parsley-required-message="Enter Product Name"
+                                value="{{ $name }}">
+                        </div>
+
+
+
+
+                       
+                        
+                        <div class="col-md-6 form-group">
+                            <label>Brand<b class="text-danger">*</b></label>
+                            <select name="brand" class="form-control jqv-input select2" required
+                            data-parsley-required-message="Select Brand" id="brand">
+                                <option value="">Select</option>
+
+                                @foreach ($brand as $cnt)
+                                    <option <?php if(!empty($product->brand)) { ?> {{$product->brand == $cnt->id ? 'selected' : '' }} <?php } ?> value="{{ $cnt->id }}">
+                                        {{ $cnt->name }}</option>
+                                @endforeach;
+                            </select>
+                        </div>
+                        
+
+                        <div class="col-md-6 form-group">
+                            <label>Status</label>
+                            <select name="active" class="form-control">
+                                <option <?= $active == 1 ? 'selected' : '' ?> value="1">Active</option>
+                                <option <?= $active == 0 ? 'selected' : '' ?> value="0">Inactive</option>
+                            </select>
+                        </div>
+
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="form-check" style="padding-left:0px!important">
+                                    <input class="form-check-input" name="is_featured" style="margin-left: -100px" @if($is_featured) checked @endif type="checkbox" value="1" id="defaultCheck1">
+                                    <label class="form-check-label" for="defaultCheck1">
+                                      Is Featured Product
+                                    </label>
+                                  </div>
+                            </div>
+                           
+    
+                        </div>
+
+                        
+
+                        </div>
                     </div>
-                    </fieldset>
                 </div>
-                    <div class="col-md-12 text-center mt-3">
-                        <button type="submit" class="btn btn-primary">Submit</button>
+
+              
+
+              
+
+                <div class="card mb-2">
+                    <div class="card-body">
+                        <div class="row  d-flex justify-content-between align-items-center">
+                            <div class="col-md-12 form-group">
+                                <fieldset id="product-single-variant" class="mt-3" <?php echo ($product_type != 1 ? 'style="display:none;"' : '') ?>>
+                                    @include('vendor/product/simple_inventory')
+                                </fieldset>
+                            </div>
+
+                            <input type="hidden" name="mode" id="mode" value="{{$mode}}">
+                            <div class="col-md-12 form-group">
+                                <fieldset id="product-attribute-wrapper" class="mt-3" <?php echo ((empty($attribute_list) || ($mode == 'add') || ($product_type == 1)) ? 'style="display:none;"' : '') ?>>
+                                    <legend>Create Variants</legend>
+                                    <div id="product-variant-alert" class="alert alert-warning mb-0" style="display:none;"></div>
+                                    <div id="product-attribute-box">
+                                        <?php   if ( $mode == 'edit' ): ?>
+                                            @include('vendor/product/category_attribute_ajax_list')
+                                        
+                                        <?php endif; ?>
+                                    </div>
+                                    <div id="product-multi-variant" class="mt-3 mb-3" <?php echo ($product_type != 2 ? 'style="display:none;"' : '') ?>>
+                                        @include('vendor/product/product_variant_form')
+                                    
+                                </div>
+                                </fieldset>
+                            </div>
+
+                            <div class="col-md-12 text-center mt-3">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </div>
                     </div>
+                </div>
+
+                <div class="row  d-flex justify-content-between align-items-center d-none">
+                                        
                 </div>
             </form>
-        </div>
     </div>
 @stop
 
@@ -385,6 +266,21 @@
 @section('script')
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script> 
+        $('body').off('change', '[data-role="divison-change"]');
+        $('body').on('change', '[data-role="divison-change"]', function() {
+         var ctid = $(this).val();
+    $.ajax({
+     dataType: "json",
+     url: "{{route('new_get_category')}}?division="+ctid,
+     success: function(data){
+      $("#categories").empty();
+      $("#categories").append('<option value="">Select categories</option>');
+      $.each(data, function(index) {
+        $("#categories").append('<option value=' + data[index].id +' >'+data[index].name+'</option>');
+      });
+    }
+  })
+            });
         $('.form-control').on("click", function (e) {
     $(this).closest('div.form-group').find(".invalid-feedback").html("");
     $(this).closest('div.form-group').find(".invalid-feedback").remove('invalid-feedback');
@@ -406,21 +302,16 @@ function validateNumber(elem) {
     elem.value = lastValid;
   }
 }
+
+
 </script>
     <script>
         App.initFormView();
+        
+        
         $(document).ready(function() {
             $('.select2').select2();
-            $('.ret_applicable').change(function(){
-                if($(this).val()==1){
-                    $('.ret_within_div').removeClass('d-none');
-                    $('.ret_within_inp').attr('required','');
-                }else{
-                    $('.ret_within_div').addClass('d-none');
-                    $('.ret_within_inp').removeAttr('required');
-                }
-            });
-
+            
         });
         $('body').on("click", '[data-role="remove-spec"]', function() {
             $(this).parent().parent().remove();
@@ -451,6 +342,7 @@ function validateNumber(elem) {
             var $form = $(this);
             var formData = new FormData(this);
             var i = 0;
+            $(".invalid-feedback").remove();
             
             $.each(form_uploaded_images, function (k, v) { 
                     if ( k == 'product-simple-image' ) {
@@ -476,7 +368,7 @@ function validateNumber(elem) {
             $form.find('button[type="submit"]')
                 .text('Saving')
                 .attr('disabled', true);
-                $(".invalid-feedback").remove();
+
             $.ajax({
                 type: "POST",
                 enctype: 'multipart/form-data',
@@ -491,7 +383,7 @@ function validateNumber(elem) {
                     App.loading(false);
 
                     if (res['status'] == 0) {
-                        if (typeof res['errors'] !== 'undefined') {
+                        if (typeof res['errors'] !== 'undefined' && res['errors'].length) {
                             var error_def = $.Deferred();
                             var error_index = 0;
                             jQuery.each(res['errors'], function(e_field, e_message) {
@@ -760,7 +652,7 @@ function validateNumber(elem) {
                             .html(data['html']);
                     }
                 })
-               /* $.post(App.siteUrl('vendor/products/loadProductVariantAttributes'), formData, function (data) {
+               /* $.post(App.siteUrl('admin/products/loadProductVariantAttributes'), formData, function (data) {
                     $('#variant-ajax-loading').hide();
                     if ( typeof data['html'] !== 'undefined' ) {
                         $('#product-multi-variant')
@@ -891,6 +783,7 @@ function validateNumber(elem) {
             'image/png',
             'image/jpg',
             'image/jpeg',
+            'image/webp',
             'image/svg+xml'
         ],
     }
@@ -902,7 +795,7 @@ function validateNumber(elem) {
             var _URL = window.URL || window.webkitURL;
             
             var $parent = $(this).closest('div.uploaded-prev-imd');            
-            var $imgBox = $('<div class="uploaded-prev-imd"><img /><a href="javascript:void(0)" class="del-product-img" data-role="product-img-trash" data-image-file=""><i class="flaticon-delete"></i> Delete</a></div>');
+            var $imgBox = $('<div class="uploaded-prev-imd"><img /><a href="javascript:void(0)" class="del-product-img" data-role="product-img-trash" data-image-file=""><i class="bx bx-trash-alt"></i></a></div>');
             var image_key = App.makeSafeName($(this).attr('name'), '-');
             var countval = $(this).attr('counter');
             var counter = $parent.siblings('div.uploaded-prev-imd').length;
@@ -920,7 +813,7 @@ function validateNumber(elem) {
                     var maxheight = '<?php echo config('global.product_image_height')?>';  
                        
                         if(this.width > maxwidth || this.height > maxheight){
-                            App.alert("Maximum Image upload size issue","Opss");
+                            App.alert("Maximum dimension allowed is "+maxwidth+" x "+maxheight,"Opss");
 
                             return;
                         }else{
@@ -990,7 +883,7 @@ function validateNumber(elem) {
                                 }
                         }
                     })                    
-                       /* $.post(App.siteUrl('/vendor/products/unlinkAttrFromProduct'), { 'product_id': product_id, 'attr_val_id': attr_val_id }, function (data) {
+                       /* $.post(App.siteUrl('/admin/products/unlinkAttrFromProduct'), { 'product_id': product_id, 'attr_val_id': attr_val_id }, function (data) {
                             $def.resolve(data);
                         });
                         $def.done(function (data) {
@@ -1036,7 +929,10 @@ function validateNumber(elem) {
                             var msg = data['message']||'Unable to remove attribute. Please try again later.';
                             App.alert([msg, 'warning']);
                         } else {
-                            App.alert(['Done! Image removed successfully.', 'success']);
+                            App.alert(['Done! Image removed successfully.']);
+                            // if(product_type==1){
+                            //     location.reload();
+                            // }
                             $(this).parent().find('.uploaded-prev-imd').remove();
                             $target.remove();
                             
@@ -1044,16 +940,20 @@ function validateNumber(elem) {
                 }
             }) 
         }else { 
+            // if(product_type==1){
+            //     location.reload();
+            // }
             $target.remove();
             $(this).parent().find('.uploaded-prev-imd').remove();
         }  
     })
     $(document).on('click','.default_attribute_id',function(){
         var sel = $(this).val(); 
-        $('.default_attribute_id').prop('checked',false);       
-        $(this).prop('checked',true);
+        $('.default_attribute_id').attr('checked',false);       
+        $(this).attr('checked',true);
         
     })
+
     $('body').off('change', '[data-role="moda-category-change"]');
         $('body').on('change', '[data-role="moda-category-change"]', function() {
             var $t = $(this);
@@ -1065,7 +965,7 @@ function validateNumber(elem) {
                 $.ajax({
                     type: "POST",
                     enctype: 'multipart/form-data',
-                    url: "{{url('get_moda_sub_category_by_category')}}",
+                    url: "{{url('vendor/moda_sub_category_by_category')}}",
                     data: {
                         "id": id,
                         "_token": "{{ csrf_token() }}"
@@ -1083,5 +983,21 @@ function validateNumber(elem) {
                 });
             }
         });
+        $('body').off('change', '#txt_product_type');
+        $('body').on('change', '#txt_product_type', function(e) {
+        var type = $(this).val();
+        if(type == 2)
+        {
+
+            $('#product-single-variant').find('[required]').prop('required', false);
+        }
+        else
+        {
+            $('#product-single-variant').find('[required]').prop('required', true); 
+        }
+   
+});
+        
+        
     </script>
 @stop

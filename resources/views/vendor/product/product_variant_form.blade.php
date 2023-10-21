@@ -31,7 +31,10 @@ $attribute_values = isset($attribute_values) ? $attribute_values : [];
     $t_variant_size_chart   = '';
     $t_variant_images   = [];
      $short_desc        = '';
-    $full_desc           = '';  ?>
+    $full_desc           = '';
+    $material   = '';
+    $product_details   = '';
+    $needtoknow   = '';  ?>
     @if ( array_key_exists($i, $product_variations) !== FALSE )
      <?php    $t_variant_id = $product_variations[$i]->product_attribute_id;
         $t_variant_regular_price = $product_variations[$i]->regular_price;
@@ -48,6 +51,9 @@ $attribute_values = isset($attribute_values) ? $attribute_values : [];
         $t_variant_width    = $product_variations[$i]->width;
         $t_variant_height   = $product_variations[$i]->height;
         $t_variant_size_chart   = $product_variations[$i]->size_chart;
+        $material   = $product_variations[$i]->material;
+        $product_details   = $product_variations[$i]->product_details;
+        $needtoknow   = $product_variations[$i]->needtoknow;
         
         array_walk_recursive($t_variant_images, function (&$v, $k) {
             $v = trim($v);
@@ -80,29 +86,29 @@ $attribute_values = isset($attribute_values) ? $attribute_values : [];
         <div id="multi-variant-accord-collapse-<?php echo $input_index+1 ?>" class="collapse <?php echo ($input_index == 0 ? 'show' : '') ?>" aria-labelledby="multi-variant-accord-head-<?php echo $input_index+1 ?>" data-parent="#product-multi-variant-accordion">
             <div class="card-body">
                 <div class="form-row">
-                    <div class="col-lg-3">
+                    <div class="col-lg-2">
                         <div class="form-group profile-form">
                             <label>Regular Price <span class="text-danger">*</span></label>
-                            <input type="text" name="product_variant_regular_price[<?=$input_index?>]" value="<?php echo $t_variant_regular_price ?>" class="form-control multi-attr-required" data-role="regular-price" <?php echo ($readonly ? 'readonly': '') ?> />
+                            <input required data-parsley-required-message="Enter regular price" min="0" data-parsley-type="number" type="text" id="regular_price_<?=$input_index?>"  name="product_variant_regular_price[<?=$input_index?>]" oninput="validateNumber(this);" value="<?php echo $t_variant_regular_price ?>" class="form-control multi-attr-required" data-role="regular-price" <?php echo ($readonly ? 'readonly': '') ?> />
                         </div>
                     </div>
-                    <div class="col-lg-3">
+                    <div class="col-lg-2">
                         <div class="form-group profile-form">
                             <label>Sale Price <span class="text-danger">*</span></label>
-                            <input type="text" name="product_variant_sale_price[<?=$input_index?>]" value="{{ $t_variant_sale_price}}" class="form-control multi-attr-required" data-role="sale-price" <?php echo ($readonly ? 'readonly': '') ?> />
+                            <input required data-parsley-required-message="Enter sale price" min="0" data-parsley-type="number" type="text" data-parsley-lte="#regular_price_<?=$input_index?>" data-parsley-lte-message="Sale Price should be less than or equal to Regular Price" id="sale_price"  name="product_variant_sale_price[<?=$input_index?>]" oninput="validateNumber(this);" value="{{ $t_variant_sale_price}}" class="form-control multi-attr-required" data-role="sale-price" <?php echo ($readonly ? 'readonly': '') ?> />
                         </div>
                     </div>
-                    <div class="col-lg-3">
+                    <div class="col-lg-2">
                         <div class="form-group profile-form">
                             <label>Stock Quantity <span class="text-danger">*</span></label>
-                            <input type="text" name="product_variant_stock_qty[<?=$input_index?>]" value="{{ $t_variant_stock_qty}}" class="form-control multi-attr-required" <?php echo ($readonly ? 'readonly': '') ?> />
+                            <input required data-parsley-required-message="Enter quanitity" min="0" data-parsley-type="digits" type="text"  name="product_variant_stock_qty[<?=$input_index?>]" value="{{ $t_variant_stock_qty}}" class="form-control multi-attr-required" <?php echo ($readonly ? 'readonly': '') ?> />
                         </div>
                     </div>
 
-                    <div class="col-lg-3">
+                    <div class="col-lg-2">
                         <div class="form-group profile-form">
                             <label>SKU <span class="text-danger">*</span></label>
-                            <input type="text" name="product_variant_product_code[<?=$input_index?>]" value="{{ $t_variant_product_code}}" class="form-control multi-attr-required" <?php echo ($readonly ? 'readonly': '') ?> />
+                            <input required data-parsley-required-message="Enter SKU"  type="text" name="product_variant_product_code[<?=$input_index?>]" value="{{ $t_variant_product_code}}" class="form-control multi-attr-required" <?php echo ($readonly ? 'readonly': '') ?> />
                         </div>
                     </div>
 
@@ -110,33 +116,33 @@ $attribute_values = isset($attribute_values) ? $attribute_values : [];
                    <div class="col-lg-3">
         <div class="form-group profile-form">
             <label>Weight (kg)</label>
-            <input type="text" name="weight_variant[<?=$input_index?>]" value="{{$t_variant_weight}}" class="form-control"/>
+            <input type="text" min="0" data-parsley-type="number" name="weight_variant[<?=$input_index?>]" value="{{$t_variant_weight}}" oninput="validateNumber(this);" class="form-control"/>
         </div>
     </div>
     <div class="col-lg-3">
         <div class="form-group profile-form">
             <label>Length (cm)</label>
-            <input type="text" name="length_variant[<?=$input_index?>]" value="{{$t_variant_length}}" class="form-control"  />
+            <input type="text" name="length_variant[<?=$input_index?>]" oninput="validateNumber(this);" value="{{$t_variant_length}}" class="form-control"  />
         </div>
     </div>
     <div class="col-lg-3">
         <div class="form-group profile-form">
             <label>Width (cm) </label>
-            <input type="text" name="width_variant[<?=$input_index?>]" value="{{$t_variant_width}}" class="form-control"/>
+            <input type="text" name="width_variant[<?=$input_index?>]" oninput="validateNumber(this);" value="{{$t_variant_width}}" class="form-control"/>
         </div>
     </div>
     <div class="col-lg-3">
         <div class="form-group profile-form">
             <label>Height (cm)</label>
-            <input type="text" name="height_variant[<?=$input_index?>]" value="{{$t_variant_height}}" class="form-control"/>
+            <input type="text" name="height_variant[<?=$input_index?>]" oninput="validateNumber(this);" value="{{$t_variant_height}}" class="form-control"/>
         </div>
-    </div>
+    </div> 
                     
                     
                     <div class="col-lg-3 d-none">
                         <div class="form-group profile-form">
                             <label>Barcode <span class="text-danger">*</span></label>
-                            <input type="text" name="product_variant_barcode[<?=$input_index?>]" value="{{ $t_variant_barcode}}" class="form-control multi-attr-required" <?php echo ($readonly ? 'readonly': '') ?> />
+                            <input type="text" name="product_variant_barcode[<?=$input_index?>]" value="{{ $t_variant_barcode}}" class="form-control" <?php echo ($readonly ? 'readonly': '') ?> />
                         </div>
                     </div>
                     
@@ -162,29 +168,52 @@ $attribute_values = isset($attribute_values) ? $attribute_values : [];
                            <textarea name="product_variant_short_desc[<?=$input_index?>]" data-editor="ck" id="des{{$start_index+$i}}" class="form-control description_fld">{{$short_desc}}</textarea>
                         </div>
                     </div>
-                    <div class="col-lg-12">
+
+                    <div class="col-lg-6">
+        <div class="form-group profile-form">
+            <label>Material </label>
+            <textarea rows="5" type="text" name="material[{{$input_index}}]"  class="form-control"  {{ $readonly }} />{{$material}}</textarea>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="form-group profile-form">
+            <label>Product Details </label>
+            <textarea rows="5" type="text" name="product_details[{{$input_index}}]"  class="form-control"  {{ $readonly }} />{{$product_details}}</textarea>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="form-group profile-form">
+            <label>What You Need to Know </label>
+            <textarea rows="5" type="text" name="needtoknow[{{$input_index}}]"  class="form-control"  {{ $readonly }} />{{$needtoknow}}</textarea>
+        </div>
+    </div>
+
+
+                    <div class="col-lg-6">
                         <div class="form-group profile-form">
-                            <label>Description <span class="text-danger">*</span></label>
-                           <textarea name="product_variant_full_desc[{{$input_index}}]" data-editor="ck" id="desfull{{$start_index+$i}}" class="form-control description_fld">{{$full_desc}}</textarea>
+                            <label>Description </label>
+                           <textarea rows="5" name="product_variant_full_desc[{{$input_index}}]" data-editor="ck" id="desfull{{$start_index+$i}}" class="form-control description_fld">{{$full_desc}}</textarea>
                         </div>
                     </div>
 
                     <div class="col-lg-3">
-                        <div class="form-group profile-form">
-                            <label>Make Default <span class="text-danger"></span></label>
-                            <input type="checkbox" name="default_attribute_id1[]" value="{{ $t_variant_id}}" class="default_attribute_id" <?php if(isset($default_attribute_id)&& $default_attribute_id==$t_variant_id ) echo 'checked'; ?>  <?php echo ($readonly ? 'readonly': '') ?> />
+                        <div class="form-group profile-form d-flex align-items-center">
+                            <input type="checkbox" name="default_attribute_id[]" value="{{ $t_variant_id}}" class="form-control default_attribute_id" <?php if(isset($default_attribute_id)&& $default_attribute_id==$t_variant_id ) echo 'checked'; ?>  <?php echo ($readonly ? 'readonly': '') ?> />
+                            <label class="mb-0">Make Default <span class="text-danger"></span></label>
                         </div>
                        
 
                     </div>
 
-                    <div class="col-lg-3"> 
+                    {{-- <div class="col-lg-3"> 
         <div class="form-group profile-form">
             <label>Size chart <span class="text-danger"></span>@php if(!empty($t_variant_size_chart)) { @endphp <a href='{{asset($t_variant_size_chart)}}' target='_blank'><strong>View</strong></a>@php }  @endphp</label>
             <input type="file" name="size_chart_attr[]" class="form-control" />
             <input type="hidden" name="size_chart_attr_old[]" class="form-control" value="{{$t_variant_size_chart}}"/>
         </div>
-        </div>
+        </div> --}}
                 </div>
                 <div class="form-row mt-3">
                     <div class="col-lg-12">
@@ -194,8 +223,11 @@ $attribute_values = isset($attribute_values) ? $attribute_values : [];
                                 <?php if (! empty($t_variant_images) ): ?>
                                     <?php foreach ($t_variant_images as $t_name): ?>
                                         <?php
-                                        if ( !empty($t_name) && file_exists(config('global.upload_path') . "/" . config('global.product_image_upload_dir'). "/{$t_name}") ) {
+                                            
+                                        if ( !empty($t_name) && file_exists(config('global.upload_path') . "/" . config('global.product_image_upload_dir'). "/{$t_name}") )
+                                         {
                                             $t_img = url(config('global.upload_path') . "/" . config('global.product_image_upload_dir')."/".$t_name) ;
+
                                         } else {
                                             $t_img = url('assets_v2/images/placeholder.png');
                                         }
@@ -210,7 +242,7 @@ $attribute_values = isset($attribute_values) ? $attribute_values : [];
                                 <div class="uploaded-prev-imd" <?php echo ($readonly ? 'style="display:none;"' : '') ?>>
                                     <div class="image_wrap">
                                         <label class="Pic_upload">
-                                            <input type="file" counter="{{$input_index}}" name="product_var_temp_image[<?=$input_index?>][]" class="upload_pro" data-role="product-img-upload" multiple />
+                                            <input type="file" counter="{{$input_index}}" name="product_var_temp_image[<?=$input_index?>][]" class="upload_pro" data-role="product-img-upload" multiple accept="image/*"/>
                                             <i class="ti-plus"></i>
                                         </label>
                                     </div>

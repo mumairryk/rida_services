@@ -12,6 +12,7 @@ use App\Models\VendorDetailsModel;
 use App\Models\VendorModel;
 use App\Models\UserLocations;
 use App\Models\User;
+use App\Models\Categories;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -285,4 +286,5 @@ class HomeController extends Controller
             $location->save();
         }
     }
+    
 }

@@ -40,6 +40,7 @@ Route::post("get_moda_sub_category_by_category", "App\Http\Controllers\admin\Mod
 Route::get('/admin', 'App\Http\Controllers\admin\LoginController@login')->name('admin.login');
 Route::get('/admin/login', 'App\Http\Controllers\admin\LoginController@login')->name('admin.alogin');
 Route::post('admin/check_login', 'App\Http\Controllers\admin\LoginController@check_login')->name('admin.check_login');
+Route::get("get_category", "App\Http\Controllers\admin\LoginController@get_category")->name('new_get_category');
 Route::namespace('App\Http\Controllers\admin')->prefix('admin')->middleware('admin')->name('admin.')->group(function () {
 
 

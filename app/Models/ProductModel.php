@@ -72,6 +72,8 @@ class ProductModel extends Model
         
         DB::beginTransaction();
 
+        
+
         try {  
             DB::table('product')->where('id',$product_id)->update($ins);
 
