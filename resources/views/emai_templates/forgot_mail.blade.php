@@ -28,7 +28,7 @@
                                                 <tr>
                                                     <td>
                                                         <img src="{{ asset('') }}admin-assets/assets/img/logo.svg" alt="" style="max-width: 190px; margin-bottom: 0px; ">
-                                                        <h2 style="color: #ffffff; font-size: 30px;line-height: 100%;">Reset your HOP Password </h2>
+                                                        <h2 style="color: #ffffff; font-size: 30px;line-height: 100%;">Reset your {{env('APP_NAME')}} Password </h2>
                                                     </td>
                                                     
                                                 </tr>
@@ -51,7 +51,7 @@
                                                         <div  style="color:#636363;font-family: Roboto,RobotoDraft,Helvetica,Arial,sans-serif;font-size:14px;line-height:150%;text-align:left;margin-top: 30px">
                                                             <h4 style="font-weight: 600; font-size: 18px; color: #ffffff;">Dear {{$name}},</h4>
                                                             <p style="margin:0 0 16px; font-size: 14px; line-height: 26px; color: #ffffff; text-align: left;">
-                                                            {{$otp}} is the OTP to reset your HOP password.   
+                                                            {{$otp}} is the OTP to reset your {{env('APP_NAME')}} password.   
                                                             </p>
 
                                                       
@@ -83,7 +83,7 @@
                                                                 <td colspan="2" valign="middle"
                                                                     style="padding:0;border:0;color:#aac482;font-family:Arial;font-size:12px;line-height:125%;text-align:center; background: #000000;">
                                                                     <p style="color: #ffffff; padding-top: 20px; font-style: 14px; margin-top: 0px">
-                                                                        © 2023 HOP. All Rights Reserved.</p>
+                                                                        © 2023 {{env('APP_NAME')}}. All Rights Reserved.</p>
                                                                 </td>
                                                             </tr>
                                                         </tbody>
