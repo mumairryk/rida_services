@@ -175,11 +175,23 @@ class CMS extends Controller
       {
       $filter['division'] = $division;  
       }
+      else
+      {
+      $filter['division'] = 1;   
+      }
 
       $latestproductlist = ProductModel::products_list($where, $filter, 5, 0)->get();
       $latestproductlist = $this->product_inv($latestproductlist, $user);
 
-
+      
+      if(!empty($division))
+      {
+      $filter['division'] = $division;  
+      }
+      else
+      {
+      $filter['division'] = 2;   
+      }
       $newproductlist = ProductModel::products_list($where, $filter, 5, 0)->get();
       $newproductlist = $this->product_inv($newproductlist, $user);
 
