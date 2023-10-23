@@ -73,7 +73,7 @@
       <!-- End Icon Cart -->
    </div>
 </div>
-<div class="row">
+<div class="row" style="display:none;">
    <div class="col-xl-5 col-lg-6 mb-4 custom-pr">
       <div class="card h-100">
          <div class="card-body p-2">
@@ -198,8 +198,8 @@
       </div>
    </div>
 </div> --}}
-{{-- <div class="row  mb-4">
-   <div class="col-6">
+<div class="row  mb-4">
+   <div class="col-12">
       <div class="card custom-card">
          <div class="card-header "> <b style="color: black;">Latest Orders</b></div>
          <table class="table table-responsive recent-orders-table mb-0"
@@ -225,7 +225,7 @@
                   <td><?php echo config('global.sale_order_prefix') . date(date('Ymd', strtotime($item->created_at))) . $item->order_id; ?></td>
                   <td>{{ $item->name ?? $item->customer_name }}</td>
                   <td>{{ web_date_in_timezone($item->booking_date, 'M d h:i A') }}</td>
-                  <td>GBP {{ $item->grand_total }}</td>
+                  <td>AED {{ $item->grand_total }}</td>
                   <td><span class="badge badge-info"> {{ $item->status_text }}</span></td>
                   <td><a href="{{ url('admin/order_details/' . $item->order_id) }}"><span
                      class="badge badge-success"> Details</span></a></td>
@@ -235,7 +235,7 @@
          </table>
       </div>
    </div>
-   <div class="col-6">
+   {{--<div class="col-6">
       <div class="card custom-card">
          <div class="card-header "> <b style="color: black;">Items Are Ready For Delivery</b></div>
          <table class="table table-responsive recent-orders-table mb-0"

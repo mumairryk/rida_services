@@ -610,7 +610,7 @@ class AuthController extends Controller
                 $res = false;
                 $mailbody = view("emai_templates.forgot_mail", compact('name', 'otp'));
 
-                if (config('global.server_mode') == 'local') {
+                if (env('APP_ENV') == 'local') {
                     \Artisan::call("send:send_forgot_email --uri=" . urlencode($user->email) . " --uri2=" . $otp . " --uri3=" . urlencode($name));
                 } else {
                     exec("php " . base_path() . "/artisan send:send_forgot_email --uri=" . urlencode($user->email) . " --uri2=" . $otp . " --uri3=" . urlencode($name) . " > /dev/null 2>&1 & ");

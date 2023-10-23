@@ -21,14 +21,14 @@
                     <table border="0" cellpadding="0" cellspacing="0" width="600" style="background:#000000;border-radius:3px!important">
                         <tbody>
                             <tr>
-                                <td style="background: #000000;">
-                                    <div style="padding: 15px 20px; background:#000000; padding-bottom: 15px;">
-                                        <table style="background:#000000; font-family: Roboto,RobotoDraft,Helvetica,Arial,sans-serif;font-size:14px;width: 100%;">
+                                <td style="background: #FFFFFF;">
+                                    <div style="padding: 15px 20px; background:#FFFFFF; padding-bottom: 15px;">
+                                        <table style="background:#FFFFFF; font-family: Roboto,RobotoDraft,Helvetica,Arial,sans-serif;font-size:14px;width: 100%;">
                                             <tbody>
                                                 <tr>
-                                                    <td>
+                                                    <td align="center">
                                                         <img src="{{ asset('') }}admin-assets/assets/img/logo.png" alt="" style="max-width: 190px; margin-bottom: 0px; ">
-                                                        <h2 style="color: #ffffff; font-size: 30px;line-height: 100%;">Reset your {{env('APP_NAME')}} Password </h2>
+                                                        <h2 style="color: #000000; font-size: 30px;line-height: 100%;">Reset your {{env('APP_NAME')}} Password </h2>
                                                     </td>
                                                     
                                                 </tr>
@@ -38,19 +38,19 @@
                                 </td>
                             </tr>
                         <tr>
-                            <td align="center" valign="top" style="background: #000000;">
-                                <table border="0" cellpadding="0" cellspacing="0" width="600" style="background: #000000;">
+                            <td align="center" valign="top" style="background: #FFFFFF;">
+                                <table border="0" cellpadding="0" cellspacing="0" width="600" style="background: #FFFFFF;">
                                     <tbody>
                                     <tr>
-                                        <td valign="top" style="background-color: #111111;    background-image: linear-gradient(to bottom, #111111, #161616, #1b1b1b, #1f1f1f, #242424, #242424, #242424, #242424, #1f1f1f, #1b1b1b, #161616, #111111); padding:0;">
+                                        <td valign="top" style="background-color: #eeecec;">
                                             <table border="0" cellpadding="20" cellspacing="0" width="100%" style="font-family: Roboto,RobotoDraft,Helvetica,Arial,sans-serif;">
                                                 <tbody>
                                                 <tr>
                                                     <td valign="top" style="padding-bottom: 0px;">
 
-                                                        <div  style="color:#636363;font-family: Roboto,RobotoDraft,Helvetica,Arial,sans-serif;font-size:14px;line-height:150%;text-align:left;margin-top: 30px">
-                                                            <h4 style="font-weight: 600; font-size: 18px; color: #ffffff;">Dear {{$name}},</h4>
-                                                            <p style="margin:0 0 16px; font-size: 14px; line-height: 26px; color: #ffffff; text-align: left;">
+                                                        <div  style="color:#000000;font-family: Roboto,RobotoDraft,Helvetica,Arial,sans-serif;font-size:14px;line-height:150%;text-align:left;margin-top: 30px">
+                                                            <h4 style="font-weight: 600; font-size: 18px; color: #000000;">Dear {{$name}},</h4>
+                                                            <p style="margin:0 0 16px; font-size: 14px; line-height: 26px; color: #000000; text-align: left;">
                                                             {{$otp}} is the OTP to reset your {{env('APP_NAME')}} password.   
                                                             </p>
 
@@ -68,9 +68,9 @@
                             </td>
                         </tr>
                         <tr>
-                            <td style="background: #000000;">
-                                <div style="padding: 20px; background: #000000;">
-                                    <table style="background: #000000; font-family: Roboto,RobotoDraft,Helvetica,Arial,sans-serif;font-size:14px;width: 100%;">
+                            <td style="background: #FFFFFF;">
+                                <div style="padding: 20px; background: #FFFFFF;">
+                                    <table style="background: #FFFFFF; font-family: Roboto,RobotoDraft,Helvetica,Arial,sans-serif;font-size:14px;width: 100%;">
                                         <tbody>
                                             
                                             <tr>
@@ -81,8 +81,8 @@
 
                                                             <tr>
                                                                 <td colspan="2" valign="middle"
-                                                                    style="padding:0;border:0;color:#aac482;font-family:Arial;font-size:12px;line-height:125%;text-align:center; background: #000000;">
-                                                                    <p style="color: #ffffff; padding-top: 20px; font-style: 14px; margin-top: 0px">
+                                                                    style="padding:0;border:0;color:#aac482;font-family:Arial;font-size:12px;line-height:125%;text-align:center; background: #FFFFFF;">
+                                                                    <p style="color: #000000; padding-top: 20px; font-style: 14px; margin-top: 0px">
                                                                         © 2023 {{env('APP_NAME')}}. All Rights Reserved.</p>
                                                                 </td>
                                                             </tr>
