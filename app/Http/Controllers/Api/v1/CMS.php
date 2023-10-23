@@ -170,7 +170,7 @@ class CMS extends Controller
       $where['product.deleted'] = 0;
       $where['product_status'] = 1;
 
-      $filter['search_text'] = '';
+      $filter['search_text'] = $request->search;
       if(!empty($division))
       {
       $filter['division'] = $division;  
