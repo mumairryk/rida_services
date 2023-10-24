@@ -211,86 +211,47 @@ if($role == 4) //store manager
         </div>
     </div>
 
-{{--     
-    <div class="row mb-5">
-        <div class="col-lg-8">
-            <div class="card custom-card">
-                    <table class="table table-responsive recent-orders-table mb-0">
-                        <thead>
-                            <tr>
-                            <th scope="col" width="10%">Order Id</th>
-                            <th scope="col" width="35%">Product Name</th>
-                            <th scope="col" width="10%">Unit</th>
-                            <th scope="col" width="12%">Order Date</th>
-                            <th scope="col" width="13%">Order Cost</th>
-                            <th scope="col" width="10%">Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                            <td>24551</td>
-                            <td>Toddler Shoes, Gucci Watch</td>
-                            <td>1 Unit</td>
-                            <td>Nov 18, 2022</td>
-                            <td>AED 158</td>
-                            <td><span class="badge badge-success">Delivered</span></td>
-                            </tr>
-                            <tr>
-                            <td>24552</td>
-                            <td> Coach Swagger</td>
-                            <td>2 Unit</td>
-                            <td>Nov 18, 2022</td>
-                            <td>AED 53</td>
-                            <td><span class="badge badge-warning">Delayed</span></td>
-                            </tr>
-                            <tr>
-                            <td>24553</td>
-                            <td>Hat Black Suits</td>
-                            <td>3 Unit</td>
-                            <td>Nov 18, 2022</td>
-                            <td>AED 79</td>
-                            <td><span class="badge badge-secondary">On Hold</span></td>
-                            </tr>
-                            <tr>
-                            <td>24553</td>
-                            <td>Hat Black Suits</td>
-                            <td>3 Unit</td>
-                            <td>Nov 18, 2022</td>
-                            <td>AED 54</td>
-                            <td><span class="badge badge-danger">Cancelled</span></td>
-                            </tr>
-                            <tr>
-                            <td>24553</td>
-                            <td>Hat Black Suits</td>
-                            <td>3 Unit</td>
-                            <td>Nov 18, 2022</td>
-                            <td>AED 54</td>
-                            <td><span class="badge badge-danger">Cancelled</span></td>
-                            </tr>
-                            <tr>
-                            <td>24553</td>
-                            <td>Hat Black Suits</td>
-                            <td>3 Unit</td>
-                            <td>Nov 18, 2022</td>
-                            <td>AED 54</td>
-                            <td><span class="badge badge-danger">Cancelled</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
-            </div>
-        </div>
-        <div class="col-lg-4">
-            <div class="card custom-card">
-                <div class="chart" style="position: relative; height: 37vh; overflow: hidden;">
-                    <canvas id="orderschart"></canvas>
-                </div>
-            </div>
-        </div>
+     
+    <div class="row  mb-4">
+   <div class="col-12">
+      <div class="card custom-card">
+         <div class="card-header "> <b style="color: black;">Latest Orders</b></div>
+         <table class="table table-responsive recent-orders-table mb-0"
+            style="max-height: 330px; overflow-y: scroll;">
+            <thead>
+               <tr>
+                  <th scope="col" width="10%">Order ID</th>
+                  <th scope="col" width="25%">Customer</th>
+                  <th scope="col" width="25%">Order Date</th>
+                  <th scope="col" width="15%">Total</th>
+                  <th scope="col" width="15%">Status</th>
+                  <th scope="col" width="10%">View</th>
+               </tr>
+            </thead>
+            <tbody>
+               @if($latest_orders->isEmpty())
+               <tr>
+                  <td colspan="6"> No Data</td>
+               </tr>
+               @endif
+               @foreach ($latest_orders as $item)
+               <tr>
+                  <td><?php echo config('global.sale_order_prefix') . date(date('Ymd', strtotime($item->created_at))) . $item->order_id; ?></td>
+                  <td>{{ $item->name ?? $item->customer_name }}</td>
+                  <td>{{ web_date_in_timezone($item->booking_date, 'M d h:i A') }}</td>
+                  <td>AED {{ $item->grand_total }}</td>
+                  <td><span class="badge badge-info"> {{ $item->status_text }}</span></td>
+                  <td><a href="{{ url('vendor/order_details/' . $item->order_id) }}"><span
+                     class="badge badge-success"> Details</span></a></td>
+               </tr>
+               @endforeach
+            </tbody>
+         </table>
+      </div>
+   </div>
+  </div>
 
-    </div>
-
-
-
+{{--
     <div class="row layout-spacing d-none">
 
         <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 mb-sm-0 mb-4">
