@@ -22,8 +22,8 @@ class DashboardController extends Controller
         foreach($latest_orders as $key => $val){
             $lowest_order_prd_status = OrderProductsModel::where('order_id', $val->order_id)->orderby('order_status', 'asc')->first();
                 if (isset($lowest_order_prd_status->order_status)) {
-                    $latest_orders[$key]->status = $lowest_order_prd_status->order_status;
-                    $latest_orders[$key]->status_text = order_status($lowest_order_prd_status->order_status);
+                    $latest_orders[$key]->status = $val->status;
+                    $latest_orders[$key]->status_text = order_status($val->status);
                 } else {
                     $latest_orders[$key]->status_text = order_status($val->status);
                 }
