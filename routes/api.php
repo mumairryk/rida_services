@@ -58,6 +58,7 @@ Route::namespace('App\Http\Controllers\Api\v1')->prefix("v1")->name("api.v1.")->
     Route::post('store_details', 'StoreController@store_details')->name('store_details');
 
     Route::post('products', 'ProductController@list')->name('products_list');
+    Route::post('price_slider', 'ProductController@price_slider')->name('price_slider');
     Route::post('all_products', 'ProductController@category_list')->name('category_list');
     Route::post('rate', 'RatingController@add_rating')->name('rate');
 

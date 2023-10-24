@@ -169,6 +169,10 @@ class CMS extends Controller
 
       $where['product.deleted'] = 0;
       $where['product_status'] = 1;
+      $filter['max_price'] = $request->max_price;
+      $filter['min_price'] = $request->min_price;
+      $filter['sort'] = $request->sort;
+      $filter['sort_order'] = $request->sort_order;
 
       $filter['search_text'] = $request->search;
       if(!empty($division))
@@ -196,13 +200,13 @@ class CMS extends Controller
       $newproductlist = $this->product_inv($newproductlist, $user);
 
 
-      $filter['sort'] = 2;
+      //$filter['sort'] = 2;
       $bestselling = ProductModel::products_list($where, $filter, 5, 0)->get();
       $bestselling = $this->product_inv($newproductlist, $user);
 
 
 
-      $filter['sort'] = 3;
+      //$filter['sort'] = 3;
       $recomented = ProductModel::products_list($where, $filter, 5, 0)->get();
       $recomented = $this->product_inv($newproductlist, $user);
 

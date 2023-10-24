@@ -440,6 +440,38 @@ class ProductController extends Controller
 
         return response()->json(['status' => (string)$status, 'message' => $message, 'errors' => (object) $errors, 'oData' => $o_data], 200);
     }
+    function price_slider(Request $request) {
+        $status = "1";
+        $message = "";
+        $o_data = [];
+        $errors = [];
+       
+        $access_token = $request->access_token;
+        $limit = isset($request->limit) ? $request->limit : 10;
+        $offset = isset($request->page) ? ($request->page - 1) * $request->limit : 0;
 
+        $where['product.deleted'] = 0;
+        $where['product_status'] = 1;
+
+        $filter['search_text'] = $request->search_text;
+        $filter['store_id'] = $request->store_id;
+        //$filter['parent_category_id'] = explode(",",$request->category_id);
+        $filter['sub_category'] = $request->sub_category_ids;
+        $filter['max_price'] = $request->max_price;
+        $filter['min_price'] = $request->min_price;
+        
+
+  
+        $list = $prd = ProductModel::products_list($where, $filter, $limit, $offset);
+        $list = $list->get();
+        $user = User::where('user_access_token', $access_token)->first();
+        $products = $this->product_inv($list, $user);
+       
+      
+        $o_data['max_price'] =  $prd->max('sale_price');
+        $o_data['min_price'] =  $prd->min('sale_price');
+        $o_data = convert_all_elements_to_string($o_data);
+        return response()->json(['status' => $status, 'message' => $message, 'errors' => (object) $errors, 'oData' => $o_data], 200);
+    }
     
 }

@@ -3499,5 +3499,5 @@ class ProductController extends Controller
 
         return $val;
     }
-
+    
 }

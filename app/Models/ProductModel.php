@@ -1150,8 +1150,9 @@ class ProductModel extends Model
         if($limit !="") {
             $products->limit($limit)->skip($offset);
         }
+
         $products
-        ->join('product_selected_attribute_list', 'product_selected_attribute_list.product_id','product.id')->leftjoin('users', 'users.id','product.store_id');
+        ->join('product_selected_attribute_list', 'product_selected_attribute_list.product_id','product.default_attribute_id')->leftjoin('users', 'users.id','product.store_id');
         // ->orderBy('product_selected_attribute_list.sale_price','asc');
         if (isset($filter['sort']) && $filter['sort'] == 2) {
             $products->orderBy('product_selected_attribute_list.sale_price','asc');
@@ -1161,6 +1162,18 @@ class ProductModel extends Model
 
         }else{
             $products->orderBy('product.created_at','desc');
+        }
+        if(isset($filter['max_price']) && $filter['max_price'])
+        {
+          $products = $products->where('sale_price','<=',$filter['max_price']);
+        }
+        if(isset($filter['min_price']) && $filter['min_price'])
+        {
+           $products = $products->where('sale_price','>=',$filter['min_price']); 
+        }
+         if(isset($filter['sort']) && isset($filter['sort_order']) && $filter['sort'] && $filter['sort_order'])
+        {
+           $products = $products->orderBy($filter['sort'],$filter['sort_order']); 
         }
         return $products;
         
