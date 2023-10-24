@@ -55,18 +55,40 @@ if($role == 4) //store manager
                <i class="bx bx-box"></i>
          </div>
          <div class="content m-0">
-               <h6 class="mb-0">Inventory</h6>
+               <h6 class="mb-0">Inventory({{$products}})</h6>
          </div>
       </a>
       <!-- End Icon Cart -->
    </div>
    <div class="col-xl-3 col-lg-3 col-sm-6 mb-30">
-      <a href="{{ url('vendor/orders') }}" class="icon-card height-100 text-center align-items-center" style="height:100%; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 10px;">
+      <a href="{{ url('vendor/orders?status=0') }}" class="icon-card height-100 text-center align-items-center" style="height:100%; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 10px;">
          <div class="icon purple m-0">
                <i class="bx bx-cart"></i>
          </div>
          <div class="content m-0">
-               <h6 class="mb-0">Orders</h6>
+               <h6 class="mb-0">Pending Orders({{$pending}})</h6>
+         </div>
+      </a>
+      <!-- End Icon Cart -->
+   </div>
+   <div class="col-xl-3 col-lg-3 col-sm-6 mb-30">
+      <a href="{{ url('vendor/orders?status='.config('global.order_status_delivered')) }}" class="icon-card height-100 text-center align-items-center" style="height:100%; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 10px;">
+         <div class="icon purple m-0">
+               <i class="bx bx-cart"></i>
+         </div>
+         <div class="content m-0">
+               <h6 class="mb-0">Completed Orders({{$completed}})</h6>
+         </div>
+      </a>
+      <!-- End Icon Cart -->
+   </div>
+   <div class="col-xl-3 col-lg-3 col-sm-6 mb-30">
+      <a href="{{ url('vendor/orders?status=10') }}" class="icon-card height-100 text-center align-items-center" style="height:100%; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 10px;">
+         <div class="icon purple m-0">
+               <i class="bx bx-cart"></i>
+         </div>
+         <div class="content m-0">
+               <h6 class="mb-0">Canceled Orders({{$canceled}})</h6>
          </div>
       </a>
       <!-- End Icon Cart -->
@@ -240,7 +262,7 @@ if($role == 4) //store manager
                   <td>{{ $item->name ?? $item->customer_name }}</td>
                   <td>{{ web_date_in_timezone($item->booking_date, 'M d h:i A') }}</td>
                   <td>AED {{ $item->grand_total }}</td>
-                  <td><span class="badge badge-info"> {{ $item->status_text }}</span></td>
+                  <td><span class="badge badge-info"> {{ order_status($item->status) }}</span></td>
                   <td><a href="{{ url('vendor/order_details/' . $item->order_id) }}"><span
                      class="badge badge-success"> Details</span></a></td>
                </tr>

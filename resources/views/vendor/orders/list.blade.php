@@ -87,7 +87,7 @@
                                             Google Pay
                                         @endif 
                                     </td>
-                                        <td>{{ order_status($item->status_id) }}</td>
+                                        <td>{{ order_status($item->status) }}</td>
                                         <td>
                                             {{web_date_in_timezone($item->booking_date,'d-M-Y h:i A')}}
                                         </td>
