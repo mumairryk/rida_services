@@ -20,7 +20,7 @@ class LoginController extends Controller
         \Artisan::call('config:cache');
         \Artisan::call('view:clear');
         \Artisan::call('config:clear');
-        
+
         return redirect()->back();
     }
     public function login()

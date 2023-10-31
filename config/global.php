@@ -1,6 +1,6 @@
 <?php
 
-$config['server_mode']                  = env("server_mode",'live');
+$config['server_mode']                  = env("server_mode",'local');
 
 $config['site_name']                                    = env("APP_NAME",'HOP');
 $config['date_timezone']								= 'Asia/Dubai';
@@ -22,6 +22,7 @@ $config['service_image_upload_dir']                      = 'service_requests/';
 $config['doc_image_upload_dir']    					= 'doctors/';
 $config['food_image_upload_dir']    					= 'food/';
 $config['pet_image_upload_dir']    					= 'pets/';
+$config['manufacturer_images']    					= 'manufacturer/';
 $config['notification_image_upload_dir']    					= 'notifications/';
 
 

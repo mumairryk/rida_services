@@ -2033,13 +2033,13 @@ background-color: #1abc9c;
 box-shadow: 0 1px 15px 1px rgba(52, 40, 104, 0.34);
 }
 .switch.s-outline-success input:focus + .slider { box-shadow: 0 0 1px #1abc9c; }
-.switch.s-outline-warning input:checked + .slider { border: 2px solid #2081ef; }
+.switch.s-outline-warning input:checked + .slider { border: 2px solid #1f7954; }
 .switch.s-outline-warning input:checked + .slider:before {
-border: 2px solid #2081ef;
-background-color: #2081ef; 
+border: 2px solid #1f7954;
+background-color: #1f7954; 
 box-shadow: 0 1px 15px 1px rgba(114, 159, 25, 0.34);
 }
-.switch.s-outline-warning input:focus + .slider { box-shadow: 0 0 1px #2081ef; }
+.switch.s-outline-warning input:focus + .slider { box-shadow: 0 0 1px #1f7954; }
 .switch.s-outline-danger input:checked + .slider { border: 2px solid #e7515a; }
 .switch.s-outline-danger input:checked + .slider:before {
 border: 2px solid #e7515a;
@@ -2449,7 +2449,7 @@ box-shadow: 0 1px 15px 1px rgba(52, 40, 104, 0.25);
   display: flex;
   align-items: center;
   justify-content: center;
-  background:#2081ef;
+  background:#1f7954;
   border: 0;
 }
 .custom-dropdown a.dropdown-toggle:hover,
@@ -2590,8 +2590,8 @@ input[readonly], select[readonly], textarea[readonly] {
   cursor: pointer;
 }
 .table > tbody > tr > td i.t-icon.t-hover-icon:hover { background-color: #e7515a; color: #fff; }
-.table-bordered td { border: 1px solid #2081ef; }
-.table-bordered th { border: 1px solid #2081ef; }
+.table-bordered td { border: 1px solid #1f7954; }
+.table-bordered th { border: 1px solid #1f7954; }
 .table-bordered.dataTable th { border: 1px solid transparent; border-right: 1px solid #f1f3f1; }
 .table thead th { vertical-align: bottom; border-bottom: none; }
 .table-hover:not(.table-dark) tbody tr:hover { background-color: #f1f3f9!important; }
@@ -2653,7 +2653,7 @@ table .badge-info, table .badge-secondary, table .badge-dark  {
 }
 .dataTables_length { margin-bottom: 1.5rem!important; }
 .dataTables_filter { margin-bottom: 1.5rem!important; }
-.dataTables_wrapper.dt-bootstrap4 .table thead th { vertical-align: bottom; border-bottom: 1px solid #2081ef; }
+.dataTables_wrapper.dt-bootstrap4 .table thead th { vertical-align: bottom; border-bottom: 1px solid #1f7954; }
 .product-list-img {
   display: inline-block;
   width: 60px;

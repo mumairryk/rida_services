@@ -46,7 +46,7 @@
 </svg>
             </div>
          <div class="content m-0">
-               <h6 class="mb-0">Vendors</h6>
+               <h6 class="mb-0">Technician</h6>
          </div>
       </a>
    </div>

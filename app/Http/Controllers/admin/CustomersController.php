@@ -33,7 +33,7 @@ class CustomersController extends Controller
         }
         $page_heading = "Customers";
         $datamain = VendorModel::select('*', 'users.name as name', 'users.active as active', 'users.id as id', 'users.updated_at as updated_at')
-            ->where(['role' => '2', 'users.deleted' => '0','users.phone_verified' => '1'])
+            ->where(['role' => '2', 'users.deleted' => '0'])
             //->with('vendordata')
             ->orderBy('users.id', 'desc')->get();
 

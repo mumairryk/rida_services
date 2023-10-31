@@ -15,7 +15,7 @@
 </style>
 <div class="card mb-5">
     @if(check_permission('vendor','Create'))
-     <div class="card-header"><a href="{{url('admin/vendors/create')}}" class="btn-custom btn mr-2 mt-2 mb-2"><i class="fa-solid fa-plus"></i> Create Vendors</a></div>
+     <div class="card-header"><a href="{{url('admin/vendors/create')}}" class="btn-custom btn mr-2 mt-2 mb-2"><i class="fa-solid fa-plus"></i> Create Technician</a></div>
     @endif
     <div class="card-body">
         <div class="table-responsive">
@@ -23,7 +23,7 @@
             <thead>
                 <tr>
                 <th>#</th>
-                <th>Vendor Info</th>
+                <th>Technician Info</th>
                 <!-- <th>Image</th>
                 <th>Name</th>
                 <th>Industry Type</th> -->
@@ -35,25 +35,27 @@
                 <th>Region</th> -->
                 <th>Is verified</th>
                 <th>Active</th>
+                <th>Avg Rating</th>
+                <th>Total Requests</th>
                 <th>Created</th>
                 <th>Action</th>
                 </tr>
             </thead>
             <tbody>
                 <?php $i=0; ?>
-                @foreach($datamain as $datarow) 
+                @foreach($datamain as $datarow)
                     <?php $i++ ?>
                     <tr>
                         <td>{{$i}}</td>
                         <td>
                             <div class="d-flex align-items-center">
                                 <span>
-                                    <img src="{{asset($datarow->logo)}}" style="width:60px;height:60px;object-fit:cover;" class="rounded-circle" alt="User">
+                                    <img src="{{empty($datarow->user_image) ? asset('uploads/place_holder.jpg'): asset($datarow->user_image) }}" style="width:60px;height:60px;object-fit:cover;" class="rounded-circle" alt="User">
                                 </span>
                                 <span class="ml-3">
                                         <a href="#" class="yellow-color">{{$datarow->name}}</a>
                                         <div class="">
-                                            @if($datarow->industry) {{$datarow->industry}} <br> @endif
+                                            {{@$datarow->city()->first()->name}} {{@$datarow->state()->first()->name}} {{@$datarow->country->name}} <br>
                                             {{$datarow->email}} <br>
                                             +{{$datarow->dial_code}} {{$datarow->phone}}
                                         </div>
@@ -76,6 +78,8 @@
                                         <span class="slider round"></span>
                             </label>
                         </td>
+                        <td>{{round($datarow->avgRating(),2)}}</td>
+                        <td>{{$datarow->orderProducts->count()}}</td>
                         <td>{{web_date_in_timezone($datarow->u_created_at,'d-M-Y h:i A')}}</td>
                         <td class="text-center">
                             <div class="dropdown custom-dropdown">
@@ -85,19 +89,24 @@
 
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink7">
 
+                                    @if(check_permission('vendor','Show'))
+                                        <a class="dropdown-item" href="{{url('admin/vendors/'.$datarow->id.'')}}">
+                                            <i class="flaticon-view"></i> Show</a>
+                                    @endif
                                     @if(check_permission('vendor','Edit'))
                                     <a class="dropdown-item" href="{{url('admin/vendors/'.$datarow->id.'/edit')}}">
                                         <i class="flaticon-pencil-1"></i> Edit</a>
                                     @endif
+
 
                                     @if(check_permission('vendor','ChangePassword'))
                                     {{-- <a class="dropdown-item" userid="{{$datarow->id}}" data-role="change_password" >
                                         <i class="flaticon-plus"></i> Change Password</a> --}}
                                     @endif
 
-                                   
 
-                                
+
+
                                     @if(check_permission('vendor','Delete'))
 
                                     {{-- <a class="dropdown-item" data-role="unlink"
@@ -105,27 +114,21 @@
                                     href="{{ url('admin/vendors/' . $datarow->id) }}"><i
                                         class="flaticon-delete-1"></i> Delete</a> --}}
                                     @endif
-
-
-                                  
-
-                                  
-
-                                    @if(check_permission('products','View'))
-                                    <a class="dropdown-item" href="{{url('admin/products?vendor='.$datarow->id)}}"><i class="flaticon-view"></i> Products</a>    
-                                    @endif
-
                                     @if(check_permission('orders','View'))
-                                    <a class="dropdown-item" href="{{url('admin/orders?vendor='.$datarow->id)}}"><i class="flaticon-view"></i> Orders</a>
-                                    @endif 
-
-                                   
+                                        <a class="dropdown-item" href="{{url('admin/orders?vendor='.$datarow->id)}}"><i class="flaticon-view"></i> Requests</a>
+                                    @endif
+                                    @if(check_permission('products','View'))
+                                        <a class="dropdown-item" href="{{url('admin/products?vendor='.$datarow->id)}}"><i class="flaticon-view"></i> Products</a>
+                                    @endif
+                                    @if(check_permission('ratings','View'))
+                                        <a class="dropdown-item" href="{{url('admin/vendor/ratings/'.$datarow->id)}}"><i class="flaticon-view"></i> Reviews</a>
+                                    @endif
 
 
                                 </div>
                             </div>
                         </td>
-                        
+
                     </tr>
                 @endforeach
             </tbody>
@@ -156,7 +159,7 @@
                     <div class="row">
                         <div class="col-xs-12 col-md-12 col-sm-6 col-lg-12">
                             <div class="form-group" id="">
-                                <label for="add_date">Add Date(s) 
+                                <label for="add_date">Add Date(s)
                                     <span class="colorred">*</span>
                                 </label>
                                 <input onchange="CheckEvent()" type="text" id="modal_dates"
@@ -173,7 +176,7 @@
                                 <label for="menu">Start Time
                                     <span class="colorred">*</span></label>
                                 <input   type="time" class="form-control"
-                                    name="start_time" id="model_start_time" autocomplete="off" required 
+                                    name="start_time" id="model_start_time" autocomplete="off" required
 
                                      />
                                 <span class="colorred error-message"></span>
@@ -192,7 +195,7 @@
                         <div class="col-md-6 col-sm-6 col-lg-12">
                             <div class="form-group">
                                 <label for="price">Price <span class="colorred">*</span></label>
-                                <input type="number" class="form-control " name="price" placeholder="Enter the price " 
+                                <input type="number" class="form-control " name="price" placeholder="Enter the price "
                                  id="model_price" min="0" />
                                 <span class="colorred error-message"></span>
                             </div>
@@ -200,7 +203,7 @@
                         <div class="col-md-6 col-sm-6 col-lg-12">
                             <div class="form-group">
                                 <label for="total_seats">Total Number Of Seats <span class="colorred">*</span></label>
-                                <input type="number" class="form-control " name="total_seats" placeholder="Enter the total number of seats " 
+                                <input type="number" class="form-control " name="total_seats" placeholder="Enter the total number of seats "
                                  id="model_total_seats" min="0" />
                                 <span class="colorred error-message"></span>
                             </div>
@@ -209,7 +212,7 @@
                         {{--<div class="col-md-6 col-sm-6 col-lg-12">
                             <div class="form-group">
                                 <label for="seats">No Of Seats Allocated To splidu <span class="colorred">*</span></label>
-                                <input type="number" class="form-control " name="seats"  placeholder="Enter the number of seats allocated to splidu" 
+                                <input type="number" class="form-control " name="seats"  placeholder="Enter the number of seats allocated to splidu"
                                        id="model_seats" min="0" />
                                 <span class="colorred error-message"></span>
                             </div>
@@ -220,7 +223,7 @@
                                 <label for="guests_booking">Maximum Guests Per Booking <span
                                         class="colorred">*</span></label>
                                 <input type="number" class="form-control" name="guests_booking"
-                                placeholder="Enter the maximum guests per booking" 
+                                placeholder="Enter the maximum guests per booking"
                                  id="model_guests_booking"/>
                                 <span class="colorred error-message"></span>
                             </div>
@@ -397,7 +400,7 @@
         $('#model_total_seats').attr('min',seats_count);
         $('#model_seats').attr('min',seats_count);
 
-        
+
         $('#modal_date_id').val(date_id);
         $('#model_start_time').val(s_time);
         $('#model_end_time').val(e_time);
@@ -478,7 +481,7 @@
                                 $('#model_guests_booking').val(data.date.guests_booking);
                                 loadDatesModal(vendor_id,$('#loadDatesUrl').val());
                             }
-                            
+
                             $('#add-date-modal').modal('hide');
 
                         }
@@ -489,7 +492,7 @@
                         data.message,
                         'warning'
                     ).then((result) => {
-                        
+
                     })
                 }
             },
@@ -628,7 +631,7 @@
         });
     });
 
-   
+
 </script>
 <script>
 $('#example2').DataTable({

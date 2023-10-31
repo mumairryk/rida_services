@@ -1342,9 +1342,9 @@ input:focus, textarea:focus, select:focus {
     align-items: center;
     justify-content: center;
     color: white !important;
-    background: #2081ef !important;
-    background-color: #2081ef !important;
-    background-color: #2081ef !important;
+    background: #1f7954 !important;
+    background-color: #1f7954 !important;
+    background-color: #1f7954 !important;
     color: #fff !important;
     width: fit-content;
     gap: 5px;

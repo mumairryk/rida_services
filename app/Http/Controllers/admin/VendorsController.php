@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Rating;
 use App\Models\VendorModel;
 use App\Models\VendorDetailsModel;
 use App\Models\BankdataModel;
@@ -33,7 +34,7 @@ class VendorsController extends Controller
         if (!check_permission('vendor','View')) {
             abort(404);
         }
-        $page_heading = "Vendors";
+        $page_heading = "Technician";
         $datamain = VendorModel::select('*','users.name as name','users.created_at as u_created_at','industry_types.name as industry','users.active as active','users.id as id')
         ->where(['role'=>'3','users.deleted'=>'0'])
         //->with('vendordata')
@@ -55,7 +56,7 @@ class VendorsController extends Controller
         if (!check_permission('vendor','Create')) {
             abort(404);
         }
-        $page_heading = "Vendors";
+        $page_heading = "Technician";
         $mode = "create";
         $id = "";
         $prefix = "";
@@ -153,7 +154,7 @@ class VendorsController extends Controller
 
 
 
-                   
+
 
 
                     $vendordata = VendorDetailsModel::where('user_id',$request->id)->first();
@@ -194,7 +195,7 @@ class VendorsController extends Controller
                     $bankdata->user_id = $userid;
 
                     $status = "1";
-                    $message = "Vendor added successfully";
+                    $message = "Technician added successfully";
                 }
 
                  $vendordatils->industry_type = $request->industrytype ?? '';
@@ -222,7 +223,7 @@ class VendorsController extends Controller
 
                  // $vendordatils->holiday_dates           = $request->holiday_dates;
                     $holiday_dates = explode(',', $request->holiday_dates);
-                   
+
 
                  //logo
                  if($request->file("logo")){
@@ -303,7 +304,7 @@ class VendorsController extends Controller
                  $vendordatils->company_identy2_doc     = $response['link'];
                     }
                  }
-                  
+
                  $vendordatils->save();
                  $bankdata->bank_name       = $request->bank_id ?? 0;
                  $bankdata->country         = $request->bankcountry ?? 0;
@@ -327,10 +328,10 @@ class VendorsController extends Controller
                     }
                  }
 
-                
 
 
-                 
+
+
                  $bankdata->save();
 
 
@@ -362,7 +363,13 @@ class VendorsController extends Controller
      */
     public function show($id)
     {
-        //
+        if (!check_permission('vendor','Show')) {
+            abort(404);
+        }
+        $page_heading = "Technician";
+        $mode = "show";
+        $vendor = VendorModel::find($id);
+        return view('admin.vendor.show', compact('vendor','page_heading','mode'));
     }
 
     /**
@@ -376,13 +383,13 @@ class VendorsController extends Controller
         if (!check_permission('vendor','Edit')) {
             abort(404);
         }
-        $page_heading = "Edit Vendor";
+        $page_heading = "Edit Technician";
         $datamain = VendorModel::find($id);
         if ($datamain) {
 
             $datamain->vendordatils = VendorDetailsModel::where('user_id',$id)->first();
             $datamain->bankdetails = BankdataModel::where('user_id',$id)->first();
-    
+
             $countries = CountryModel::orderBy('name','asc')->get();
             $industry = IndustryTypes::where(['deleted' => 0])->get();
             $banks      = BankModel::get();
@@ -405,8 +412,8 @@ class VendorsController extends Controller
                 $datamain->holidays =   substr(implode(',', $holiday_dates), 0, -1);
             }
             // dd($datamain->holidays);
-            
-            
+
+
 
 
             return view("admin.vendor.create", compact('page_heading', 'datamain','id','countries','states','cities','user_image','industry','banks','banks_codes','storetype'));
@@ -481,11 +488,21 @@ class VendorsController extends Controller
             $datatb->active = 0;
             $datatb->save();
             $status = "1";
-            $message = "Vendor removed successfully";
+            $message = "Technician removed successfully";
         } else {
             $message = "Sorry!.. You cant do this?";
         }
 
         echo json_encode(['status' => $status, 'message' => $message, 'o_data' => $o_data]);
+    }
+    public function rating($vendorID)
+    {
+        if (!check_permission('vendor','View')) {
+            abort(404);
+        }
+        $page_heading = "Technician Ratings";
+        $datamain = Rating::where('vendor_id',$vendorID)->get();
+        return view('admin.vendor.ratings', compact('page_heading', 'datamain'));
+
     }
 }

@@ -173,7 +173,7 @@ Route::namespace('App\Http\Controllers\admin')->prefix('admin')->middleware('adm
 
     Route::get("products/store/{store_id}", "ProductController@index")->name('store.products');
 
-    // food products 
+    // food products
     Route::get("food_products", "FoodProductController@index")->name('food_products');
     Route::get("food_product/create/{store_id?}", "FoodProductController@create");
     Route::post("food_product/add_product", "FoodProductController@add_product")->name('food_product.add_product');
@@ -215,6 +215,7 @@ Route::namespace('App\Http\Controllers\admin')->prefix('admin')->middleware('adm
     Route::resource("vendors", "VendorsController");
     Route::post("vendors/change_status", "VendorsController@change_status");
     Route::post("vendors/verify", "VendorsController@verify");
+    Route::get("vendor/ratings/{vendor_id}", "VendorsController@rating");
 
 
     Route::get("customers/blocked_users", "CustomersController@blocked_users");
@@ -302,6 +303,14 @@ Route::namespace('App\Http\Controllers\admin')->prefix('admin')->middleware('adm
     Route::post("save_cities", "CitiesController@store");
     Route::post("cities/get_by_state", "CitiesController@get_by_state");
 
+    Route::get("manufacturer", "ManufacturerController@index");
+    Route::get("manufacturer/create", "ManufacturerController@create");
+    Route::post("manufacturer/change_status", "CitiesController@change_status");
+    Route::get("manufacturer/edit/{id}", "ManufacturerController@edit");
+    Route::post("manufacturer/update/{id}", "ManufacturerController@update");
+    Route::delete("manufacturer/delete/{id}", "ManufacturerController@delete");
+    Route::post("manufacturer_save", "ManufacturerController@store");
+
 
     Route::get("pictures", "PicturesController@index");
     Route::post("pictures/change_status", "PicturesController@change_status");
@@ -351,12 +360,12 @@ Route::namespace('App\Http\Controllers\admin')->prefix('admin')->middleware('adm
     Route::post("contact_us_setting_store", "PagesController@contact_us_setting_store")->name('contact_us_setting_store');
     Route::get('settings', 'PagesController@settings');
     Route::post("setting_store", "PagesController@setting_store")->name('setting_store');
-    
+
     Route::match(array('GET', 'POST'), 'questions/sort', 'QuestionsController@sort');
     Route::resource("questions", "QuestionsController");
     Route::resource("enquiry", "EnquiryController");
     Route::get("enquiry/details/{id}", "EnquiryController@details");
-    
+
 
     //FAQ
     Route::get("faq", "FaqController@index");
@@ -431,7 +440,7 @@ Route::namespace('App\Http\Controllers\admin')->prefix('admin')->middleware('adm
     Route::get("species/edit/{id}", "PetSpecies@edit");
     Route::delete("species/delete/{id}", "PetSpecies@destroy");
     Route::post("save_species", "PetSpecies@store");
-    
+
 
     Route::resource("doctors", "Doctor");
     Route::post("doctors/change_status", "Doctor@change_status");
@@ -445,7 +454,7 @@ Route::namespace('App\Http\Controllers\admin')->prefix('admin')->middleware('adm
     Route::post("groomers/get_events", "Groomer@get_events")->name('groomer_get_events');
     Route::post("groomers/add_event", "Groomer@add_event")->name('groomer_add_event');
     Route::post("groomers/remove_event", "Groomer@remove_event")->name('groomer_remove_event');
-    
+
     Route::resource("appointment_types", "AppointmentType");
     Route::post("appointment_types/change_status", "AppointmentType@change_status");
 

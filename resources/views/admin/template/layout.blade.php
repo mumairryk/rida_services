@@ -127,7 +127,7 @@ $_current_user = \Request::get('_current_user');
 
                             @if(check_permission('vendor','View'))
                             <li>
-                                <a class="{{preg_match('/admin\/vendors/', $CurrentUrl) ? 'active' : null}}" href="{{ url('admin/vendors') }}"> <span class="text">Vendors</span></a>
+                                <a class="{{preg_match('/admin\/vendors/', $CurrentUrl) ? 'active' : null}}" href="{{ url('admin/vendors') }}"> <span class="text">Technician</span></a>
                             </li>
                             @endif
                         </ul>
@@ -135,7 +135,7 @@ $_current_user = \Request::get('_current_user');
                     @endif
 
                     @if(check_permission('food_products','View') || check_permission('products','View') || check_permission('products','ImportExport') || check_permission('coupon','View'))
-                    <li class="nav-item nav-item-has-children {{preg_match('/admin\/products/', $CurrentUrl) || preg_match('/admin\/coupons/', $CurrentUrl) || preg_match('/admin\/product/', $CurrentUrl) ? 'active' : null}}">
+                    <!-- <li class="nav-item nav-item-has-children {{preg_match('/admin\/products/', $CurrentUrl) || preg_match('/admin\/coupons/', $CurrentUrl) || preg_match('/admin\/product/', $CurrentUrl) ? 'active' : null}}">
                         <a href="#0" class="{{preg_match('/admin\/products/', $CurrentUrl) || preg_match('/admin\/coupons/', $CurrentUrl) || preg_match('/admin\/product/', $CurrentUrl) ? '' : 'collapsed'}}" data-toggle="collapse" data-auto-close="outside" data-target="#ddmenu_3" aria-controls="ddmenu_3" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="icon">
                                 <i class='bx bx-box'></i>
@@ -160,20 +160,25 @@ $_current_user = \Request::get('_current_user');
                             </li>
                             @endif
                         </ul>
-                    </li>
+                    </li> -->
                     @endif
 
 
                     @if(check_permission('food_category','View') || check_permission('category','View') || check_permission('activity_type','View') || check_permission('account_type','View') || check_permission('brand','View') || check_permission('attribute','View') || check_permission('industry','View') || check_permission('store_type','View') || check_permission('country','View') || check_permission('states','View') || check_permission('cities','View') || check_permission('bank','View') || check_permission('moda_categories','View') || check_permission('skin_colors','View') || check_permission('hair_colors','View') || check_permission('public_business_info','View') || 
                     check_permission('project_purpose','View') || check_permission('room','View') || check_permission('room','View') || check_permission('project_purpose','View') || check_permission('aspect_of_room','View') || check_permission('square_footage','View') || check_permission('current_project_status','View') || check_permission('type_of_property','View') || check_permission('hash_tags','View') || check_permission('bank','View'))
-                    <li class="nav-item nav-item-has-children {{preg_match('/admin\/services/', $CurrentUrl) || preg_match('/admin\/foods/', $CurrentUrl)  || preg_match('/admin\/doctors/', $CurrentUrl)  || preg_match('/admin\/category/', $CurrentUrl)  || preg_match('/admin\/species/', $CurrentUrl)  || preg_match('/admin\/breed/', $CurrentUrl)  || preg_match('/admin\/product_attribute/', $CurrentUrl)  || preg_match('/admin\/industry_type/', $CurrentUrl) || preg_match('/admin\/brand/', $CurrentUrl) || preg_match('/admin\/appointment_types/', $CurrentUrl) || preg_match('/admin\/appointment_times/', $CurrentUrl) || preg_match('/admin\/room_types/', $CurrentUrl) || preg_match('/admin\/feeding_schedules/', $CurrentUrl) || preg_match('/admin\/grooming_types/', $CurrentUrl) || preg_match('/admin\/country/', $CurrentUrl) || preg_match('/admin\/states/', $CurrentUrl) || preg_match('/admin\/cities/', $CurrentUrl) || preg_match('/admin\/bank/', $CurrentUrl) ? 'active' : null}}">
-                        <a href="#0" class="{{preg_match('/admin\/services/', $CurrentUrl) || preg_match('/admin\/foods/', $CurrentUrl)  || preg_match('/admin\/doctors/', $CurrentUrl)  || preg_match('/admin\/category/', $CurrentUrl)  || preg_match('/admin\/species/', $CurrentUrl)  || preg_match('/admin\/breed/', $CurrentUrl)  || preg_match('/admin\/product_attribute/', $CurrentUrl)  || preg_match('/admin\/industry_type/', $CurrentUrl) || preg_match('/admin\/brand/', $CurrentUrl) || preg_match('/admin\/appointment_types/', $CurrentUrl) || preg_match('/admin\/appointment_times/', $CurrentUrl) || preg_match('/admin\/room_types/', $CurrentUrl) || preg_match('/admin\/feeding_schedules/', $CurrentUrl) || preg_match('/admin\/grooming_types/', $CurrentUrl) || preg_match('/admin\/country/', $CurrentUrl) || preg_match('/admin\/states/', $CurrentUrl) || preg_match('/admin\/square_footage/', $CurrentUrl) || preg_match('/admin\/project_purpose/', $CurrentUrl) || preg_match('/admin\/current_project_status/', $CurrentUrl) || preg_match('/admin\/aspect_of_room/', $CurrentUrl) || preg_match('/admin\/room/', $CurrentUrl) || preg_match('/admin\/type_of_property/', $CurrentUrl) || preg_match('/admin\/cities/', $CurrentUrl) || preg_match('/admin\/bank/', $CurrentUrl) ? '' : 'collapsed'}}" data-toggle="collapse" data-auto-close="outside" data-target="#ddmenu_4" aria-controls="ddmenu_4" aria-expanded="false" aria-label="Toggle navigation">
+                    <li class="nav-item nav-item-has-children {{preg_match('/admin\/services/', $CurrentUrl) || preg_match('/admin\/foods/', $CurrentUrl)  || preg_match('/admin\/doctors/', $CurrentUrl)  || preg_match('/admin\/category/', $CurrentUrl)  || 
+                    preg_match('/admin\/manufacturer/', $CurrentUrl)  || preg_match('/admin\/species/', $CurrentUrl)  || preg_match('/admin\/breed/', $CurrentUrl)  || preg_match('/admin\/product_attribute/', $CurrentUrl)  || preg_match('/admin\/industry_type/', $CurrentUrl) || preg_match('/admin\/brand/', $CurrentUrl) || preg_match('/admin\/appointment_types/', $CurrentUrl) || preg_match('/admin\/appointment_times/', $CurrentUrl) || preg_match('/admin\/room_types/', $CurrentUrl) || preg_match('/admin\/feeding_schedules/', $CurrentUrl) || preg_match('/admin\/grooming_types/', $CurrentUrl) || preg_match('/admin\/country/', $CurrentUrl) || preg_match('/admin\/states/', $CurrentUrl) || preg_match('/admin\/cities/', $CurrentUrl) || preg_match('/admin\/bank/', $CurrentUrl) ? 'active' : null}}">
+                        <a href="#0" class="{{preg_match('/admin\/services/', $CurrentUrl) || preg_match('/admin\/foods/', $CurrentUrl)  || preg_match('/admin\/doctors/', $CurrentUrl)  || preg_match('/admin\/category/', $CurrentUrl)  || preg_match('/admin\/species/', $CurrentUrl)  || preg_match('/admin\/breed/', $CurrentUrl)  || preg_match('/admin\/product_attribute/', $CurrentUrl)  || preg_match('/admin\/industry_type/', $CurrentUrl) || preg_match('/admin\/brand/', $CurrentUrl) || preg_match('/admin\/appointment_types/', $CurrentUrl) || preg_match('/admin\/appointment_times/', $CurrentUrl) || preg_match('/admin\/room_types/', $CurrentUrl) || preg_match('/admin\/feeding_schedules/', $CurrentUrl) || preg_match('/admin\/grooming_types/', $CurrentUrl) || preg_match('/admin\/country/', $CurrentUrl) || preg_match('/admin\/states/', $CurrentUrl) || preg_match('/admin\/square_footage/', $CurrentUrl) || preg_match('/admin\/project_purpose/', $CurrentUrl) || preg_match('/admin\/current_project_status/', $CurrentUrl) || preg_match('/admin\/aspect_of_room/', $CurrentUrl) || preg_match('/admin\/room/', $CurrentUrl) || preg_match('/admin\/type_of_property/', $CurrentUrl) || preg_match('/admin\/cities/', $CurrentUrl) || 
+                        preg_match('/admin\/manufacturer/', $CurrentUrl) || preg_match('/admin\/bank/', $CurrentUrl) ? '' : 'collapsed'}}" data-toggle="collapse" data-auto-close="outside" data-target="#ddmenu_4" aria-controls="ddmenu_4" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="icon">
                                 <i class='bx bx-cube'></i>
                             </span>
                             <span class="text"> Masters </span>
                         </a>
-                        <ul id="ddmenu_4" class="collapse dropdown-nav {{preg_match('/admin\/services/', $CurrentUrl) || preg_match('/admin\/foods/', $CurrentUrl)  || preg_match('/admin\/doctors/', $CurrentUrl)  || preg_match('/admin\/category/', $CurrentUrl)  || preg_match('/admin\/species/', $CurrentUrl)  || preg_match('/admin\/breed/', $CurrentUrl)  || preg_match('/admin\/product_attribute/', $CurrentUrl)  || preg_match('/admin\/industry_type/', $CurrentUrl) || preg_match('/admin\/brand/', $CurrentUrl) || preg_match('/admin\/appointment_types/', $CurrentUrl) || preg_match('/admin\/appointment_times/', $CurrentUrl) || preg_match('/admin\/room_types/', $CurrentUrl) || preg_match('/admin\/feeding_schedules/', $CurrentUrl) || preg_match('/admin\/grooming_types/', $CurrentUrl) || preg_match('/admin\/country/', $CurrentUrl) || preg_match('/admin\/states/', $CurrentUrl) || preg_match('/admin\/aspect_of_room/', $CurrentUrl) || preg_match('/admin\/project_purpose/', $CurrentUrl) || preg_match('/admin\/room/', $CurrentUrl) || preg_match('/admin\/type_of_property/', $CurrentUrl) || preg_match('/admin\/square_footage/', $CurrentUrl) || preg_match('/admin\/current_project_status/', $CurrentUrl) || preg_match('/admin\/cities/', $CurrentUrl) || preg_match('/admin\/bank/', $CurrentUrl) ? 'show' : ''}}">
+                        <ul id="ddmenu_4" class="collapse dropdown-nav {{preg_match('/admin\/services/', $CurrentUrl) || preg_match('/admin\/foods/', $CurrentUrl)  || preg_match('/admin\/doctors/', $CurrentUrl)  || preg_match('/admin\/category/', $CurrentUrl)  || preg_match('/admin\/species/', $CurrentUrl)  || preg_match('/admin\/breed/', $CurrentUrl)  || preg_match('/admin\/product_attribute/', $CurrentUrl)  || preg_match('/admin\/industry_type/', $CurrentUrl) || preg_match('/admin\/brand/', $CurrentUrl) || preg_match('/admin\/appointment_types/', $CurrentUrl) || preg_match('/admin\/appointment_times/', $CurrentUrl) || preg_match('/admin\/room_types/', $CurrentUrl) || preg_match('/admin\/feeding_schedules/', $CurrentUrl) || preg_match('/admin\/grooming_types/', $CurrentUrl) || preg_match('/admin\/country/', $CurrentUrl) || preg_match('/admin\/states/', $CurrentUrl) || preg_match('/admin\/aspect_of_room/', $CurrentUrl) || preg_match('/admin\/project_purpose/', $CurrentUrl) || preg_match('/admin\/room/', $CurrentUrl) || preg_match('/admin\/type_of_property/', $CurrentUrl) || preg_match('/admin\/square_footage/', $CurrentUrl) || preg_match('/admin\/current_project_status/', $CurrentUrl) || preg_match('/admin\/cities/', $CurrentUrl) || preg_match('/admin\/bank/', $CurrentUrl) ? 'show' : ''}} || 
+                        preg_match('/admin\/manufacturer/', $CurrentUrl) ? 'show' : ''}}
+                        "
+                        >
 
                            
                             @if(check_permission('category','View'))
@@ -204,6 +209,11 @@ $_current_user = \Request::get('_current_user');
                              @if(check_permission('bank','View'))
                             <li>
                                 <a class="{{preg_match('/admin\/bank/', $CurrentUrl) ? 'active' : null}}" href="{{ url('admin/bank') }}"><span class="text">Bank</span></a>
+                            </li>
+                            @endif
+                            @if(check_permission('bank','View'))
+                            <li>
+                                <a class="{{preg_match('/admin\/manufacturer/', $CurrentUrl) ? 'active' : null}}" href="{{ url('admin/manufacturer') }}"><span class="text">Manufacturer</span></a>
                             </li>
                             @endif                      
                             
@@ -240,7 +250,7 @@ $_current_user = \Request::get('_current_user');
 
 
                      @if(check_permission('enquiry','View'))
-                    <li class="nav-item nav-item-has-children {{preg_match('/admin\/enquiry/', $CurrentUrl) || preg_match('/admin\/enquiry/', $CurrentUrl) || preg_match('/admin\/enquiry/', $CurrentUrl) ? 'active' : null}}">
+                    <!-- <li class="nav-item nav-item-has-children {{preg_match('/admin\/enquiry/', $CurrentUrl) || preg_match('/admin\/enquiry/', $CurrentUrl) || preg_match('/admin\/enquiry/', $CurrentUrl) ? 'active' : null}}">
                         <a href="#0" class="{{preg_match('/admin\/enquiry/', $CurrentUrl) || preg_match('/admin\/enquiry/', $CurrentUrl) || preg_match('/admin\/enquiry/', $CurrentUrl) ? '' : 'collapsed'}}" data-toggle="collapse" data-auto-close="outside" data-target="#ddmenu_34" aria-controls="ddmenu_34" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="icon">
                                 <i class='bx bx-box'></i>
@@ -265,12 +275,12 @@ $_current_user = \Request::get('_current_user');
                             </li>
                             @endif
                         </ul>
-                    </li>
+                    </li> -->
                     @endif
 
 
                     @if(check_permission('questions','View'))
-                    <li class="nav-item nav-item-has-children {{preg_match('/admin\/questions/', $CurrentUrl) || preg_match('/admin\/questions/', $CurrentUrl) || preg_match('/admin\/questions/', $CurrentUrl) ? 'active' : null}}">
+                    <!-- <li class="nav-item nav-item-has-children {{preg_match('/admin\/questions/', $CurrentUrl) || preg_match('/admin\/questions/', $CurrentUrl) || preg_match('/admin\/questions/', $CurrentUrl) ? 'active' : null}}">
                         <a href="#0" class="{{preg_match('/admin\/questions/', $CurrentUrl) || preg_match('/admin\/questions/', $CurrentUrl) || preg_match('/admin\/product/', $CurrentUrl) ? '' : 'collapsed'}}" data-toggle="collapse" data-auto-close="outside" data-target="#ddmenu_32" aria-controls="ddmenu_32" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="icon">
                                 <i class='bx bx-box'></i>
@@ -295,7 +305,7 @@ $_current_user = \Request::get('_current_user');
                             </li>
                             @endif
                         </ul>
-                    </li>
+                    </li> -->
                     @endif
 
 
@@ -390,14 +400,14 @@ $_current_user = \Request::get('_current_user');
                     </li>
                     @endif
 
-                    <li class="nav-item {{preg_match('/admin\/banners/', $CurrentUrl) || preg_match('/admin\/banner/', $CurrentUrl) ? 'active' : null}}">
+                    <!-- <li class="nav-item {{preg_match('/admin\/banners/', $CurrentUrl) || preg_match('/admin\/banner/', $CurrentUrl) ? 'active' : null}}">
                         <a href="{{ url('admin/banners') }}">
                             <span class="icon">
                                 <i class='bx bx-images'></i>
                             </span>
                             <span class="text"> App Banners </span>
                         </a>
-                    </li>
+                    </li> -->
 
                     @if(check_permission('notification','View'))
                     <li class="nav-item {{preg_match('/admin\/notifications/', $CurrentUrl) ? 'active' : null}}">

@@ -8,50 +8,30 @@
 
 @section("content")
 <div class="card mb-5">
-    <div class="card-header"><a href="{{url('admin/vendors/create')}}" class="btn btn-warning mb-4 mr-2 btn-rounded">Create Technician</a></div>
+    @if(check_permission('country','Create'))
+    <div class="card-header"><a href="{{url('admin/manufacturer/create')}}" class="btn-custom btn mr-2 mt-2 mb-2"><i class="fa-solid fa-plus"></i> Create Manufacturer</a></div>
+    @endif
     <div class="card-body">
         <div class="table-responsive">
         <table class="table table-condensed table-striped" id="example2">
             <thead>
                 <tr>
                 <th>#</th>
-                <th>Image</th>
                 <th>Name</th>
-                <th>Industry Type</th>
-                <th>Commission Type</th>
-                <th>Commission Preference</th>
-                <th>Ownership</th>
-                <th>Drived status</th>
-
-                <th>Region</th>
-                <th>Active</th>
-                <th>Last Updated</th>
+                <th>Status</th>
+                <th>Created Date</th>
                 <th>Action</th>
                 </tr>
             </thead>
             <tbody>
                 <?php $i=0; ?>
-                @foreach($datamain as $datarow) 
+                @foreach($make as $country) 
                     <?php $i++ ?>
                     <tr>
                         <td>{{$i}}</td>
-                        <td><img src="{{$datarow->user_image}}" style="width:60px;height:60px;object-fit:cover;" class="rounded-circle" alt="User"></td>
-                        <td>{{$datarow->name}}</td>
-                        <td>{{$datarow->industry}}</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>
-                            <label class="switch s-icons s-outline  s-outline-warning  mb-4 mr-2">
-                                        <input type="checkbox" class="change_status" data-id="{{ $datarow->id }}"
-                                            data-url="{{ url('admin/vendors/change_status') }}"
-                                            @if ($datarow->active) checked @endif>
-                                        <span class="slider round"></span>
-                            </label>
-                        </td>
-                        <td>{{$datarow->updated_at}}</td>
+                        <td>{{$country->name}}</td>
+                        <td>@if($country->status) Active @else Inactive @endif</td>
+                        <td>{{web_date_in_timezone($country->created_at,'d-M-Y h:i A')}}</td>
                         <td class="text-center">
                             <div class="dropdown custom-dropdown">
                                 <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink7" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -59,13 +39,15 @@
                                 </a>
 
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink7">
-                                    <a class="dropdown-item" href="{{url('admin/vendors/'.$datarow->id.'/edit')}}"><i class="flaticon-pencil-1"></i> Edit</a>
-
+                                    @if(check_permission('country','Edit'))
+                                    <a class="dropdown-item" href="{{url('admin/manufacturer/edit/'.$country->id)}}"><i class="flaticon-pencil-1"></i> Edit</a>
+                                    @endif
+                                    @if(check_permission('country','Delete'))
                                     <a class="dropdown-item" data-role="unlink"
-                                    data-message="Do you want to remove this Vendor?"
-                                    href="{{ url('admin/vendors/' . $datarow->id) }}"><i
+                                    data-message="Do you want to remove this manufacturer?"
+                                    href="{{ url('admin/manufacturer/delete/' . $country->id) }}"><i
                                         class="flaticon-delete-1"></i> Delete</a>
-                                    
+                                        @endif 
                                 </div>
                             </div>
                         </td>

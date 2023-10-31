@@ -16,7 +16,7 @@ class VendorModel extends Model
     // 'password','country_id','state_id','city_id','area','vendor','store','previllege','created_at','updated_at','designation_id','active','dob'];
 
     protected $guarded = [];
-    
+
 
     public function getUserImageAttribute($value)
     {
@@ -38,7 +38,7 @@ class VendorModel extends Model
         return $this->hasMany(DoggyPlayTimeDates::class, 'vendor_id','id');
     }
     public function stores() {
-        return $this->hasMany('App\Models\Stores', 'vendor_id', 'id'); 
+        return $this->hasMany('App\Models\Stores', 'vendor_id', 'id');
     }
     public function holiday_dates()
     {
@@ -54,5 +54,28 @@ class VendorModel extends Model
     public function getBannerImageAttribute($value){
         return get_uploaded_image_url($value,'user_image_upload_dir');
       }
-
+    public function rating()
+    {
+        return $this->hasMany(Rating::class, 'vendor_id', 'id');
+    }
+    public function avgRating()
+    {
+        return $this->hasMany(Rating::class, 'vendor_id', 'id')->avg('rating');
+    }
+    public function orderProducts()
+    {
+        return $this->hasMany(OrderProductsModel::class, 'vendor_id', 'id');
+    }
+    public function country()
+    {
+        return $this->belongsTo(CountryModel::class, 'country_id', 'id');
+    }
+    public function state()
+    {
+        return $this->belongsTo(States::class, 'state_id', 'id');
+    }
+    public function city()
+    {
+        return $this->belongsTo(Cities::class, 'city_id', 'id');
+    }
 }
